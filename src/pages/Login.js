@@ -4,7 +4,7 @@ import { useLogin } from "../hooks/useLogin";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { login, error, success, isLoading } = useLogin();
+  const { login, error, isLoading } = useLogin();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -40,7 +40,6 @@ const Login = () => {
         ) : (
           <div className="error">{error}</div>
         ))}
-      {success && <div className="success">{success}</div>}
     </form>
   );
 };
