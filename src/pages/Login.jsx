@@ -34,7 +34,7 @@ const Login = () => {
         <div className="w-full flex flex-col items-center p-28 text-[#334155]">
            <h3 className="text-5xl font-bold  ">Log in</h3>
            <div className="flex flex-col ">
-            <input 
+            <input
             type={email}
             placeholder={"Email"}
             className="w-[400px] h-[63px] text-[#334155] pl-5 font-light text-14  border border-[#1D4ED8] rounded-md mt-8 " />
