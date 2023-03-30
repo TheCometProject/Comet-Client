@@ -38,11 +38,8 @@
     ]
   },
   "devDependencies": {
-<<<<<<< HEAD
     "autoprefixer": "^10.4.14",
     "postcss": "^8.4.21",
-=======
->>>>>>> 0ed99eb1b3c3dbbd927636884d4609bc8391a87e
     "tailwindcss": "^3.3.0"
   }
 }
