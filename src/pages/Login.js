@@ -2,15 +2,7 @@ import { useState } from "react";
 import { useLogin } from "../hooks/useLogin";
 import img1 from './img/Logo.svg';
 import img2 from './img/pic.svg';
-import { AiFillFacebook, AiFillGoogleCircle, AiFillLinkedin } from 'react-icons/ai'
 import { mdiGoogle } from '@mdi/js';
-
-
-const colors ={
-  primary :"#1D4ED8",
-  background :"#F8FAFC",
-  text:"#334155"
-}
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -78,13 +70,13 @@ const Login = () => {
              
            </div>
            {/*<>---------------or-------------------------------</>*/}
-            <div class="mt-8 grid grid-cols-3 w-[403px]  items-center text-[#6B7280]">
+            <div class="mt-6 grid grid-cols-3 w-[403px]  items-center text-[#6B7280]">
             <hr class="border-[#6B7280]"></hr>
             <p class="text-center text-16 font-bold ">Or</p>
             <hr class="border-[#6B7280]"></hr>
            </div>
            {/*<>---------------facebook-------------------------------</>*/}
-           <div className="mt-8 grid grid-cols-3 items-center gap-5 pl-14  w-[403px]">
+           <div className="mt-6 grid grid-cols-3 items-center gap-5 pl-14  w-[403px]">
             
              <div className="border-2 border-[#CBD5E1]  rounded-[6px]  w-[60px] h-[60px]">
              <svg
@@ -114,23 +106,10 @@ const Login = () => {
                   ></path>
                </svg>
                
-            </div> 
-            
-
-            {/*<>---------------linkeden-------------------------------</>
-            <div className="flex flex-row justify-center gap-10 text-6xl">
-              <AiFillFacebook className="  rounded-full  text-blue-600" />
-              <AiFillGoogleCircle className="rounded-full  text-red-600" />
-              <AiFillLinkedin className="rounded-full  text-blue-600"/>
-            </div>
-            */}
-           </div>
-           
-           {/*<>---------------goooooooooooooogle-------------------------------</>*/}
-        </div>
-        
-      </div>
-      
+            </div>  
+           </div>  
+        </div>  
+      </div>  
     </div>
    </form>
   );

@@ -1,23 +1,21 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { useSignup } from "../hooks/useSignup";
-
 import img1 from './img/Logo.svg';
 import img2 from './img/pic.svg';
 import { mdiGoogle } from '@mdi/js';
 
-const Signup = () => {
-  const [FirstName, setFirstName] = useState("");
-  const [FamillyName, setFamillyName] = useState("");
-  const [password, setPassword] = useState("");
-  const { signup, error, success, isLoading } = useSignup();
+const SignUpTwo = () => {
+   
+    const [email, setEmail] = useState("");
+    const [password,confirmPassword, setPassword] = useState("");
+    const { signup, error, success, isLoading } = useSignup();
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    await signup(FirstName, FamillyName);
+    await signup(email, password);
   };
-   
-  
 
   return (
     <form onSubmit={handleSubmit}>
@@ -30,32 +28,44 @@ const Signup = () => {
       {/*<>----------------------------------------------</>*/}
       <div className="w-1/2 h-full flex flex-col justify-between">
       <div >
-          <p className="text-[#334155] text-16 font-bold mt-4 text-center hidden sm:block">Already have account ? <span className=" text-16 font-bold text-[#1D4ED8] underline cursor-pointer"> Log in </span> here</p>
+          <p className="text-[#334155] text-16 font-bold mt-4 text-center hidden sm:block"> Already have account ? <span className=" text-16 font-bold text-[#1D4ED8] underline cursor-pointer">Log in </span> here</p>
 
       </div>
-        <div className="w-full  h-full flex flex-col  items-center pt-20 pr-[210px] md:p-20  text-[#334155]">
-           <h3 className=" text-3xl lg:text-5xl whitespace-nowrap font-bold  ">Sign up</h3>
+        <div className="w-full  h-full flex flex-col  items-center pt-16 pr-[210px] md:p-20  text-[#334155]">
+           <h3 className=" text-3xl lg:text-5xl whitespace-nowrap font-bold  ">Sign up </h3>
            {/*<>----------------------------inputs------------------</>*/}
            <div className="flex flex-col ">
             <input 
-            type={FirstName}
-            placeholder={"First name"}
-            onChange={(e) => setFirstName(e.target.value)}
-           
+            type={email}
+            placeholder={"Email"}
+            onChange={(e) => setEmail(e.target.value)}
+            value={email}
             className="w-[400px] h-[63px] text-[#334155] pl-5 font-light text-14  border border-[#1D4ED8] rounded-md mt-8 " />
             <input 
-            type={FamillyName}
-            placeholder={"Familly name"}
-            onChange={(e) => setFamillyName(e.target.value)}
-           
-            className="w-[400px] h-[63px] text-[#334155] pl-5 font-light text-14  border border-[#1D4ED8] rounded-md mt-8 " />
-            
+            type={password}
+            placeholder={"Password"}
+            onChange={(e) => setPassword(e.target.value)}
+            value={password}
+            className="w-[400px] h-[63px] text-[#334155] pl-5 font-light text-14  border border-[#1D4ED8] rounded-md mt-5 " />
+            <input 
+            type={confirmPassword}
+            placeholder={"confirm Password"}
+            onChange={(e) => setPassword(e.target.value)}
+            value={password}
+            className="w-[400px] h-[63px] text-[#334155] pl-5 font-light text-14  border border-[#1D4ED8] rounded-md mt-5 " />
+            <div className="w-full flex items-center justify-between">
+              <div className="w-full flex items-center mt-3">
+                <input
+                 type={"checkbox"} className="w-4 h-4 mr-2" />
+                <p className="text-sm text-[#334155]">Remember me?</p>
+              </div>
+              <p className="text-sm font-medium whitespace-nowrap cursor-pointer underline underline-offset-2">Forget password?</p>
+            </div>
             {/*<>-----------------------button-----------------------</>*/}
-            
             <div >
-            
-              <button className="bg-[#1D4ED8] mt-8 w-[400px] h-[63px] rounded-md text-center text-18 text-white font-bold" disabled={isLoading} >Next</button>
-            
+                
+              <button className="bg-[#1D4ED8] mt-5 w-[400px] h-[63px] rounded-md text-center text-18 text-white font-bold" disabled={isLoading}>Sign up </button>
+                
               {error && 
                (Array.isArray(error) ? (
                 error.map((err) => (
@@ -68,7 +78,6 @@ const Signup = () => {
                ))
               }
             </div>
-            
              
            </div>
            {/*<>---------------or-------------------------------</>*/}
@@ -117,4 +126,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default SignUpTwo;
