@@ -32,7 +32,7 @@ const Login = () => {
            <h3 className=" text-3xl lg:text-5xl whitespace-nowrap font-bold  ">Log in</h3>
            {/*<>----------------------------inputs------------------</>*/}
            <div className="flex flex-col ">
-            <input 
+            <input
             type={email}
             placeholder={"Email"}
             onChange={(e) => setEmail(e.target.value)}
