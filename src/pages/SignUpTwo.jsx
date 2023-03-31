@@ -1,17 +1,20 @@
 import { useState } from "react";
-import { useLogin } from "../hooks/useLogin";
+import { Link } from "react-router-dom";
+import { useSignup } from "../hooks/useSignup";
 import img1 from './img/Logo.svg';
 import img2 from './img/pic.svg';
 import { mdiGoogle } from '@mdi/js';
 
-const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const { login, error, isLoading } = useLogin();
+const SignUpTwo = () => {
+   
+    const [email, setEmail] = useState("");
+    const [password,confirmPassword, setPassword] = useState("");
+    const { signup, error, success, isLoading } = useSignup();
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await login(email, password);
+    await signup(email, password);
   };
 
   return (
@@ -25,14 +28,14 @@ const Login = () => {
       {/*<>----------------------------------------------</>*/}
       <div className="w-1/2 h-full flex flex-col justify-between">
       <div >
-          <p className="text-[#334155] text-16 font-bold mt-4 text-center hidden sm:block">New to comet ? <span className=" text-16 font-bold text-[#1D4ED8] underline cursor-pointer"> Sign up </span> here</p>
+          <p className="text-[#334155] text-16 font-bold mt-4 text-center hidden sm:block"> Already have account ? <span className=" text-16 font-bold text-[#1D4ED8] underline cursor-pointer">Log in </span> here</p>
 
       </div>
-        <div className="w-full  h-full flex flex-col  items-center pt-20 pr-[210px] md:p-20  text-[#334155]">
-           <h3 className=" text-3xl lg:text-5xl whitespace-nowrap font-bold  ">Log in</h3>
+        <div className="w-full  h-full flex flex-col  items-center pt-16 pr-[210px] md:p-20  text-[#334155]">
+           <h3 className=" text-3xl lg:text-5xl whitespace-nowrap font-bold  ">Sign up </h3>
            {/*<>----------------------------inputs------------------</>*/}
            <div className="flex flex-col ">
-            <input
+            <input 
             type={email}
             placeholder={"Email"}
             onChange={(e) => setEmail(e.target.value)}
@@ -43,7 +46,13 @@ const Login = () => {
             placeholder={"Password"}
             onChange={(e) => setPassword(e.target.value)}
             value={password}
-            className="w-[400px] h-[63px] text-[#334155] pl-5 font-light text-14  border border-[#1D4ED8] rounded-md mt-8 " />
+            className="w-[400px] h-[63px] text-[#334155] pl-5 font-light text-14  border border-[#1D4ED8] rounded-md mt-5 " />
+            <input 
+            type={confirmPassword}
+            placeholder={"confirm Password"}
+            onChange={(e) => setPassword(e.target.value)}
+            value={password}
+            className="w-[400px] h-[63px] text-[#334155] pl-5 font-light text-14  border border-[#1D4ED8] rounded-md mt-5 " />
             <div className="w-full flex items-center justify-between">
               <div className="w-full flex items-center mt-3">
                 <input
@@ -54,7 +63,9 @@ const Login = () => {
             </div>
             {/*<>-----------------------button-----------------------</>*/}
             <div >
-              <button className="bg-[#1D4ED8] mt-8 w-[400px] h-[63px] rounded-md text-center text-18 text-white font-bold" disabled={isLoading}>Log in</button>
+                
+              <button className="bg-[#1D4ED8] mt-5 w-[400px] h-[63px] rounded-md text-center text-18 text-white font-bold" disabled={isLoading}>Sign up </button>
+                
               {error && 
                (Array.isArray(error) ? (
                 error.map((err) => (
@@ -115,4 +126,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default SignUpTwo;
