@@ -6,6 +6,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import SignUpTwo from "./pages/SignUpTwo";
+import Contact from "./pages/Contact";
 
 // components
 import Navbar from "./components/Navbar";
@@ -34,6 +35,10 @@ function App() {
             <Route 
               path="/signup-2" 
               element={!user ? <SignUpTwo /> : <Navigate to="/" />} 
+            />
+            <Route 
+            path="/Contact"
+            element={<Contact />}
             />
           </Routes>
         </div>
