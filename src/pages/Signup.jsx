@@ -1,84 +1,87 @@
 import { useState } from "react";
 import { useSignup } from "../hooks/useSignup";
-
+import { Link } from "react-router-dom";
+import {  useNavigate } from 'react-router-dom';
 import img1 from './img/Logo.svg';
 import img2 from './img/pic.svg';
 import { mdiGoogle } from '@mdi/js';
 
 const Signup = () => {
-  const [FirstName, setFirstName] = useState("");
-  const [FamillyName, setFamillyName] = useState("");
-  const [password, setPassword] = useState("");
-  const { signup, error, success, isLoading } = useSignup();
+  const [FirstName,setFirstName] = useState("");
+  const [FamillyName,setFamillyName] = useState("");
+
+  const { signup, error, isLoading } = useSignup();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     await signup(FirstName, FamillyName);
   };
-   
-  
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate('/SignUpTwo');
+  }; 
 
   return (
-    <form onSubmit={handleSubmit}>
-    <div className="w-full min-h-screen flex bg-[#F8FAFC] ">
-      {/*<>----------------------------------------------</>*/}
-      <div className="relative w-1/2 items-start flex flex-col ">
-        <img src={img1} className=" mt-4  ml-10 md:ml-[85px]" />
-        <img src={img2} className="hidden md:block w-[634px] h-[508px] " />
+    <div className="bg-[#F8FAFC] w-full min-h-screen ">
+    <form onSubmit={handleSubmit} className="flex flex-col bg-[#F8FAFC]  md:flex-row">
+      <div className="relative w-full md:w-1/2  flex flex-col items-start">
+        <img src={img1} className="mt-4 ml-10 md:ml-[85px]" alt="Logo" />
+        <img src={img2} className="hidden lg:block z -mt-8 w-full h-auto" alt="Illustration" />
       </div>
-      {/*<>----------------------------------------------</>*/}
-      <div className="w-1/2 h-full flex flex-col justify-between">
-      <div >
-          <p className="text-[#334155] text-16 font-bold mt-4 text-center hidden sm:block">Already have account ? <span className=" text-16 font-bold text-[#1D4ED8] underline cursor-pointer"> Log in </span> here</p>
+      <div className="w-full md:w-1/2 flex flex-col lg:mt-32 sm:mt-12 md:cez items-center justify-center min-w-sm">
+      <div className="absolute top-0 right-0 mt-4 md:ml-[85px] hidden sm:block md:mr-[250px] sm:mr-[100px]">
+      <p className="text-[#334155] text-16 font-bold ">
+      Already have an account?{" "} <Link to="/Login" className="text-[#1D4ED8] underline">
+      <span className="text-[#1D4ED8] underline cursor-pointer">Log in</span></Link> here
+    </p>
 
       </div>
-        <div className="w-full  h-full flex flex-col  items-center pt-20 pr-[210px] md:p-20  text-[#334155]">
-           <h3 className=" text-3xl lg:text-5xl whitespace-nowrap font-bold  ">Sign up</h3>
-           {/*<>----------------------------inputs------------------</>*/}
-           <div className="flex flex-col ">
-            <input 
-            type={FirstName}
-            placeholder={"First name"}
-            onChange={(e) => setFirstName(e.target.value)}
-           
-            className="w-[400px] h-[63px] text-[#334155] pl-5 font-light text-14  border border-[#1D4ED8] rounded-md mt-8 " />
-            <input 
-            type={FamillyName}
-            placeholder={"Familly name"}
-            onChange={(e) => setFamillyName(e.target.value)}
-           
-            className="w-[400px] h-[63px] text-[#334155] pl-5 font-light text-14  border border-[#1D4ED8] rounded-md mt-8 " />
-            
-            {/*<>-----------------------button-----------------------</>*/}
-            
-            <div >
-            
-              <button className="bg-[#1D4ED8] mt-8 w-[400px] h-[63px] rounded-md text-center text-18 text-white font-bold" disabled={isLoading} >Next</button>
-            
-              {error && 
-               (Array.isArray(error) ? (
-                error.map((err) => (
-                  <div key={err.msg}>
-                    {error.msg}
-                  </div>
-                ))
-               ): (
-                <div>{error}</div>
-               ))
-              }
+        <h3 className="text-4xl lg:text-5xl md:-mt-10  md:-mr-2 sm:mt-4 text-[#334155] whitespace-nowrap  font-bold text-center">
+        Sign up
+        </h3>
+        <div className="max-w-md w-[400px] mt-14">
+          <div className="flex flex-col">
+            <input
+              type="text"
+              placeholder="First Name"
+              onChange={(e) => setFirstName(e.target.value)}
+              value={FirstName}
+              className="w-[400px] h-[63px] px-4 text-[#334155] text-base border border-[#1D4ED8] rounded-md"
+            />
+            <input
+              type="Famillyname"
+              placeholder="Familly Name"
+              onChange={(e) => setFamillyName(e.target.value)}
+              value={FamillyName}
+              className="w-[400px] h-[63px] px-4 mt-6 text-[#334155] text-base border border-[#1D4ED8] rounded-md"
+            />
+      
+            <div>
+              <button onClick={handleClick}
+                className="w-[400px] h-[63px] mt-6 bg-[#1D4ED8] rounded-md text-center text-18 text-white font-bold"
+                disabled={isLoading}
+              >
+                Next
+              </button>
+              {error &&
+                (Array.isArray(error) ? (
+                  error.map((err) => (
+                    <div key={err.msg}>{error.msg}</div>
+                  ))
+                ) : (
+                  <div>{error}</div>
+                ))}
             </div>
-            
-             
-           </div>
-           {/*<>---------------or-------------------------------</>*/}
+            </div>
+            </div>
             <div class="mt-6 grid grid-cols-3 w-[403px]  items-center text-[#6B7280]">
             <hr class="border-[#6B7280]"></hr>
             <p class="text-center text-16 font-bold ">Or</p>
             <hr class="border-[#6B7280]"></hr>
            </div>
            {/*<>---------------facebook-------------------------------</>*/}
-           <div className="mt-6 grid grid-cols-3 items-center gap-5 pl-14  w-[403px]">
+           <div className="mt-6 grid grid-cols-3 items-center gap-5 pl-10  w-[403px]">
             
              <div className="border-2 border-[#CBD5E1]  rounded-[6px]  w-[60px] h-[60px]">
              <svg
@@ -109,12 +112,11 @@ const Signup = () => {
                </svg>
                
             </div>  
-           </div>  
-        </div>  
-      </div>  
-    </div>
-   </form>
-  );
-};
+           </div> 
+            </div>
+            
+            </form>
+            </div>
+  );};
 
-export default Signup;
+  export default Signup;
