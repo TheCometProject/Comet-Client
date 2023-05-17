@@ -2,8 +2,8 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useSignup } from "../hooks/useSignup";
 import {  useNavigate } from 'react-router-dom';
-import img1 from './img/Logo.svg';
-import img2 from './img/pic.svg';
+import img1 from './Assets/Logo.png';
+import img2 from './Assets/pic.svg';
 import { mdiGoogle } from '@mdi/js';
 
 const SignUpTwo = () => {

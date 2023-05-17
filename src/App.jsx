@@ -7,20 +7,20 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import SignUpTwo from "./pages/SignUpTwo";
 import Contact from "./pages/Contact";
-import Navbar from "./components/Navbar";
+import Landing from "./pages/Landing";
 
+// components
 function App() {
   const { user } = useAuthContext();
 
   return (
     <div className="App">
       <BrowserRouter>
-        {/* <Navbar /> */}
         <div className="pages">
           <Routes>
             <Route 
               path="/" 
-              element={user ? <Home /> : <Navigate to="/Login" />} 
+              element={user ? <Home /> : <Navigate to="/Home" />} 
             />
             <Route 
               path="/login" 
@@ -40,7 +40,10 @@ function App() {
             path="/Contact"
             element={<Contact />}
             />
-              
+            <Route 
+            path="/Home"
+            element={<Landing />}
+            />
           </Routes>
         </div>
       </BrowserRouter>

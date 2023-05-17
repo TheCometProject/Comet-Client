@@ -2,9 +2,9 @@ import { useState } from "react";
 import {  useNavigate } from 'react-router-dom';
 import { Link } from "react-router-dom";
 import { useLogin } from "../hooks/useLogin";
-import img1 from './img/Logo.svg';
-import img2 from './img/pic.svg';
-import { mdiGoogle } from '@mdi/js';
+import img1 from "./Assets/Logo.png";
+import img2 from "./Assets/pic.svg";
+import { mdiGoogle } from "@mdi/js";
 
 const Login = () => {
   const [email, setEmail] = useState("");
