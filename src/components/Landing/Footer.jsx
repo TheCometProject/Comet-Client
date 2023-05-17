@@ -8,12 +8,8 @@ export default function () {
         <img className="mb-8 w-32" src={Logo} alt="" />
         <nav className="ml-4 flex flex-col gap-2 font-medium !text-slate-50">
           <a href="#FAQ">FAQ</a>
-          <a href="">
-            <Link to="/contact">Contact</Link>
-          </a>
-          <a href="">
-            <Link to="/terms-and-services">Terms and services</Link>
-          </a>
+          <Link to="/contact">Contact</Link>
+          <Link to="/terms-and-services">Terms and services</Link>
         </nav>
       </div>
       <div className="!text-slate-50 w-96">

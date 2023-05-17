@@ -35,6 +35,7 @@ export default function () {
       <div className="max-w-[42rem] mx-auto mt-10">
         {data.map((item) => (
           <Question
+            key={item.question}
             question={item.question}
             answer={item.answer}
             extended={item.extended}

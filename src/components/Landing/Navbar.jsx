@@ -20,13 +20,13 @@ export default function () {
             <a href="#FAQ">FAQ</a>
           </li>
           <li>
-            <a href="#Contact">Contact</a>
+            <Link to="/contact">Contact</Link>
           </li>
         </ul>
       </div>
       <div className="flex gap-8">
-        <Link to="/login"><button className="button-solid">Login</button></Link>
-        <Link><button className="button-outlined">Sign up</button></Link>
+        <Link to="/Login"><button className="button-solid">Login</button></Link>
+        <Link to="/Signup"><button className="button-outlined">Sign up</button></Link>
       </div>
     </header>
   );

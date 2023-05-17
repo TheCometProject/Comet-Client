@@ -1,122 +1,156 @@
 import { useState } from "react";
 import { useSignup } from "../hooks/useSignup";
 import { Link } from "react-router-dom";
-import {  useNavigate } from 'react-router-dom';
-import img1 from './Assets/Logo.png';
-import img2 from './Assets/pic.svg';
-import { mdiGoogle } from '@mdi/js';
+import img1 from "./Assets/Logo.png";
+import img2 from "./Assets/pic.svg";
+import { mdiGoogle } from "@mdi/js";
 
 const Signup = () => {
-  const [FirstName,setFirstName] = useState("");
-  const [FamillyName,setFamillyName] = useState("");
-
-  const { signup, error, isLoading } = useSignup();
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const { signup, error, success, isLoading } = useSignup();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await signup(FirstName, FamillyName);
+    await signup(`${firstName} ${lastName}`, email, password, confirmPassword);
   };
-  const navigate = useNavigate();
-
-  const handleClick = () => {
-    navigate('/SignUpTwo');
-  }; 
 
   return (
-    <div className="bg-[#F8FAFC] w-full min-h-screen ">
-    <form onSubmit={handleSubmit} className="flex flex-col bg-[#F8FAFC]  md:flex-row">
-      <div className="relative w-full md:w-1/2  flex flex-col items-start">
-        <img src={img1} className="mt-4 ml-10 md:ml-[85px]" alt="Logo" />
-        <img src={img2} className="hidden lg:block z -mt-8 w-full h-auto" alt="Illustration" />
-      </div>
-      <div className="w-full md:w-1/2 flex flex-col lg:mt-32 sm:mt-12 md:cez items-center justify-center min-w-sm">
-      <div className="absolute top-0 right-0 mt-4 md:ml-[85px] hidden sm:block md:mr-[250px] sm:mr-[100px]">
-      <p className="text-[#334155] text-16 font-bold ">
-      Already have an account?{" "} <Link to="/Login" className="text-[#1D4ED8] underline">
-      <span className="text-[#1D4ED8] underline cursor-pointer">Log in</span></Link> here
-    </p>
-
-      </div>
-        <h3 className="text-4xl lg:text-5xl md:-mt-10  md:-mr-2 sm:mt-4 text-[#334155] whitespace-nowrap  font-bold text-center">
-        Sign up
-        </h3>
-        <div className="max-w-md w-[400px] mt-14">
-          <div className="flex flex-col">
-            <input
-              type="text"
-              placeholder="First Name"
-              onChange={(e) => setFirstName(e.target.value)}
-              value={FirstName}
-              className="w-[400px] h-[63px] px-4 text-[#334155] text-base border border-[#1D4ED8] rounded-md"
-            />
-            <input
-              type="Famillyname"
-              placeholder="Familly Name"
-              onChange={(e) => setFamillyName(e.target.value)}
-              value={FamillyName}
-              className="w-[400px] h-[63px] px-4 mt-6 text-[#334155] text-base border border-[#1D4ED8] rounded-md"
-            />
-      
-            <div>
-              <button onClick={handleClick}
-                className="w-[400px] h-[63px] mt-6 bg-[#1D4ED8] rounded-md text-center text-18 text-white font-bold"
-                disabled={isLoading}
-              >
-                Next
-              </button>
-              {error &&
-                (Array.isArray(error) ? (
-                  error.map((err) => (
-                    <div key={err.msg}>{error.msg}</div>
-                  ))
-                ) : (
-                  <div>{error}</div>
-                ))}
-            </div>
-            </div>
-            </div>
-            <div class="mt-6 grid grid-cols-3 w-[403px]  items-center text-[#6B7280]">
-            <hr class="border-[#6B7280]"></hr>
-            <p class="text-center text-16 font-bold ">Or</p>
-            <hr class="border-[#6B7280]"></hr>
-           </div>
-           {/*<>---------------facebook-------------------------------</>*/}
-           <div className="mt-6 grid grid-cols-3 items-center gap-5 pl-10  w-[403px]">
-            
-             <div className="border-2 border-[#CBD5E1]  rounded-[6px]  w-[60px] h-[60px]">
-             <svg
-              class="w-6 h-6 text-blue-600 fill-current m-4"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24">
-              <path
-              d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"
+    <div className="min-h-screen w-full bg-[#F8FAFC] ">
+      <form
+        onSubmit={handleSubmit}
+        className="flex flex-col bg-[#F8FAFC]  md:flex-row"
+      >
+        <div className="relative flex w-full  flex-col items-start md:w-1/2">
+          <img src={img1} className="ml-10 mt-4 md:ml-[85px]" alt="Logo" />
+          <img
+            src={img2}
+            className="z -mt-8 hidden h-auto w-full lg:block"
+            alt="Illustration"
+          />
+        </div>
+        <div className="md:cez min-w-sm flex w-full flex-col items-center justify-center sm:mt-12 md:w-1/2 lg:mt-32">
+          <div className="absolute right-0 top-0 mt-4 hidden sm:mr-[100px] sm:block md:ml-[85px] md:mr-[250px]">
+            <p className="text-16 font-bold text-[#334155] ">
+              Already have an account?{" "}
+              <Link to="/Login" className="text-[#1D4ED8] underline">
+                <span className="cursor-pointer text-[#1D4ED8] underline">
+                  Log in
+                </span>
+              </Link>{" "}
+              here
+            </p>
+          </div>
+          <h3 className="whitespace-nowrap text-center text-4xl  font-bold text-[#334155] sm:mt-4 md:-mr-2  md:-mt-10 lg:text-5xl">
+            Sign up
+          </h3>
+          <div className="mt-14 w-[400px] max-w-md">
+            <div className="flex flex-col">
+              <input
+                type="text"
+                placeholder="First Name"
+                onChange={(e) => setFirstName(e.target.value)}
+                value={firstName}
+                className="h-[63px] w-[400px] rounded-md border border-[#1D4ED8] px-4 text-base text-[#334155]"
               />
-            </svg>
+              <input
+                type="text"
+                placeholder="Last Name"
+                onChange={(e) => setLastName(e.target.value)}
+                value={lastName}
+                className="mt-6 h-[63px] w-[400px] rounded-md border border-[#1D4ED8] px-4 text-base text-[#334155]"
+              />
+
+              {/* PAGE 2 */}
+
+              <input
+                type="email"
+                placeholder="Email"
+                onChange={(e) => setEmail(e.target.value)}
+                value={email}
+                className="mt-6 h-[63px] w-[400px] rounded-md border border-[#1D4ED8] px-4 text-base text-[#334155]"
+              />
+              <input
+                type="password"
+                placeholder="Password"
+                onChange={(e) => setPassword(e.target.value)}
+                value={password}
+                className="mt-6 h-[63px] w-[400px] rounded-md border border-[#1D4ED8] px-4 text-base text-[#334155]"
+              />
+              <input
+                type="password"
+                placeholder="Confirm password"
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                value={confirmPassword}
+                className="mt-6 h-[63px] w-[400px] rounded-md border border-[#1D4ED8] px-4 text-base text-[#334155]"
+              />
+
+              <div>
+                <button
+                  className="text-18 mt-6 h-[63px] w-[400px] rounded-md bg-[#1D4ED8] text-center font-bold text-white"
+                  disabled={isLoading}
+                >
+                  Sign up
+                </button>
+                {error &&
+                  (Array.isArray(error) ? (
+                    error.map((err) => (
+                      <div key={err.msg}>
+                        {err.msg}
+                      </div>
+                    ))
+                  ) : (
+                    <div>{error}</div>
+                  ))}
+                {success && <div className="success">{success}</div>}
+              </div>
             </div>
-             {/*<>---------------google-------------------------------</>*/}
-           
-             <div className="border-2 border-[#CBD5E1]  rounded-[6px]  w-[60px] h-[60px]">
-              <svg className="h-6 w-6 m-4 " viewBox="0 0 24 24" fill="currentColor">
-              <path d={mdiGoogle} fill="#EB4335" />
+          </div>
+          <div className="mt-6 grid w-[403px] grid-cols-3  items-center text-[#6B7280]">
+            <hr className="border-[#6B7280]"></hr>
+            <p className="text-16 text-center font-bold ">Or</p>
+            <hr className="border-[#6B7280]"></hr>
+          </div>
+          {/*<>---------------facebook-------------------------------</>*/}
+          <div className="mt-6 grid w-[403px] grid-cols-3 items-center gap-5  pl-10">
+            <div className="h-[60px] w-[60px]  rounded-[6px]  border-2 border-[#CBD5E1]">
+              <svg
+                className="m-4 h-6 w-6 fill-current text-blue-600"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+              >
+                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+              </svg>
+            </div>
+            {/*<>---------------google-------------------------------</>*/}
+
+            <div className="h-[60px] w-[60px]  rounded-[6px]  border-2 border-[#CBD5E1]">
+              <svg
+                className="m-4 h-6 w-6 "
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <path d={mdiGoogle} fill="#EB4335" />
               </svg>
             </div>
             {/*<>---------------linkeden-------------------------------</>*/}
-            <div className="border-2 border-[#CBD5E1]  rounded-[6px]  w-[60px] h-[60px]">
-               <svg
-                  class="w-6 h-6 text-blue-500 fill-current m-4"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 448 512">
-                  <path
-                     d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z"
-                  ></path>
-               </svg>
-               
-            </div>  
-           </div> 
+            <div className="h-[60px] w-[60px]  rounded-[6px]  border-2 border-[#CBD5E1]">
+              <svg
+                className="m-4 h-6 w-6 fill-current text-blue-500"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 448 512"
+              >
+                <path d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z"></path>
+              </svg>
             </div>
-            
-            </form>
-            </div>
-  );};
+          </div>
+        </div>
+      </form>
+    </div>
+  );
+};
 
-  export default Signup;
+export default Signup;

@@ -30,7 +30,7 @@ export default function () {
         slidesPerView={2.7}
       >
         {data.map((item) => (
-          <SwiperSlide className="pt-16">
+          <SwiperSlide className="pt-16" key={item.name + item.title}>
             <div className="pb relative rounded-3xl bg-slate-100 px-12 text-center">
               <img
                 className="absolute left-1/2 w-28 -translate-x-1/2 -translate-y-1/2"
