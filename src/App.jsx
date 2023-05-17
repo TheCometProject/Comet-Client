@@ -7,8 +7,6 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import SignUpTwo from "./pages/SignUpTwo";
 import Contact from "./pages/Contact";
-
-// components
 import Navbar from "./components/Navbar";
 
 function App() {
@@ -22,24 +20,27 @@ function App() {
           <Routes>
             <Route 
               path="/" 
-              element={user ? <Home /> : <Navigate to="/login" />} 
+              element={user ? <Home /> : <Navigate to="/Login" />} 
             />
             <Route 
               path="/login" 
               element={!user ? <Login /> : <Navigate to="/" />} 
             />
+            
             <Route 
-              path="/signup" 
+              path="/Signup" 
               element={!user ? <Signup /> : <Navigate to="/" />} 
             />
             <Route 
-              path="/signup-2" 
+              path="/SignUpTwo" 
               element={!user ? <SignUpTwo /> : <Navigate to="/" />} 
             />
+            
             <Route 
             path="/Contact"
             element={<Contact />}
             />
+              
           </Routes>
         </div>
       </BrowserRouter>
