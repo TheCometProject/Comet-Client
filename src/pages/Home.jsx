@@ -23,6 +23,7 @@ const Home = () => {
   };
 
   return (
+    
     <div className="home">
       <button onClick={handleClick}>fetch a protected api route:</button>
       <h2>{alger}</h2>

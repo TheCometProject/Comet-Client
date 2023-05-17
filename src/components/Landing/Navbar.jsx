@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 import Logo from "../../pages/Assets/Logo.png";
 
 export default function () {
@@ -23,8 +25,8 @@ export default function () {
         </ul>
       </div>
       <div className="flex gap-8">
-        <button className="button-solid">Login</button>
-        <button className="button-outlined">Sign up</button>
+        <Link to="/login"><button className="button-solid">Login</button></Link>
+        <Link><button className="button-outlined">Sign up</button></Link>
       </div>
     </header>
   );

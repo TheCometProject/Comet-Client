@@ -26,14 +26,16 @@ function App() {
               path="/login" 
               element={!user ? <Login /> : <Navigate to="/" />} 
             />
+            
             <Route 
-              path="/signup" 
+              path="/Signup" 
               element={!user ? <Signup /> : <Navigate to="/" />} 
             />
             <Route 
-              path="/signup-2" 
+              path="/SignUpTwo" 
               element={!user ? <SignUpTwo /> : <Navigate to="/" />} 
             />
+            
             <Route 
             path="/Contact"
             element={<Contact />}
