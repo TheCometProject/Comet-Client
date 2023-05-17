@@ -10,15 +10,12 @@ import Contact from "./pages/Contact";
 import Landing from "./pages/Landing";
 
 // components
-import Navbar from "./components/Navbar";
-
 function App() {
   const { user } = useAuthContext();
 
   return (
     <div className="App">
       <BrowserRouter>
-        {/* <Navbar /> */}
         <div className="pages">
           <Routes>
             <Route 

@@ -5,7 +5,12 @@
 
 html, body {
     font-family: 'Space grotesk';
+    scroll-behavior: smooth;
     @apply h-screen bg-slate-50;
+}
+
+img {
+    object-fit: contain
 }
 
 .button-solid {
@@ -18,4 +23,39 @@ html, body {
 
 .button-invisible {
     @apply  px-4 py-3 text-blue-700 font-medium;
+}
+
+.h2 {
+    @apply font-bold text-5xl text-slate-700 pt-4 pb-6;
+}
+
+.h3 {
+    @apply text-4xl font-medium text-slate-700 pt-3 pb-5;
+}
+
+.h4 {
+    @apply text-3xl font-normal text-slate-700 pt-3 pb-5;
+}
+
+.h5 {
+    @apply text-2xl font-medium text-slate-700 pt-3 pb-5;
+
+}
+
+/* Slider styles */
+
+.swiper-pagination {
+    @apply !mb-2 !w-fit !mx-auto !left-1/2 !-translate-x-1/2;
+}
+
+.swiper-pagination-bullet-active {
+    @apply !bg-blue-500;
+}
+
+.swiper-pagination-bullet {
+    @apply  !w-5 !h-5 !mx-3;
+}
+
+.swiper-pagination-bullet:not(.swiper-pagination-bullet-active) {
+    @apply !border-blue-500 !border-2 !opacity-100 !bg-transparent;
 }

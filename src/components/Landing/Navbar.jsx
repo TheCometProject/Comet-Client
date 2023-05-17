@@ -12,7 +12,7 @@ export default function () {
             <a href="#Features">Features</a>
           </li>
           <li>
-            <a href="Community">Community</a>
+            <a href="#Community">Community</a>
           </li>
           <li>
             <a href="#FAQ">FAQ</a>
