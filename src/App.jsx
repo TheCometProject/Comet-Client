@@ -48,6 +48,10 @@ function App() {
               path="/meeting/:roomId" 
               element={user ? <MeetingRoom /> : <Navigate to="/" />} 
             /> 
+            <Route
+              path="/*"
+              element={<Navigate to="/" />}
+            />
           </Routes>
         </div>
       </BrowserRouter>
