@@ -4,7 +4,7 @@ import Logo from "../../pages/Assets/Logo.png";
 
 export default function () {
   return (
-    <header className="px-20 pt-4 pb-2 | flex justify-between items-center">
+    <header className="px-20 pt-4 pb-2 | flex justify-between items-center fixed w-full left-0 top-0 bg-slate-50 z-10">
       <div className="">
         <Link to="/"><img className="w-32" src={Logo} alt="Comet Logo" /></Link>
       </div>
