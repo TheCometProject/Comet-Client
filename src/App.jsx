@@ -6,8 +6,9 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Contact from "./pages/Contact";
 import Landing from "./pages/Landing";
-import MainPage from "./pages/MainPage";
+import Dashboard from "./pages/Dashboard";
 import TOS from "./pages/TOS";
+import MeetingRoom from "./pages/MeetingRoom";
 
 // components
 function App() {
@@ -20,13 +21,12 @@ function App() {
           <Routes>
             <Route
               path="/"
-              element={!user ? <Landing /> : <MainPage />}
+              element={!user ? <Landing /> : <Dashboard />}
             />
             <Route
               path="/Login"
               element={!user ? <Login /> : <Navigate to="/" />}
             />
-
             <Route
               path="/Signup"
               element={!user ? <Signup /> : <Navigate to="/" />}
@@ -38,6 +38,10 @@ function App() {
             <Route 
               path="/terms-and-services" 
               element={<TOS />} 
+            /> 
+            <Route 
+              path="/meeting/:roomId" 
+              element={user ? <MeetingRoom /> : <Navigate to="/" />} 
             /> 
           </Routes>
         </div>
