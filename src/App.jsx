@@ -8,6 +8,7 @@ import Contact from "./pages/Contact";
 import Landing from "./pages/Landing";
 import Dashboard from "./pages/Dashboard";
 import TOS from "./pages/TOS";
+import CreateRoom from "./pages/CreateRoom";
 import MeetingRoom from "./pages/MeetingRoom";
 
 // components
@@ -43,6 +44,16 @@ function App() {
               path="/meeting/:roomId" 
               element={user ? <MeetingRoom /> : <Navigate to="/" />} 
             /> 
+            <Route
+              path="/Create-room"
+              // element={user? <CreateRoom/> : <Navigate to="/" />}
+              element={<CreateRoom/>}
+            />
+            <Route
+              path="/*"
+              element={<Navigate to="/" />}
+
+            />
           </Routes>
         </div>
       </BrowserRouter>
