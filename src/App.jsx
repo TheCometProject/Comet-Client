@@ -10,6 +10,7 @@ import Landing from "./pages/Landing";
 import Dashboard from "./pages/Dashboard";
 import TOS from "./pages/TOS";
 import MeetingRoom from "./pages/MeetingRoom";
+import CreateRoom from "./pages/CreateRoom";
 
 // components
 function App() {
@@ -49,8 +50,14 @@ function App() {
               element={user ? <MeetingRoom /> : <Navigate to="/" />} 
             /> 
             <Route
+              path="/Create-room"
+              // element={user? <CreateRoom/> : <Navigate to="/" />}
+              element={<CreateRoom/>}
+            />
+            <Route
               path="/*"
               element={<Navigate to="/" />}
+
             />
           </Routes>
         </div>
