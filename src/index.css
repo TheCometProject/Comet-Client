@@ -4,15 +4,15 @@
 @tailwind components;
 @tailwind utilities;
 
-html,
-body {
-  font-family: "Space grotesk";
-  scroll-behavior: smooth;
-  @apply h-screen bg-slate-50;
+
+html, body {
+    font-family: 'Space grotesk';
+    scroll-behavior: smooth;
+    @apply h-screen bg-slate-50;
 }
 
 img {
-  object-fit: contain;
+    object-fit: contain
 }
 
 .button-solid {
@@ -20,56 +20,44 @@ img {
 }
 
 .button-outlined {
-  @apply block border-separate rounded-[4px] border-2 border-blue-700 px-4 py-3 text-input-md font-medium text-blue-700;
+    @apply  px-4 py-3 text-blue-700 text-input-md font-medium border-blue-700 border-2 rounded-[4px] block border-separate;
 }
 
 .button-invisible {
-  @apply px-4 py-3 font-medium text-blue-700;
+    @apply  px-4 py-3 text-blue-700 font-medium;
 }
 
 .h2 {
-  @apply pb-6 pt-4 text-5xl font-bold text-slate-700;
+    @apply font-bold text-5xl text-slate-700 pt-4 pb-6;
 }
 
 .h3 {
-  @apply pb-5 pt-3 text-4xl font-medium text-slate-700;
+    @apply text-4xl font-medium text-slate-700 pt-3 pb-5;
 }
 
 .h4 {
-  @apply pb-5 pt-3 text-3xl font-normal text-slate-700;
+    @apply text-3xl font-normal text-slate-700 pt-3 pb-5;
 }
 
 .h5 {
-  @apply pb-5 pt-3 text-2xl font-medium text-slate-700;
+    @apply text-2xl font-medium text-slate-700 pt-3 pb-5;
+
 }
 
 /* Slider styles */
 
 .swiper-pagination {
-  @apply !left-1/2 !mx-auto !mb-2 !w-fit !-translate-x-1/2;
+    @apply !mb-2 !w-fit !mx-auto !left-1/2 !-translate-x-1/2;
 }
 
 .swiper-pagination-bullet-active {
-  @apply !bg-blue-500;
+    @apply !bg-blue-500;
 }
 
 .swiper-pagination-bullet {
-  @apply !mx-3 !h-5 !w-5;
+    @apply  !w-5 !h-5 !mx-3;
 }
 
 .swiper-pagination-bullet:not(.swiper-pagination-bullet-active) {
-  @apply !border-2 !border-blue-500 !bg-transparent !opacity-100;
-}
-
-/* TODO: these styles are only for testing, remove them and style the grid as u like */
-#video-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, 300px);
-  grid-auto-rows: 300px;
-}
-
-video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+    @apply !border-blue-500 !border-2 !opacity-100 !bg-transparent;
 }
