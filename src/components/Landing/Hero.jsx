@@ -12,7 +12,7 @@ export default function () {
   }
 
   return (
-    <section id="Hero" className="flex h-min justify-between px-20 pb-48 pt-24">
+    <section id="Hero" className="flex h-min justify-between px-20 pb-48 pt-36">
       <div className="w-1/2">
         <h1 className="mb-8 text-6xl font-bold leading-[76px] text-slate-700">
           We connect people, We create links

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useAuthContext } from "../hooks/useAuthContext";
 
-const MainPage = () => {
+const TestPage = () => {
   const { user } = useAuthContext();
   const [alger, setAlger] = useState("");
 
@@ -31,4 +31,4 @@ const MainPage = () => {
   );
 };
 
-export default MainPage;
+export default TestPage;
