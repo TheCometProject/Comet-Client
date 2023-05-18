@@ -6,7 +6,7 @@ export default function () {
   return (
     <header className="px-20 pt-4 pb-2 | flex justify-between items-center">
       <div className="">
-        <img className="w-32" src={Logo} alt="Comet Logo" />
+        <Link to="/"><img className="w-32" src={Logo} alt="Comet Logo" /></Link>
       </div>
       <div>
         <ul className="flex gap-8 | font-bold">
