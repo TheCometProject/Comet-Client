@@ -1,34 +1,55 @@
+import { useState } from "react";
 import camera from "../../pages/Assets/Icons/Button camera.svg";
-import keyboard from "../../pages/Assets/Icons/Keyboard.svg"
-import heroimg from "../../pages/Assets/Images/image 3.png"
+import keyboard from "../../pages/Assets/Icons/Keyboard.svg";
+import heroimg from "../../pages/Assets/Images/image 3.png";
 
 export default function () {
+
+  const [roomID, setRoomId] = useState("");
+
+  function handleChange(e){
+    setRoomId(()=>e.target.value);
+  }
+
   return (
-    <section id="Hero" className="px-20 pt-24 pb-48 flex justify-between h-min">
+    <section id="Hero" className="flex h-min justify-between px-20 pb-48 pt-24">
       <div className="w-1/2">
-        <h1 className="text-6xl font-bold text-slate-700 leading-[76px] mb-8">
+        <h1 className="mb-8 text-6xl font-bold leading-[76px] text-slate-700">
           We connect people, We create links
           <span className="text-blue-700">_</span>
         </h1>
-        <p className="text-xl text-slate-600 mb-8">
+        <p className="mb-8 text-xl text-slate-600">
           Easily schedule and join meetings, share your screen, and collaborate
           with your team.
         </p>
         <div className="flex gap-2">
           <button className="button-solid">
             <img
-              className="inline mx-2 w-4 fill-slate-50"
+              className="mx-2 inline w-4 fill-slate-50"
               src={camera}
               alt="camera icon"
             />{" "}
             Create a space
           </button>
-          <button className="button-outlined"> <img className="inline mx-2" src={keyboard} alt="" /> Enter the space code</button>
+          <div className="relative">
+            <img className="absolute w-6 top-1/2 -translate-y-1/2 left-4" src={keyboard} alt="" />
+            <input
+              onChange={handleChange}
+              type="text"
+              className="button-outlined placeholder:text-blue-700 !pl-12 !pr-0"
+              placeholder="Enter the space code"
+              value={roomID}
+            />
+          </div>
           <button className="button-invisible">Join</button>
         </div>
       </div>
       <div className=" w-1/2">
-        <img className="hero-img | ml-auto h-full aspect-auto" src={heroimg} alt="" />
+        <img
+          className="hero-img | ml-auto aspect-auto h-full"
+          src={heroimg}
+          alt=""
+        />
       </div>
     </section>
   );
