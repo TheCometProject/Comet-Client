@@ -4,6 +4,7 @@ import { useAuthContext } from "./hooks/useAuthContext";
 // pages
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+import Error from "./pages/error";
 import Contact from "./pages/Contact";
 import Landing from "./pages/Landing";
 import Dashboard from "./pages/Dashboard";
@@ -34,6 +35,10 @@ function App() {
             <Route 
               path="/Contact" 
               element={<Contact />} 
+            />
+            <Route 
+              path="/error" 
+              element={<Error />} 
             />
             <Route 
               path="/terms-and-services" 
