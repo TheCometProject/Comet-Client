@@ -15,7 +15,6 @@ const Login = () => {
     e.preventDefault();
     await login(email, password);
   };
-  const navigate = useNavigate();
 
   return (
     <div className="min-h-screen w-full bg-[#F8FAFC] ">
@@ -34,12 +33,12 @@ const Login = () => {
         <div className="min-w-sm md:cez min-w-sm flex w-full flex-col items-center justify-center sm:mt-16 md:w-1/2 lg:mt-36">
           <div className="absolute right-0 top-0 mt-4 hidden sm:mr-[100px] sm:block md:ml-[85px] md:mr-[270px]">
             <p className="text-16 font-bold text-[#334155] ">
-              New to comet?{" "}
+              New to comet?
               <Link to="/Signup" className="text-[#1D4ED8] underline">
                 <span className="cursor-pointer text-[#1D4ED8] underline">
                   Sign up
                 </span>
-              </Link>{" "}
+              </Link>
               here
             </p>
           </div>
