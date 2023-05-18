@@ -39,6 +39,10 @@ function App() {
               path="/terms-and-services" 
               element={<TOS />} 
             /> 
+            <Route
+              path="/*"
+              element={<Navigate to="/" />}
+            />
           </Routes>
         </div>
       </BrowserRouter>
