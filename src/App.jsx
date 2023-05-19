@@ -9,6 +9,7 @@ import Contact from "./pages/Contact";
 import Landing from "./pages/Landing";
 import Dashboard from "./pages/Dashboard";
 import TOS from "./pages/TOS";
+import CreateRoom from "./pages/CreateRoom";
 import MeetingRoom from "./pages/MeetingRoom";
 import CreateRoom from "./pages/CreateRoom";
 
