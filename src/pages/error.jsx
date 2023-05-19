@@ -1,29 +1,39 @@
-import React from 'react';
+import React from "react";
 import img1 from "./Assets/Logo.png";
 
 const ErrorPage = () => {
   return (
     <div className=" bg-gray-100">
-    <div className="absolute top-0 left-0 p-4 md:pl-[85px] sm:pl-8  pl-[50px]">
-      <img src={img1} alt="Logo" className="items-start w-[130px] h-[33px] mt-4" />
-    </div>
-      <div className="flex flex-col justify-center min-h-screen bg-gray-100 items-center px-6 sm:px-8 md:px-10 lg:px-16 xl:px-20">
-        <p className="text-center text-[#64748B] text-[30px] text-bold  mb-6 sm:mb-8">
-          <span className='text-[35px] text-bold text-[#334155]'>Oops</span> The link you entered does not lead to a valid room. 
+      <div className="md:pl-[85px] absolute left-0 top-0 p-4 pl-[50px]  sm:pl-8">
+        <img
+          src={img1}
+          alt="Logo"
+          className="mt-4 h-[33px] w-[130px] items-start"
+        />
+      </div>
+      <div className="flex min-h-screen flex-col items-center justify-center bg-gray-100 px-6 sm:px-8 md:px-10 lg:px-16 xl:px-20">
+        <p className="text-bold mb-6 text-5xl text-blue-700 sm:mb-6">Oops!</p>
+        <p className="text-bold mb-6 text-center text-[30px]  text-[#64748B] sm:mb-8">
+          The link you entered does not lead to a valid room.
         </p>
-        <p className="text-center text-[#64748B] text-[20px] mb-6 sm:mb-8">Please double-check and enter the correct link to join the room. 
-           </p>
+        <p className="mb-6 text-center text-[20px] text-[#64748B] sm:mb-8">
+          Please double-check and enter the correct link to join the room.
+        </p>
 
-        <hr className="border-[#6B7280]  sm:w-[658px]  w-[358px] mt-4"></hr>
-        <p className="text-center text-[#64748B] text-[20px] mb-4 sm:mb-8 mt-4">
-          If you have any questions, please don't hesitate to <span><a href="" className=" text-[#334155] hover:underline ml-2  sm:mt-2 mt-8 text-bold  text-[20px]  ">
-          Contact us
-        </a></span>
+        <hr className="sm:w-[658px]  mt-4  w-[358px] border-[#6B7280]"></hr>
+        <p className="mb-4 mt-4 text-center text-[20px] text-[#64748B] sm:mb-8">
+          If you have any questions, please don't hesitate to{" "}
+          <span>
+            <a
+              href=""
+              className=" text-bold ml-2 mt-8  text-[20px] text-[#334155] hover:underline  sm:mt-2  "
+            >
+              Contact us
+            </a>
+          </span>
         </p>
-       
       </div>
-      </div>
-   
+    </div>
   );
 };
 
