@@ -6,11 +6,8 @@ import { io } from "socket.io-client";
 import Peer from "peerjs";
 
 import SideMenu from "../components/MeetingRoom/SideMenu";
-
-import clockIcon from "./Assets/Icons/clock.svg";
-import recordIcon from "./Assets/Icons/record-circle-fill.svg";
-import peopleIcon from "./Assets/Icons/people.svg";
-import hamburgerIcon from "./Assets/Icons/menu-burger.svg";
+import Actions from "../components/MeetingRoom/Actions";
+import Header from "../components/MeetingRoom/Header";
 
 const socket = io("http://localhost:10000");
 
@@ -19,7 +16,8 @@ const MeetingRoom = () => {
 
   const { roomId } = useParams();
   const { user } = useAuthContext();
-  const [roomExists, setRoomExists] = useState(false);
+  // const [roomExists, setRoomExists] = useState(false);
+  const [roomExists, setRoomExists] = useState(true); // just for u to test it, default should be false so in case the server doesn't respond then we assume the room doesn't exist
 
   useEffect(() => {
     async function checkRoomExists() {
@@ -32,20 +30,15 @@ const MeetingRoom = () => {
       );
 
       const json = await response.json();
-      console.log(json.message);
+      console.log(json.success);
 
-      if (response.ok) {
+      if (!response.success) {
         // TODO: check json response attribute name with backend
         setRoomExists(true);
       }
     }
     checkRoomExists();
   }, []);
-
-  if (roomExists) {
-    // TODO: this doesn't work idk why, it's 1am so i'll fix it tomorrow
-    return <div>Room Doesn't Exist</div>;
-  }
 
   const videoGrid = useRef();
   const myPeer = new Peer();
@@ -108,6 +101,10 @@ const MeetingRoom = () => {
   }
 
   const [sideMenuOpen, setSideMenuOpen] = useState(false);
+  const [fullscreen, setFullScreen] = useState(false);
+  const [micMuted, setMicMuted] = useState(false);
+  const [videoOff, setVideoOff] = useState(false);
+
   const callers = [
     {
       id: 1,
@@ -145,45 +142,33 @@ const MeetingRoom = () => {
 
   return (
     <div className="relative h-screen overflow-hidden bg-zinc-900 px-6 pt-10 md:px-16">
-      {/* TITLE + TOGGLE SIDE MENU */}
-      <header className="pb-6">
-        <div className="flex items-start justify-between">
-          <h1 className="mb-8 text-2xl font-bold text-slate-50 md:text-4xl">
-            UI UX Team meeting_
-          </h1>
-          <button onClick={() => setSideMenuOpen(() => true)}>
-            <img className="mt-2 w-6" src={hamburgerIcon} alt="" />
-          </button>
-        </div>
-        {/* PARAMETERS */}
-        <div className="flex flex-wrap items-center justify-between">
-          <div className="mb-2 flex items-center gap-2 sm:gap-8">
-            <div className="flex items-center gap-2 rounded-full bg-blue-300 px-4 py-1">
-              <img src={clockIcon} alt="" />
-              <p className="text-xs text-slate-900">Meet 13:49</p>
-            </div>
-            <div className="flex items-center gap-2 rounded-full bg-red-200 px-4 py-1">
-              <img src={recordIcon} alt="" />
-              <p className="text-xs text-red-700">Recording 10:12</p>
-            </div>
-          </div>
-          <div className="ml-2 flex items-center gap-2 rounded-full bg-blue-300 px-4 py-1">
-            <img src={peopleIcon} alt="" />
-            <p className="text-xs text-slate-900">24</p>
-          </div>
-        </div>
-      </header>
-      {/* SIDE MENU  */}
+      <Header fullscreen={fullscreen} setSideMenuOpen={setSideMenuOpen} />
       <SideMenu sideMenuOpen={sideMenuOpen} setSideMenuOpen={setSideMenuOpen} />
-      {/* CALLERS GRID */}
-      <div className="-mr-4 flex h-full flex-wrap justify-start gap-4 overflow-y-scroll pb-32 pt-10">
-        {/* <div id="video-grid" ref={videoGrid}></div> */}
-        {callers.map((item) => (
-          <div className="mb-2 aspect-square w-[calc(50%-1rem)] border-2 border-slate-50 md:w-[calc(33%-1rem)] lg:w-[calc(25%-1rem)]">
-            <p>{item.name}</p>
-          </div>
-        ))}
+      <div
+        className={`overflow-auto pb-12 transition-all md:pb-[0vh] ${
+          fullscreen ? "-mt-32 h-screen" : "mt-0 h-[calc(100%-12rem)]"
+        }`}
+      >
+        <div className=" -mr-4 flex h-screen w-full flex-wrap place-content-start justify-start gap-4">
+          {callers.map((item) => (
+            <div className="relative mb-0 h-0 w-[calc(50%-1rem)] border-2 border-slate-50 pb-[calc(50%-1rem)] md:w-[calc(33%-1rem)] md:pb-[calc(33%-1rem)] lg:w-[calc(25%-1rem)] lg:pb-[calc(25%-1rem)]">
+              <p className="absolute bottom-0 right-0 m-4 rounded-full bg-slate-200 px-4">
+                {item.name}
+              </p>
+            </div>
+          ))}
+        </div>
       </div>
+      {/* <div id="video-grid" ref={videoGrid}></div> */}
+      <Actions
+        sideMenuOpen={sideMenuOpen}
+        fullScreen={fullscreen}
+        setFullScreen={setFullScreen}
+        videoOff={videoOff}
+        setVideoOff={setVideoOff}
+        micMuted={micMuted}
+        setMicMuted={setMicMuted}
+      />
     </div>
   );
 };

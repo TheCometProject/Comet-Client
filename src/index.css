@@ -61,3 +61,23 @@ img {
 .swiper-pagination-bullet:not(.swiper-pagination-bullet-active) {
     @apply !border-blue-500 !border-2 !opacity-100 !bg-transparent;
 }
+
+/* Scroll bar customization */
+::-webkit-scrollbar {
+    @apply w-2
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    @apply bg-slate-200;
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    @apply bg-slate-400 transition-all;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-slate-500 transition-all;
+  }

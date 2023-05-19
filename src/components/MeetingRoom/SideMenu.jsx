@@ -12,7 +12,7 @@ export default function({sideMenuOpen, setSideMenuOpen}){
         <div
         className={`${
           sideMenuOpen ? "right-0" : "-right-full"
-        } absolute top-0 h-screen w-full rounded-l-2xl bg-slate-200 px-6 pt-10 transition-all sm:w-[400px]`}
+        } absolute top-0 h-screen w-full rounded-l-2xl bg-slate-200 px-6 pt-10 transition-all sm:w-[400px] z-10`}
       >
         <div className="flex items-center justify-between border-b-[1px] pb-4 border-slate-400">
           <div className="flex gap-2">
