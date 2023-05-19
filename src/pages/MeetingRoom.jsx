@@ -1,7 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { useAuthContext } from "../hooks/useAuthContext";
+
 import { io } from "socket.io-client";
 import Peer from "peerjs";
-import { useParams } from "react-router-dom";
 
 import SideMenu from "../components/MeetingRoom/SideMenu";
 
@@ -13,22 +15,43 @@ import hamburgerIcon from "./Assets/Icons/menu-burger.svg";
 const socket = io("http://localhost:10000");
 
 const MeetingRoom = () => {
-  const { roomId } = useParams();
+  const navigate = useNavigate();
 
-  //  if room exists:
-  //    render this page
-  //  else:
-  //    render room does not exist page
+  const { roomId } = useParams();
+  const { user } = useAuthContext();
+  const [roomExists, setRoomExists] = useState(false);
+
+  useEffect(() => {
+    async function checkRoomExists() {
+      const response = await fetch(
+        `http://localhost:4000/api/v1/rooms/${roomId}`,
+        {
+          method: "GET",
+          headers: { Authorization: `Bearer ${user.accessToken}` },
+        }
+      );
+
+      const json = await response.json();
+      console.log(json.message);
+
+      if (response.ok) {
+        // TODO: check json response attribute name with backend
+        setRoomExists(true);
+      }
+    }
+    checkRoomExists();
+  }, []);
+
+  if (roomExists) {
+    // TODO: this doesn't work idk why, it's 1am so i'll fix it tomorrow
+    return <div>Room Doesn't Exist</div>;
+  }
 
   const videoGrid = useRef();
   const myPeer = new Peer();
   const myVideo = document.createElement("video");
   myVideo.muted = true;
   const peers = {};
-
-  // TODO: should we use an effect hook here?
-  // useEffect(() => {
-  // }, []);
 
   navigator.mediaDevices
     .getUserMedia({ video: true, audio: true })
@@ -133,8 +156,8 @@ const MeetingRoom = () => {
           </button>
         </div>
         {/* PARAMETERS */}
-        <div className="flex items-center justify-between flex-wrap">
-          <div className="flex items-center gap-2 sm:gap-8 mb-2">
+        <div className="flex flex-wrap items-center justify-between">
+          <div className="mb-2 flex items-center gap-2 sm:gap-8">
             <div className="flex items-center gap-2 rounded-full bg-blue-300 px-4 py-1">
               <img src={clockIcon} alt="" />
               <p className="text-xs text-slate-900">Meet 13:49</p>
@@ -144,7 +167,7 @@ const MeetingRoom = () => {
               <p className="text-xs text-red-700">Recording 10:12</p>
             </div>
           </div>
-          <div className="flex items-center gap-2 rounded-full bg-blue-300 px-4 py-1 ml-2">
+          <div className="ml-2 flex items-center gap-2 rounded-full bg-blue-300 px-4 py-1">
             <img src={peopleIcon} alt="" />
             <p className="text-xs text-slate-900">24</p>
           </div>

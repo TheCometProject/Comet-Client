@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
+
 import img1 from "./Assets/Logo.png";
 import img2 from "./Assets/pic2.svg";
 
@@ -24,11 +26,11 @@ export default function () {
       {/*____________ pics _______________ */}
 
       <div className="lg:w-1/2 flex flex-col md:pl-[85px] pl-8">
-        <img src={img1} className=" items-start w-[130px] h-[33px] mt-4" />
+      <Link to="/"><img src={img1} className=" items-start w-32 h-[33px] mt-4" /></Link>
         <img src={img2} className="lg:flex hidden mt-28" />
       </div>
       {/*____________ form _______________ */}
-      <div className="lg:w-1/2 flex flex-col items-center lg:pl-[100px] md:mt-[90px] p-7 mt-10 lg:mr-16 text-[#334155]">
+      <div className="lg:w-1/2 flex flex-col items-center lg:pl-[100px] md:mt-[90px]  p-7 mt-10 lg:mr-16 text-[#334155]">
         <p className="sm:text-5xl text-3xl font-bold text-center">Contact us</p>
         <div className="flex flex-col justify-center lg:justify-between">
           <form action="#">

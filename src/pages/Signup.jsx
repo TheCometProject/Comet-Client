@@ -24,11 +24,11 @@ const Signup = () => {
         onSubmit={handleSubmit}
         className="flex flex-col bg-[#F8FAFC]  md:flex-row"
       >
-        <div className="relative flex w-full  flex-col items-start md:w-1/2">
-          <img src={img1} className="ml-10 mt-4 md:ml-[85px]" alt="Logo" />
+        <div className="lg:w-1/2 flex flex-col md:pl-[85px] sm:pl-8  pl-[50px]">
+        <Link to="/"><img src={img1} className=" items-start w-32 h-[33px] mt-4" /></Link>
           <img
             src={img2}
-            className="z -mt-8 hidden h-auto w-full lg:block"
+            className="z mt-8 -ml-4 hidden h-auto w-full lg:block"
             alt="Illustration"
           />
         </div>
@@ -44,7 +44,7 @@ const Signup = () => {
               here
             </p>
           </div>
-          <h3 className="whitespace-nowrap text-center text-4xl  font-bold text-[#334155] sm:mt-4 md:-mr-2  md:-mt-10 lg:text-5xl">
+          <h3 className="whitespace-nowrap text-center text-4xl  font-bold text-[#334155] sm:mt-0 md:-mr-2  md:-mt-14 mt-12 lg:text-5xl">
             Sign up
           </h3>
           <div className="mt-14 w-[400px] max-w-md">
@@ -54,14 +54,14 @@ const Signup = () => {
                 placeholder="First Name"
                 onChange={(e) => setFirstName(e.target.value)}
                 value={firstName}
-                className="h-[63px] w-[400px] rounded-md border border-[#1D4ED8] px-4 text-base text-[#334155]"
+                className="  sm:w-[400px] sm:h-[63px] w-[300px] h-[45px] rounded-md border border-[#1D4ED8] px-4 sm:ml-0 ml-[50px] text-base text-[#334155]"
               />
               <input
                 type="text"
                 placeholder="Last Name"
                 onChange={(e) => setLastName(e.target.value)}
                 value={lastName}
-                className="mt-6 h-[63px] w-[400px] rounded-md border border-[#1D4ED8] px-4 text-base text-[#334155]"
+                className=" mt-6 sm:w-[400px] sm:h-[63px] w-[300px] h-[45px] rounded-md border border-[#1D4ED8] px-4 sm:ml-0 ml-[50px] text-base text-[#334155]"
               />
 
               {/* PAGE 2 */}
@@ -71,26 +71,26 @@ const Signup = () => {
                 placeholder="Email"
                 onChange={(e) => setEmail(e.target.value)}
                 value={email}
-                className="mt-6 h-[63px] w-[400px] rounded-md border border-[#1D4ED8] px-4 text-base text-[#334155]"
+                className="mt-6 sm:w-[400px] sm:h-[63px] w-[300px] h-[45px] rounded-md border border-[#1D4ED8] px-4 sm:ml-0 ml-[50px] text-base text-[#334155]"
               />
               <input
                 type="password"
                 placeholder="Password"
                 onChange={(e) => setPassword(e.target.value)}
                 value={password}
-                className="mt-6 h-[63px] w-[400px] rounded-md border border-[#1D4ED8] px-4 text-base text-[#334155]"
+                className="mt-6 sm:w-[400px] sm:h-[63px] w-[300px] h-[45px] rounded-md border border-[#1D4ED8] px-4 sm:ml-0 ml-[50px] text-base text-[#334155]"
               />
               <input
                 type="password"
                 placeholder="Confirm password"
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 value={confirmPassword}
-                className="mt-6 h-[63px] w-[400px] rounded-md border border-[#1D4ED8] px-4 text-base text-[#334155]"
+                className="mt-6 sm:w-[400px] sm:h-[63px] w-[300px] h-[45px] rounded-md border border-[#1D4ED8] px-4 sm:ml-0 ml-[50px] text-base text-[#334155]"
               />
 
               <div>
                 <button
-                  className="text-18 mt-6 h-[63px] w-[400px] rounded-md bg-[#1D4ED8] text-center font-bold text-white"
+                  className="text-18 mt-6 sm:w-[400px] sm:h-[63px] w-[300px] h-[45px] rounded-md bg-[#1D4ED8] sm:ml-0 ml-[50px] text-center font-bold text-white"
                   disabled={isLoading}
                 >
                   Sign up
@@ -109,13 +109,14 @@ const Signup = () => {
               </div>
             </div>
           </div>
-          <div className="mt-6 grid w-[403px] grid-cols-3  items-center text-[#6B7280]">
+        {/*-------- <div className="mt-6 grid sm:w-[403px] w-[303px] grid-cols-3  items-center text-[#6B7280]">
             <hr className="border-[#6B7280]"></hr>
             <p className="text-16 text-center font-bold ">Or</p>
             <hr className="border-[#6B7280]"></hr>
           </div>
-          {/*<>---------------facebook-------------------------------</>*/}
-          <div className="mt-6 grid w-[403px] grid-cols-3 items-center gap-5  pl-10">
+          
+          
+          <div className="mt-6 grid sm:w-[403px] w-[303px] grid-cols-3 items-center  gap-5 sm:pl-10 pl-4">
             <div className="h-[60px] w-[60px]  rounded-[6px]  border-2 border-[#CBD5E1]">
               <svg
                 className="m-4 h-6 w-6 fill-current text-blue-600"
@@ -125,7 +126,7 @@ const Signup = () => {
                 <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
               </svg>
             </div>
-            {/*<>---------------google-------------------------------</>*/}
+            
 
             <div className="h-[60px] w-[60px]  rounded-[6px]  border-2 border-[#CBD5E1]">
               <svg
@@ -136,7 +137,7 @@ const Signup = () => {
                 <path d={mdiGoogle} fill="#EB4335" />
               </svg>
             </div>
-            {/*<>---------------linkeden-------------------------------</>*/}
+           
             <div className="h-[60px] w-[60px]  rounded-[6px]  border-2 border-[#CBD5E1]">
               <svg
                 className="m-4 h-6 w-6 fill-current text-blue-500"
@@ -146,7 +147,7 @@ const Signup = () => {
                 <path d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z"></path>
               </svg>
             </div>
-          </div>
+                  </div>----*/}
         </div>
       </form>
     </div>
