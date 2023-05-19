@@ -22,6 +22,24 @@ const MeetingRoom = () => {
 
   const [localMediaStream, setLocalMediaStream] = useState(null);
 
+  async function createRoom() {
+    const data = {
+      author: "badie",
+      roomId: 69,
+    };
+    const res = await fetch("http://localhost:4000/api/v1/rooms", {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    });
+    const res2 = await res.json();
+    console.log(res2);
+  }
+
+  createRoom();
+
   useEffect(() => {
     async function checkRoomExists() {
       const response = await fetch(
@@ -57,15 +75,15 @@ const MeetingRoom = () => {
     if (roomExists) {
       const socket = io("http://localhost:10000");
       const myPeer = new Peer({
-        host: '/',
-        port: '3001',
+        host: "/",
+        port: "3001",
       });
       socket.on("connect", onConnect);
       socket.on("disconnect", onDisconnect);
 
       const peers = {};
       myPeer.on("open", (id) => {
-        console.log("peer connection opened")
+        console.log("peer connection opened");
         socket.emit("join-room", roomId, id);
       });
 
@@ -129,11 +147,13 @@ const MeetingRoom = () => {
   }, [roomExists]);
 
   const toggleVideo = () => {
+    console.log("5tk");
     localMediaStream.getVideoTracks()[0].enabled = !videoEnabled;
     setVideoEnabled(!videoEnabled);
   };
 
   const toggleMic = () => {
+    console.log("5tk");
     localMediaStream.getAudioTracks()[0].enabled = !audioEnabled;
     setAudioEnabled(!audioEnabled);
   };
