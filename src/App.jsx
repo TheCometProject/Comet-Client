@@ -46,13 +46,11 @@ function App() {
             /> 
             <Route
               path="/Create-room"
-              // element={user? <CreateRoom/> : <Navigate to="/" />}
-              element={<CreateRoom/>}
+              element={user? <CreateRoom/> : <Navigate to="/" />}
             />
             <Route
               path="/*"
-              element={<Navigate to="/" />}
-
+              element={<Navigate to="/" />}y
             />
           </Routes>
         </div>

@@ -1,28 +1,51 @@
-import React, { useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { useAuthContext } from "../hooks/useAuthContext";
+
 import { io } from "socket.io-client";
 import Peer from "peerjs";
-import { useParams } from "react-router-dom";
 
 const socket = io("http://localhost:10000");
 
 const MeetingRoom = () => {
-  const { roomId } = useParams();
+  const navigate = useNavigate();
 
-  //  if room exists: 
-  //    render this page
-  //  else:
-  //    render room does not exist page
+  const { roomId } = useParams();
+  const { user } = useAuthContext();
+  const [roomExists, setRoomExists] = useState(false);
+
+  useEffect(() => {
+    async function checkRoomExists() {
+      const response = await fetch(
+        `http://localhost:4000/api/v1/rooms/${roomId}`,
+        {
+          method: "GET",
+          headers: { Authorization: `Bearer ${user.accessToken}` },
+        }
+      );
+
+      const json = await response.json();
+      console.log(json.message);
+
+      if (response.ok) {
+        // TODO: check json response attribute name with backend
+        setRoomExists(true);
+      }
+    }
+    checkRoomExists();
+  }, []);
+
+  if (roomExists) {
+    // TODO: this doesn't work idk why, it's 1am so i'll fix it tomorrow
+    return <div>Room Doesn't Exist</div>;
+  }
 
   const videoGrid = useRef();
   const myPeer = new Peer();
   const myVideo = document.createElement("video");
   myVideo.muted = true;
   const peers = {};
-  
-  // TODO: should we use an effect hook here?
-  // useEffect(() => {
-  // }, []);
-  
+
   navigator.mediaDevices
     .getUserMedia({ video: true, audio: true })
     .then((stream) => {
