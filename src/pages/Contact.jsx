@@ -28,7 +28,7 @@ export default function () {
         <img src={img2} className="lg:flex hidden mt-28" />
       </div>
       {/*____________ form _______________ */}
-      <div className="lg:w-1/2 flex flex-col items-center lg:pl-[100px] md:mt-[90px] p-7 mt-10 lg:mr-16 text-[#334155]">
+      <div className="lg:w-1/2 flex flex-col items-center lg:pl-[100px] md:mt-[90px]  p-7 mt-10 lg:mr-16 text-[#334155]">
         <p className="sm:text-5xl text-3xl font-bold text-center">Contact us</p>
         <div className="flex flex-col justify-center lg:justify-between">
           <form action="#">
