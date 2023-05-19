@@ -6,6 +6,7 @@ import { io } from "socket.io-client";
 import Peer from "peerjs";
 
 
+
 const MeetingRoom = () => {
   const { user } = useAuthContext();
   const [loading, setLoading] = useState(true);
@@ -47,9 +48,7 @@ const MeetingRoom = () => {
 
   useEffect(() => {
     if (roomExists) {
-      const socket = io("http://localhost:10000", {
-        autoConnect: false
-      });
+      const socket = io("http://localhost:10000");
       const myPeer = new Peer({
         // host: '/',
         // port: '3001',
