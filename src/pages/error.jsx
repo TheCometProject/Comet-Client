@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import img1 from "./Assets/Logo.png";
 
 const ErrorPage = () => {
@@ -24,12 +25,12 @@ const ErrorPage = () => {
         <p className="mb-4 mt-4 text-center text-[20px] text-[#64748B] sm:mb-8">
           If you have any questions, please don't hesitate to{" "}
           <span>
-            <a
-              href=""
+            <Link
+              to="/Contact"
               className=" text-bold ml-2 mt-8  text-[20px] text-[#334155] hover:underline  sm:mt-2  "
             >
               Contact us
-            </a>
+            </Link>
           </span>
         </p>
       </div>
