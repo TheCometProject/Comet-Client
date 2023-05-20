@@ -11,10 +11,10 @@ export default function ({
   sideMenuOpen,
   fullScreen,
   setFullScreen,
-  videoOff,
+  videoEnabled,
   micMuted,
-  setVideoOff,
-  setMicMuted,
+  toggleAudio,
+  toggleVideo
 }) {
   function handleFullScreen() {
     setFullScreen(() => !fullScreen);
@@ -33,17 +33,17 @@ export default function ({
       <div className="mx-auto flex w-fit gap-2 rounded-full bg-blue-900 bg-opacity-30 px-6 py-4">
         <div
           className=" flex h-12 w-12 items-center justify-center rounded-full bg-blue-300"
-          onClick={() => setVideoOff(() => !videoOff)}
+          onClick={toggleVideo}
         >
           <img
             className="w-4"
-            src={videoOff ? cameraOffIcon : cameraIcon}
+            src={videoEnabled ? cameraOffIcon : cameraIcon}
             alt=""
           />
         </div>
         <div
           className=" flex h-12 w-12 items-center justify-center rounded-full bg-blue-300"
-          onClick={() => setMicMuted(() => !micMuted)}
+          onClick={toggleAudio}
         >
           <img className="w-4" src={micMuted ? micMutedIcon : micIcon} alt="" />
         </div>

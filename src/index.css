@@ -81,3 +81,11 @@ img {
   ::-webkit-scrollbar-thumb:hover {
     @apply bg-slate-500 transition-all;
   }
+
+  #video-grid div {
+    @apply relative mb-0 h-32 w-[calc(50%-1rem)] border border-blue-700 overflow-hidden rounded-xl md:w-[calc(33%-1rem)] md:h-[calc(33%-1rem)] lg:w-[calc(25%-1rem)] lg:h-[calc(25%-1rem)];
+  }
+
+  #video-grid div video {
+    @apply min-h-full bg-red-800 absolute top-0 mt-0;
+  }

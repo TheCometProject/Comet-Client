@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useLogin } from "../hooks/useLogin";
 import img1 from "./Assets/Logo.png";
@@ -22,53 +21,53 @@ const Login = () => {
         onSubmit={handleSubmit}
         className=" flex h-full flex-col bg-[#F8FAFC]  md:flex-row"
       >
-         <div className="lg:w-1/2 flex flex-col md:pl-[85px] sm:pl-8  pl-[50px]">
-        <Link to="/"><img src={img1} className=" items-start w-32 h-[33px] mt-4" /></Link>
-        <img src={img2} className="lg:flex hidden -mt-2 -ml-4" />
-      </div>
-        <div className="min-w-sm md:cez min-w-sm flex w-full flex-col items-center justify-center sm:mt-16 md:w-1/2 lg:mt-36">
-          <div className="absolute right-0 top-0 mt-4 hidden sm:mr-[100px] sm:block md:ml-[85px] md:mr-[270px]">
+        <div className="lg:w-1/2 md:pl-[85px] flex flex-col pl-[50px]  sm:pl-8">
+          <img src={img1} className=" mt-4 h-[33px] w-[130px] items-start" />
+          <Link to="/"><img src={img2} className="-ml-4 -mt-2 hidden lg:flex" /></Link>
+        </div>
+        <div className="min-w-sm md:cez min-w-sm md:w-1/2 flex w-full flex-col items-center justify-center sm:mt-16 lg:mt-36">
+          <div className="sm:mr-[100px] md:ml-[85px] md:mr-[270px] absolute right-0 top-0 mt-4 hidden sm:block">
             <p className="text-16 font-bold text-[#334155] ">
-              New to comet? 
+              New to comet?
               <Link to="/Signup" className="text-[#1D4ED8] underline">
                 <span className="cursor-pointer text-[#1D4ED8] underline">
                   Sign up
                 </span>
               </Link>
-              here
+              &nbsp;here
             </p>
           </div>
-          <h3 className="whitespace-nowrap text-center mt-12  text-4xl font-bold text-[#334155] sm:mt-0 md:-mr-2  md:-mt-10 lg:text-5xl">
+          <h3 className="mt-12 whitespace-nowrap text-center  text-4xl font-bold text-[#334155] sm:mt-0 md:-mr-2  md:-mt-10 lg:text-5xl">
             Log in
           </h3>
-          <div className=" mt-14 w-[400px] h-[63px]max-w-md sm:ml-0 ">
+          <div className=" h-[63px]max-w-md mt-14 w-[400px] sm:ml-0 ">
             <div className="flex flex-col ">
               <input
                 type="email"
                 placeholder="Email"
                 onChange={(e) => setEmail(e.target.value)}
                 value={email}
-                className="sm:w-[400px] sm:h-[63px] w-[300px] h-[45px] rounded-md border border-[#1D4ED8] px-4 sm:ml-0 ml-[50px] text-base text-[#334155]"
+                className="sm:w-[400px] sm:h-[63px] ml-[50px] h-[45px] w-[300px] rounded-md border border-[#1D4ED8] px-4 text-base text-[#334155] sm:ml-0"
               />
               <input
                 type="password"
                 placeholder="Password"
                 onChange={(e) => setPassword(e.target.value)}
                 value={password}
-                className="mt-6 sm:w-[400px] sm:h-[63px] w-[300px] h-[45px] rounded-md border border-[#1D4ED8]  sm:ml-0 ml-[50px] px-4 text-base text-[#334155]"
+                className="sm:w-[400px] sm:h-[63px] ml-[50px] mt-6 h-[45px] w-[300px] rounded-md border  border-[#1D4ED8] px-4 text-base text-[#334155] sm:ml-0"
               />
               <div className="mt-4 flex items-center justify-between ">
-                <div className="flex items-center sm:-ml-0 ml-12 ">
+                <div className="ml-12 flex items-center sm:-ml-0 ">
                   <input type="checkbox" className="mr-2 h-4 w-4" />
                   <p className="text-sm text-[#334155]">Remember me?</p>
                 </div>
-                <p className="sm:-mr-0 mr-12 cursor-pointer whitespace-nowrap text-sm font-medium underline underline-offset-2">
+                <p className="mr-12 cursor-pointer whitespace-nowrap text-sm font-medium underline underline-offset-2 sm:-mr-0">
                   Forgot password?
                 </p>
               </div>
               <div>
                 <button
-                  className="text-18 mt-6 sm:w-[400px] sm:h-[63px] w-[300px] h-[45px] rounded-md bg-[#1D4ED8] text-center font-bold text-white sm:ml-0 ml-[50px]"
+                  className="text-18 sm:w-[400px] sm:h-[63px] ml-[50px] mt-6 h-[45px] w-[300px] rounded-md bg-[#1D4ED8] text-center font-bold text-white sm:ml-0"
                   disabled={isLoading}
                 >
                   Log in
@@ -82,13 +81,13 @@ const Login = () => {
               </div>
             </div>
           </div>
-          <div className="mt-6 grid sm:w-[403px] w-[303px] grid-cols-3  items-center text-[#6B7280]">
+          <div className="sm:w-[403px] mt-6 grid w-[303px] grid-cols-3  items-center text-[#6B7280]">
             <hr className="border-[#6B7280]"></hr>
             <p className="text-16 text-center font-bold ">Or</p>
             <hr className="border-[#6B7280]"></hr>
           </div>
           {/*<>---------------facebook-------------------------------</>*/}
-          <div className="mt-6 grid sm:w-[403px] w-[303px] grid-cols-3 items-center gap-5  sm:pl-10 pl-4">
+          <div className="sm:w-[403px] mt-6 grid w-[303px] grid-cols-3 items-center gap-5  pl-4 sm:pl-10">
             <div className="h-[60px] w-[60px]  rounded-[6px]  border-2 border-[#CBD5E1]">
               <svg
                 className="m-4 h-6 w-6 fill-current text-blue-600"
