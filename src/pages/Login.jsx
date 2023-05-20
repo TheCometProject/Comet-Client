@@ -23,12 +23,12 @@ const Login = () => {
       >
         <div className="lg:w-1/2 md:pl-[85px] flex flex-col pl-[50px]  sm:pl-8">
           <img src={img1} className=" mt-4 h-[33px] w-[130px] items-start" />
-          <img src={img2} className="-ml-4 -mt-2 hidden lg:flex" />
+          <Link to="/"><img src={img2} className="-ml-4 -mt-2 hidden lg:flex" /></Link>
         </div>
         <div className="min-w-sm md:cez min-w-sm md:w-1/2 flex w-full flex-col items-center justify-center sm:mt-16 lg:mt-36">
           <div className="sm:mr-[100px] md:ml-[85px] md:mr-[270px] absolute right-0 top-0 mt-4 hidden sm:block">
             <p className="text-16 font-bold text-[#334155] ">
-              New to comet?&nbsp;
+              New to comet?
               <Link to="/Signup" className="text-[#1D4ED8] underline">
                 <span className="cursor-pointer text-[#1D4ED8] underline">
                   Sign up

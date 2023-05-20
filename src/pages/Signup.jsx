@@ -25,7 +25,7 @@ const Signup = () => {
         className="flex flex-col bg-[#F8FAFC]  md:flex-row"
       >
         <div className="lg:w-1/2 flex flex-col md:pl-[85px] sm:pl-8  pl-[50px]">
-          <img src={img1} className="items-start w-[130px] h-[33px] mt-4" alt="Logo" />
+        <Link to="/"><img src={img1} className=" items-start w-32 h-[33px] mt-4" /></Link>
           <img
             src={img2}
             className="z mt-8 -ml-4 hidden h-auto w-full lg:block"

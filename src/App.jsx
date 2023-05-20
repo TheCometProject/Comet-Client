@@ -47,7 +47,8 @@ function App() {
             /> 
             <Route 
               path="/meeting/:roomId" 
-              element={user ? <MeetingRoom /> : <Navigate to="/" />} 
+              // element={user ? <MeetingRoom /> : <Navigate to="/" />} 
+              element={<MeetingRoom/>}
             /> 
             <Route
               path="/Create-room"

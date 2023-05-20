@@ -5,6 +5,12 @@ import { useAuthContext } from "../hooks/useAuthContext";
 import { io } from "socket.io-client";
 import Peer from "peerjs";
 
+import SideMenu from "../components/MeetingRoom/SideMenu";
+import Actions from "../components/MeetingRoom/Actions";
+import Header from "../components/MeetingRoom/Header";
+
+const socket = io("http://localhost:10000");
+
 const MeetingRoom = () => {
   const { user } = useAuthContext();
   const [loading, setLoading] = useState(true);
@@ -21,6 +27,24 @@ const MeetingRoom = () => {
   myVideo.muted = true;
 
   const [localMediaStream, setLocalMediaStream] = useState(null);
+
+  async function createRoom() {
+    const data = {
+      author: "badie",
+      roomId: 69,
+    };
+    const res = await fetch("http://localhost:4000/api/v1/rooms", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+    const res2 = await res.json();
+    console.log(res2);
+  }
+
+  createRoom();
 
   useEffect(() => {
     async function checkRoomExists() {
@@ -57,15 +81,15 @@ const MeetingRoom = () => {
     if (roomExists) {
       const socket = io("http://localhost:10000");
       const myPeer = new Peer({
-        host: '/',
-        port: '3001',
+        host: "/",
+        port: "3001",
       });
       socket.on("connect", onConnect);
       socket.on("disconnect", onDisconnect);
 
       const peers = {};
       myPeer.on("open", (id) => {
-        console.log("peer connection opened")
+        console.log("peer connection opened");
         socket.emit("join-room", roomId, id);
       });
 
@@ -123,7 +147,9 @@ const MeetingRoom = () => {
         video.addEventListener("loadedmetadata", () => {
           video.play();
         });
-        videoGrid.current.append(video);
+        const div = document.createElement('div');
+        div.append(video);
+        videoGrid.current.append(div);
       }
     }
   }, [roomExists]);
@@ -138,15 +164,38 @@ const MeetingRoom = () => {
     setAudioEnabled(!audioEnabled);
   };
 
+  const [sideMenuOpen, setSideMenuOpen] = useState(false);
+  const [fullscreen, setFullScreen] = useState(false);
+
+  
+
   return loading ? (
     // TODO: style loading better? (optional)
     <div>Loading</div>
   ) : roomExists ? (
-    <div id="video-grid" ref={videoGrid}>
-      <h6>{videoEnabled ? "enabled" : "disabled"}</h6>
-      <h6>{audioEnabled ? "enabled" : "disabled"}</h6>
-      <button onClick={toggleVideo}>Video</button>
-      <button onClick={toggleMic}>Microphone</button>
+    <div className="relative h-screen overflow-hidden bg-zinc-900 px-6 pt-10 md:px-16">
+      <Header fullscreen={fullscreen} setSideMenuOpen={setSideMenuOpen} />
+      <SideMenu sideMenuOpen={sideMenuOpen} setSideMenuOpen={setSideMenuOpen} />
+      <div
+        className={`overflow-auto pb-12 transition-all md:pb-[0vh] ${
+          fullscreen ? "-mt-32 h-screen" : "mt-0 h-[calc(100%-12rem)]"
+        }`}
+      >
+        <div
+          id="video-grid"
+          ref={videoGrid}
+          className=" -mr-4 flex h-fit w-full flex-wrap place-content-start justify-start gap-4"
+        ></div>
+      </div>
+      <Actions
+        sideMenuOpen={sideMenuOpen}
+        fullScreen={fullscreen}
+        setFullScreen={setFullScreen}
+        videoEnabled={videoEnabled}
+        toggleVideo={toggleVideo}
+        audioEnabled={audioEnabled}
+        toggleMic={toggleMic}
+      />
     </div>
   ) : (
     <Navigate to="/error" />
