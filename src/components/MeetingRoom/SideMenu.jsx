@@ -34,6 +34,8 @@ export default function({sideMenuOpen, setSideMenuOpen}){
               onClick={() => setChatDisplayed(() => true)}
             >
               <input
+                // TODO: handle onChange 
+                onChange={e => {}}
                 className="hidden"
                 type="radio"
                 name="sideMenuToggle"
@@ -49,6 +51,8 @@ export default function({sideMenuOpen, setSideMenuOpen}){
               onClick={() => setChatDisplayed(() => false)}
             >
               <input
+                // TODO: handle onChange 
+                onChange={e => {}}
                 className="hidden"
                 type="radio"
                 name="sideMenuToggle"
