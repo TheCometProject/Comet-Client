@@ -12,9 +12,9 @@ export default function ({
   fullScreen,
   setFullScreen,
   videoEnabled,
-  micMuted,
-  toggleAudio,
-  toggleVideo
+  toggleVideo,
+  audioEnabled,
+  toggleMic,
 }) {
   function handleFullScreen() {
     setFullScreen(() => !fullScreen);
@@ -37,15 +37,15 @@ export default function ({
         >
           <img
             className="w-4"
-            src={videoEnabled ? cameraOffIcon : cameraIcon}
+            src={videoEnabled ? cameraIcon :cameraOffIcon}
             alt=""
           />
         </div>
         <div
           className=" flex h-12 w-12 items-center justify-center rounded-full bg-blue-300"
-          onClick={toggleAudio}
+          onClick={toggleMic}
         >
-          <img className="w-4" src={micMuted ? micMutedIcon : micIcon} alt="" />
+          <img className="w-4" src={audioEnabled ? micIcon : micMutedIcon} alt="" />
         </div>
         <div
           className=" flex h-12 w-12 items-center justify-center rounded-full bg-blue-300"
