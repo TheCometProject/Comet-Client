@@ -9,7 +9,11 @@ import SideMenu from "../components/MeetingRoom/SideMenu";
 import Actions from "../components/MeetingRoom/Actions";
 import Header from "../components/MeetingRoom/Header";
 
-const socket = io("http://localhost:10000");
+// initialize socket but dont connect
+console.log("SOCKET INITIALIZATION SHOULD ONLY RUN ONCE");
+const socket = io("http://localhost:10000", {
+  autoConnect: false,
+});
 
 const MeetingRoom = () => {
   const { user } = useAuthContext();
@@ -18,34 +22,60 @@ const MeetingRoom = () => {
   // controls:
   // TODO: default state should be whatever the user accepted in permissions
   const [videoEnabled, setVideoEnabled] = useState(true);
-  const [audioEnabled, setAudioEnabled] = useState(true);
+  const [audioEnabled, setAudioEnabled] = useState(false);
 
   const { roomId } = useParams();
   const [roomExists, setRoomExists] = useState(false);
   const videoGrid = useRef();
   const myVideo = document.createElement("video");
   myVideo.muted = true;
-
+  const peers = {};
+  const [participants, setParticipants] = useState([]);
+  const [socketConnected, setSocketConnected] = useState(false);
+  const [permissionAllowed, setPermissionAllowed] = useState(false);
   const [localMediaStream, setLocalMediaStream] = useState(null);
+  const [isReady, setIsReady] = useState(false);
+  const [currentPeerId, setCurrentPeerId] = useState("");
+  const [alreadySetup, setAlreadySetup] = useState(false)
 
-  async function createRoom() {
-    const data = {
-      author: "badie",
-      roomId: 69,
-    };
-    const res = await fetch("http://localhost:4000/api/v1/rooms", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
-    const res2 = await res.json();
-    console.log(res2);
-  }
+  useEffect(() => {
+    async function createRoom() {
+      const data = {
+        author: "badie",
+        roomId: 69,
+      };
+      const res = await fetch("http://localhost:4000/api/v1/rooms", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+      const res2 = await res.json();
+      console.log(res2);
+    }
+  
+    createRoom();
+  }, [])
+  
 
-  createRoom();
+  // setup some socket events
+  useEffect(() => {
+    socket.on("connect", onConnect);
+    socket.on("disconnect", onDisconnect);
+    function onConnect() {
+      // TODO: for error handling, whenever our socket disconnects
+      // we can for example reload the page to force a reconnect or redirect to /error ...etc
+      console.log("socket connected");
+      setSocketConnected(true);
+    }
+    function onDisconnect() {
+      console.log("socket disconnected");
+      setSocketConnected(false);
+    }
+  }, []);
 
+  // check if room exists
   useEffect(() => {
     async function checkRoomExists() {
       const response = await fetch(
@@ -65,80 +95,160 @@ const MeetingRoom = () => {
     checkRoomExists();
   }, []);
 
-  function onConnect() {
-    // TODO: for error handling, whenever our socket disconnects
-    // we can for example reload the page to force a reconnect or redirect to /error ...etc
-    console.log("socket connected");
-  }
+  // request user media
+  useEffect(() => {
+    navigator.mediaDevices
+      .getUserMedia({ video: true, audio: true, echoCancellation: true })
+      .then((stream) => {
+        if (!stream) console.warn("wtf bro? stream should never be null");
 
-  function onDisconnect() {
-    // TODO: for error handling, whenever our socket disconnects
-    // we can for example reload the page to force a reconnect or redirect to /error ...etc
-    console.log("socket disconnected");
-  }
+        stream.getVideoTracks()[0].enabled = videoEnabled;
+        stream.getAudioTracks()[0].enabled = audioEnabled;
+
+        // used to toggle video/mic
+        setLocalMediaStream(stream);
+        setPermissionAllowed(true);
+      })
+      .catch((err) => {
+        console.error("error while asking for video permission:", err);
+        setPermissionAllowed(false);
+      });
+  }, []);
+
+  // send "ready" event when peer finishes setting up
+  useEffect(() => {
+    if (socketConnected && isReady && !alreadySetup) {
+      console.log(
+        `peer connection opened with id ${currentPeerId}, going to emit join-room event now`
+      );
+      socket.emit("join-room", roomId, currentPeerId);
+      console.log("emitted join-room, only NOW can u send a ready event");
+      socket.emit("ready");
+      setAlreadySetup(true);
+    }
+  }, [isReady, socketConnected]);
+
+  // fixes hot reload bug
+  // FEATURE: now even if the socket connection is lost, existing peers will remain connected
+  // and it will keep trying to connect to the socket untill it does successfully
+  // untill socket connection is restored, new peers cannot joined the meeting as it requires
+  // a socket event to tell everyone a new user has joined
+  useEffect(() => {
+    if (alreadySetup) {
+      console.log(
+        `peer connection restored!!! with id ${currentPeerId}, going to emit join-room event now`
+      );
+      socket.emit("join-room", roomId, currentPeerId);
+    }
+  }, [socketConnected])
+  
 
   useEffect(() => {
-    if (roomExists) {
-      const socket = io("http://localhost:10000");
+    if (roomExists && permissionAllowed && !alreadySetup) {
+      console.log(
+        "ROOM EXISTS + GOT PERMISSION!!!, going to connect to our socket and create a peer"
+      );
+
+      // add my video stream to video grid
+      addVideoStream(myVideo, localMediaStream);
+
+      socket.connect();
       const myPeer = new Peer({
         host: "/",
         port: "3001",
       });
-      socket.on("connect", onConnect);
-      socket.on("disconnect", onDisconnect);
 
-      const peers = {};
-      myPeer.on("open", (id) => {
-        console.log("peer connection opened");
-        socket.emit("join-room", roomId, id);
+      myPeer.on("close", () => {
+        // TODO: show "connection lost" message to user
+        console.error("peer closed!!!");
       });
 
-      navigator.mediaDevices
-        .getUserMedia({ video: true, audio: true, echoCancellation: true })
-        .then((stream) => {
-          setLocalMediaStream(stream);
+      myPeer.on("disconnected", (currentId) => {
+        // TODO: show "connection lost" message to user
+        console.error("peer disconnected!!!");
+      });
 
-          // add my video stream to video grid
-          addVideoStream(myVideo, stream);
+      myPeer.on("error", (err) => {
+        // TODO: show "connection lost" message to user
+        console.error(err);
+      });
 
-          myPeer.on("call", (call) => {
-            peers[call.peer] = call;
-            call.answer(stream);
-            const video = document.createElement("video");
-            call.on("stream", (userVideoStream) => {
-              addVideoStream(video, userVideoStream);
-            });
+      myPeer.on("open", (id) => {
+        setCurrentPeerId(id);
+        setIsReady(true);
+      });
 
-            call.on("close", () => {
-              video.remove();
-            });
-            // TODO: this is not tested but it should have fixed a bug
-            peers[call.peer] = call;
-          });
+      myPeer.on("call", (call) => {
+        peers[call.peer] = call;
+        setParticipants(peers);
+        console.log("going to answer call from: ", call.peer);
+        call.answer(localMediaStream);
+        const video = document.createElement("video");
 
-          socket.on("user-connected", (userId) => {
-            connectToNewUser(userId, stream);
-          });
-
-          socket.on("user-disconnected", (userId) => {
-            if (peers[userId]) peers[userId].close();
-          });
+        call.on("error", (error) => {
+          console.log(error);
         });
 
-      function connectToNewUser(userId, stream) {
-        const call = myPeer.call(userId, stream);
-        const video = document.createElement("video");
         call.on("stream", (userVideoStream) => {
+          console.log("received stream from: ", call.peer, userVideoStream);
           addVideoStream(video, userVideoStream);
         });
+
         call.on("close", () => {
           video.remove();
         });
 
+        // TODO: this is not tested but it should have fixed a bug
+        peers[call.peer] = call;
+        setParticipants(peers);
+      });
+
+      socket.on("user-connected", (userId) => {
+        console.log("user connected to this room with userId:", userId);
+        // TODO: if that problem occurs again just add a 1s delay
+        // https://stackoverflow.com/questions/66937384/peer-oncalll-is-never-being-called
+        // setTimeout(() => connectToNewUser(userId, localMediaStream), 1000);
+        connectToNewUser(userId, localMediaStream);
+      });
+
+      socket.on("user-disconnected", (userId) => {
+        console.warn("user disconnected from this room with userId:", userId);
+        if (peers[userId]) peers[userId].close();
+        setParticipants(peers);
+        // TODO: also destroy the user from peers object?
+      });
+
+      function connectToNewUser(userId, stream) {
+        console.log("going to call peer: ", userId);
+        const call = myPeer.call(userId, stream);
+        console.log(
+          userId,
+          "called, waiting for him to send his stream",
+          call.open
+        );
+
+        const video = document.createElement("video");
+
+        call.on("stream", (userVideoStream) => {
+          console.log("finally received stream", userVideoStream);
+          addVideoStream(video, userVideoStream);
+        });
+
+        call.on("close", () => {
+          video.remove();
+        });
+
+        call.on("error", () => {
+          video.remove();
+        });
+
         peers[userId] = call;
+        setParticipants(peers);
       }
 
       function addVideoStream(video, stream) {
+        // this is because sometimes we pass a react Ref
+        // but sometimes we pass a normal HTMLVideoElement
         if (video.current) {
           video.current.srcObject = stream;
         } else {
@@ -152,22 +262,22 @@ const MeetingRoom = () => {
         videoGrid.current.append(div);
       }
     }
-  }, [roomExists]);
+  }, [roomExists, permissionAllowed]);
 
   const toggleVideo = () => {
-    localMediaStream.getVideoTracks()[0].enabled = !videoEnabled;
-    setVideoEnabled(!videoEnabled);
+    // TODO: (optional) sometimes toggle doesn't work when connection is lost to socket server idk why
+    if (localMediaStream)
+      localMediaStream.getVideoTracks()[0].enabled =
+        !localMediaStream.getVideoTracks()[0].enabled;
+    setVideoEnabled(localMediaStream.getVideoTracks()[0].enabled);
   };
 
   const toggleMic = () => {
-    localMediaStream.getAudioTracks()[0].enabled = !audioEnabled;
-    setAudioEnabled(!audioEnabled);
+    if (localMediaStream)
+      localMediaStream.getAudioTracks()[0].enabled =
+        !localMediaStream.getAudioTracks()[0].enabled;
+    setAudioEnabled(localMediaStream.getAudioTracks()[0].enabled);
   };
-
-  const [sideMenuOpen, setSideMenuOpen] = useState(false);
-  const [fullscreen, setFullScreen] = useState(false);
-
-  
 
   return loading ? (
     // TODO: style loading better? (optional)
