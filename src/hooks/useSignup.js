@@ -17,7 +17,7 @@ export const useSignup = () => {
       setError("Passwords do not match!");
       console.log(password, confirmPassword);
     } else {
-      const response = await fetch("http://localhost:4000/api/v1/register", {
+      const response = await fetch("https://7edc-129-45-97-64.ngrok-free.app/api/v1/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ fullName, email, password }),

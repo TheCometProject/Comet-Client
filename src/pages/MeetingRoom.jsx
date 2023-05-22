@@ -11,7 +11,10 @@ import Header from "../components/MeetingRoom/Header";
 
 // initialize socket but dont connect
 console.log("SOCKET INITIALIZATION SHOULD ONLY RUN ONCE");
-const socket = io("http://localhost:10000", {
+// const socket = io("http://localhost:10000", {
+//   autoConnect: false,
+// });
+const socket = io("https://0f9c-129-45-97-64.ngrok-free.app", {
   autoConnect: false,
 });
 
@@ -19,24 +22,27 @@ const MeetingRoom = () => {
   const { user } = useAuthContext();
   const [loading, setLoading] = useState(true);
 
-  // controls:
+  // CONTROLS+UI STATES:
   // TODO: default state should be whatever the user accepted in permissions
   const [videoEnabled, setVideoEnabled] = useState(true);
-  const [audioEnabled, setAudioEnabled] = useState(false);
+  const [audioEnabled, setAudioEnabled] = useState(true);
+  const [sideMenuOpen, setSideMenuOpen] = useState(false);
+  const [fullscreen, setFullScreen] = useState(false);
 
   const { roomId } = useParams();
   const [roomExists, setRoomExists] = useState(false);
   const videoGrid = useRef();
   const myVideo = document.createElement("video");
   myVideo.muted = true;
-  const peers = {};
+  let peers = {};
+  let callStreams = []
   const [participants, setParticipants] = useState([]);
   const [socketConnected, setSocketConnected] = useState(false);
   const [permissionAllowed, setPermissionAllowed] = useState(false);
   const [localMediaStream, setLocalMediaStream] = useState(null);
   const [isReady, setIsReady] = useState(false);
   const [currentPeerId, setCurrentPeerId] = useState("");
-  const [alreadySetup, setAlreadySetup] = useState(false)
+  const [alreadySetup, setAlreadySetup] = useState(false);
 
   useEffect(() => {
     async function createRoom() {
@@ -44,7 +50,7 @@ const MeetingRoom = () => {
         author: "badie",
         roomId: 69,
       };
-      const res = await fetch("http://localhost:4000/api/v1/rooms", {
+      const res = await fetch("https://0f9c-129-45-97-64.ngrok-free.app", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -54,10 +60,9 @@ const MeetingRoom = () => {
       const res2 = await res.json();
       console.log(res2);
     }
-  
-    createRoom();
-  }, [])
-  
+
+    // createRoom();
+  }, []);
 
   // setup some socket events
   useEffect(() => {
@@ -78,8 +83,8 @@ const MeetingRoom = () => {
   // check if room exists
   useEffect(() => {
     async function checkRoomExists() {
-      const response = await fetch(
-        `http://localhost:4000/api/v1/rooms/${roomId}`,
+      const response = await fetch(//http://localhost:4000
+        `https://7edc-129-45-97-64.ngrok-free.app/api/v1/rooms/${roomId}`,
         {
           method: "GET",
           headers: { Authorization: `Bearer ${user.accessToken}` },
@@ -92,6 +97,7 @@ const MeetingRoom = () => {
       }
       setLoading(false);
     }
+    // TODO: testing
     checkRoomExists();
   }, []);
 
@@ -140,8 +146,7 @@ const MeetingRoom = () => {
       );
       socket.emit("join-room", roomId, currentPeerId);
     }
-  }, [socketConnected])
-  
+  }, [socketConnected]);
 
   useEffect(() => {
     if (roomExists && permissionAllowed && !alreadySetup) {
@@ -149,13 +154,11 @@ const MeetingRoom = () => {
         "ROOM EXISTS + GOT PERMISSION!!!, going to connect to our socket and create a peer"
       );
 
-      // add my video stream to video grid
-      addVideoStream(myVideo, localMediaStream);
 
       socket.connect();
       const myPeer = new Peer({
-        host: "/",
-        port: "3001",
+        // host: "/",
+        // port: "3001",
       });
 
       myPeer.on("close", () => {
@@ -174,6 +177,8 @@ const MeetingRoom = () => {
       });
 
       myPeer.on("open", (id) => {
+        // add my video stream to video grid
+        addVideoStream(id, myVideo, localMediaStream);
         setCurrentPeerId(id);
         setIsReady(true);
       });
@@ -191,7 +196,10 @@ const MeetingRoom = () => {
 
         call.on("stream", (userVideoStream) => {
           console.log("received stream from: ", call.peer, userVideoStream);
-          addVideoStream(video, userVideoStream);
+          if (!callStreams[call.peer]) {
+            addVideoStream(call.peer, video, userVideoStream);
+            callStreams[call.peer] = userVideoStream;
+          }
         });
 
         call.on("close", () => {
@@ -216,6 +224,8 @@ const MeetingRoom = () => {
         if (peers[userId]) peers[userId].close();
         setParticipants(peers);
         // TODO: also destroy the user from peers object?
+        let videoToDelete = document.getElementById(userId);
+        videoToDelete.parentElement.removeChild(videoToDelete);
       });
 
       function connectToNewUser(userId, stream) {
@@ -231,7 +241,10 @@ const MeetingRoom = () => {
 
         call.on("stream", (userVideoStream) => {
           console.log("finally received stream", userVideoStream);
-          addVideoStream(video, userVideoStream);
+          if (!callStreams[userId]) {
+            addVideoStream(userId, video, userVideoStream);
+            callStreams[userId] = userVideoStream;
+          }
         });
 
         call.on("close", () => {
@@ -246,7 +259,7 @@ const MeetingRoom = () => {
         setParticipants(peers);
       }
 
-      function addVideoStream(video, stream) {
+      function addVideoStream(userId, video, stream) {
         // this is because sometimes we pass a react Ref
         // but sometimes we pass a normal HTMLVideoElement
         if (video.current) {
@@ -257,7 +270,8 @@ const MeetingRoom = () => {
         video.addEventListener("loadedmetadata", () => {
           video.play();
         });
-        const div = document.createElement('div');
+        const div = document.createElement("div");
+        div.setAttribute("id", userId)
         div.append(video);
         videoGrid.current.append(div);
       }
@@ -285,7 +299,7 @@ const MeetingRoom = () => {
   ) : roomExists ? (
     <div className="relative h-screen overflow-hidden bg-zinc-900 px-6 pt-10 md:px-16">
       <Header fullscreen={fullscreen} setSideMenuOpen={setSideMenuOpen} />
-      <SideMenu sideMenuOpen={sideMenuOpen} setSideMenuOpen={setSideMenuOpen} />
+      <SideMenu onChange={e => {console.log(e)}} sideMenuOpen={sideMenuOpen} setSideMenuOpen={setSideMenuOpen} />
       <div
         className={`overflow-auto pb-12 transition-all md:pb-[0vh] ${
           fullscreen ? "-mt-32 h-screen" : "mt-0 h-[calc(100%-12rem)]"

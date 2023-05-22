@@ -83,9 +83,9 @@ img {
   }
 
   #video-grid div {
-    @apply relative mb-0 h-32 w-[calc(50%-1rem)] border border-blue-700 overflow-hidden rounded-xl md:w-[calc(33%-1rem)] md:h-[calc(33%-1rem)] lg:w-[calc(25%-1rem)] lg:h-[calc(25%-1rem)];
+    @apply relative mb-0 !block h-0 w-[calc(50%-1rem)] overflow-hidden rounded-xl border border-blue-700 pb-[calc(50%-1rem)] md:pb-[calc(33%-1rem)] md:w-[calc(33%-1rem)] lg:pb-[calc(25%-1rem)] lg:w-[calc(25%-1rem)];
   }
-
+  
   #video-grid div video {
-    @apply min-h-full bg-red-800 absolute top-0 mt-0;
+    @apply absolute h-full object-cover left-1/2 -translate-x-1/2 bg-red-800;
   }
