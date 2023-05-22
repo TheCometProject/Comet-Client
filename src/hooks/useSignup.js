@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "./useAuthContext";
+import { API_URL } from "/src/constants"
+
 
 export const useSignup = () => {
   const [error, setError] = useState(null);
@@ -17,7 +18,7 @@ export const useSignup = () => {
       setError("Passwords do not match!");
       console.log(password, confirmPassword);
     } else {
-      const response = await fetch("https://b1ca-41-111-227-1.ngrok-free.app/api/v1/register", {
+      const response = await fetch(`${API_URL}/api/v1/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ fullName, email, password }),

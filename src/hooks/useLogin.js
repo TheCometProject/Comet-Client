@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { useAuthContext } from "./useAuthContext";
+import { API_URL } from "/src/constants"
 
 
 export const useLogin = () => {
+  console.log(API_URL);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(null);
   const { dispatch } = useAuthContext();
@@ -11,7 +13,7 @@ export const useLogin = () => {
     setIsLoading(true);
     setError(null);
 
-    const response = await fetch("https://b1ca-41-111-227-1.ngrok-free.app/api/v1/login", {
+    const response = await fetch(`${API_URL}/api/v1/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),

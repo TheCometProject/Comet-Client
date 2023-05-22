@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useParams, useNavigate, Navigate } from "react-router-dom";
+import { useParams, Navigate } from "react-router-dom";
 import { useAuthContext } from "../hooks/useAuthContext";
+import { API_URL, SOCKET_IO } from "../constants";
 
 import { io } from "socket.io-client";
 import Peer from "peerjs";
@@ -11,10 +12,7 @@ import Header from "../components/MeetingRoom/Header";
 
 // initialize socket but dont connect
 console.log("SOCKET INITIALIZATION SHOULD ONLY RUN ONCE");
-// const socket = io("http://localhost:10000", {
-//   autoConnect: false,
-// });
-const socket = io("https://9fab-41-111-227-1.ngrok-free.app", {
+const socket = io(SOCKET_IO, {
   autoConnect: false,
 });
 
@@ -50,7 +48,7 @@ const MeetingRoom = () => {
         author: "badie",
         roomId: 69,
       };
-      const res = await fetch("https://0f9c-129-45-97-64.ngrok-free.app", {
+      const res = await fetch(`${API_URL}/meeting/rooms`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -83,8 +81,8 @@ const MeetingRoom = () => {
   // check if room exists
   useEffect(() => {
     async function checkRoomExists() {
-      const response = await fetch(//http://localhost:4000
-        `https://b1ca-41-111-227-1.ngrok-free.app/api/v1/rooms/${roomId}`,
+      const response = await fetch(
+        `${API_URL}/api/v1/rooms/${roomId}`,
         {
           method: "GET",
           headers: { Authorization: `Bearer ${user.accessToken}` },
