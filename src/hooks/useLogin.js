@@ -4,7 +4,6 @@ import { API_URL } from "/src/constants"
 
 
 export const useLogin = () => {
-  console.log(API_URL);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(null);
   const { dispatch } = useAuthContext();
