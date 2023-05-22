@@ -14,7 +14,7 @@ console.log("SOCKET INITIALIZATION SHOULD ONLY RUN ONCE");
 // const socket = io("http://localhost:10000", {
 //   autoConnect: false,
 // });
-const socket = io("https://0f9c-129-45-97-64.ngrok-free.app", {
+const socket = io("https://9fab-41-111-227-1.ngrok-free.app", {
   autoConnect: false,
 });
 
@@ -84,7 +84,7 @@ const MeetingRoom = () => {
   useEffect(() => {
     async function checkRoomExists() {
       const response = await fetch(//http://localhost:4000
-        `https://7edc-129-45-97-64.ngrok-free.app/api/v1/rooms/${roomId}`,
+        `https://b1ca-41-111-227-1.ngrok-free.app/api/v1/rooms/${roomId}`,
         {
           method: "GET",
           headers: { Authorization: `Bearer ${user.accessToken}` },
