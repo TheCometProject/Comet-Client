@@ -3,7 +3,7 @@ import recordIcon from "../../pages/Assets/Icons/record-circle-fill.svg";
 import peopleIcon from "../../pages/Assets/Icons/people.svg";
 import hamburgerIcon from "../../pages/Assets/Icons/menu-burger.svg";
 
-export default function({fullscreen, setSideMenuOpen}){
+export default function({fullscreen, setSideMenuOpen, roomTitle}){
     return (
         <header
         className={`relative pb-6 transition-all ${
@@ -12,7 +12,7 @@ export default function({fullscreen, setSideMenuOpen}){
       >
         <div className="flex items-start justify-between">
           <h1 className="mb-8 text-2xl font-bold text-slate-50 md:text-4xl">
-            UI UX Team meeting_
+            {roomTitle}
           </h1>
           <button onClick={() => setSideMenuOpen(() => true)}>
             <img className="mt-2 w-6" src={hamburgerIcon} alt="" />
