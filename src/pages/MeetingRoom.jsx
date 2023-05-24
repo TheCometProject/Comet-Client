@@ -81,17 +81,19 @@ const MeetingRoom = () => {
   // check if room exists
   useEffect(() => {
     async function checkRoomExists() {
-      const response = await fetch(
-        `${API_URL}/api/v1/rooms/${roomId}`,
-        {
-          method: "GET",
-          headers: { Authorization: `Bearer ${user.accessToken}` },
+      if (user) {
+        const response = await fetch(
+          `${API_URL}/api/v1/rooms/${roomId}`,
+          {
+            method: "GET",
+            headers: { Authorization: `Bearer ${user.accessToken}` },
+          }
+        );
+  
+        const json = await response.json();
+        if (json && json.message == "Room exists") {
+          setRoomExists(true);
         }
-      );
-
-      const json = await response.json();
-      if (json && json.message == "Room exists") {
-        setRoomExists(true);
       }
       setLoading(false);
     }
