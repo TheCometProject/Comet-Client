@@ -299,7 +299,7 @@ const MeetingRoom = () => {
   ) : roomExists ? (
     <div className="relative h-screen overflow-hidden bg-zinc-900 px-6 pt-10 md:px-16">
       <Header fullscreen={fullscreen} setSideMenuOpen={setSideMenuOpen} />
-      <SideMenu onChange={e => {console.log(e)}} sideMenuOpen={sideMenuOpen} setSideMenuOpen={setSideMenuOpen} />
+      <SideMenu socket={socket} socketConnected={socketConnected} alreadySetup={alreadySetup} onChange={e => {console.log(e)}} sideMenuOpen={sideMenuOpen} setSideMenuOpen={setSideMenuOpen} />
       <div
         className={`overflow-auto pb-12 transition-all md:pb-[0vh] ${
           fullscreen ? "-mt-32 h-screen" : "mt-0 h-[calc(100%-12rem)]"
