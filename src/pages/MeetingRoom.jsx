@@ -1,23 +1,18 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useParams, Navigate } from "react-router-dom";
 import { useAuthContext } from "../hooks/useAuthContext";
-import { API_URL, SOCKET_IO } from "../constants";
+import { useSocketContext } from "../hooks/useSocketContext";
+import { API_URL } from "../constants";
 
-import { io } from "socket.io-client";
 import Peer from "peerjs";
 
 import SideMenu from "../components/MeetingRoom/SideMenu";
 import Actions from "../components/MeetingRoom/Actions";
 import Header from "../components/MeetingRoom/Header";
 
-// initialize socket but dont connect
-console.log("SOCKET INITIALIZATION SHOULD ONLY RUN ONCE");
-const socket = io(SOCKET_IO, {
-  autoConnect: false,
-});
-
 const MeetingRoom = () => {
   const { user } = useAuthContext();
+  const { socket, socketConnected, setSocketConnected } = useSocketContext();
   const [loading, setLoading] = useState(true);
 
   // CONTROLS+UI STATES:
@@ -33,9 +28,8 @@ const MeetingRoom = () => {
   const myVideo = document.createElement("video");
   myVideo.muted = true;
   let peers = {};
-  let callStreams = []
+  let callStreams = [];
   const [participants, setParticipants] = useState([]);
-  const [socketConnected, setSocketConnected] = useState(false);
   const [permissionAllowed, setPermissionAllowed] = useState(false);
   const [localMediaStream, setLocalMediaStream] = useState(null);
   const [isReady, setIsReady] = useState(false);
@@ -62,34 +56,15 @@ const MeetingRoom = () => {
     // createRoom();
   }, []);
 
-  // setup some socket events
-  useEffect(() => {
-    socket.on("connect", onConnect);
-    socket.on("disconnect", onDisconnect);
-    function onConnect() {
-      // TODO: for error handling, whenever our socket disconnects
-      // we can for example reload the page to force a reconnect or redirect to /error ...etc
-      console.log("socket connected");
-      setSocketConnected(true);
-    }
-    function onDisconnect() {
-      console.log("socket disconnected");
-      setSocketConnected(false);
-    }
-  }, []);
-
   // check if room exists
   useEffect(() => {
     async function checkRoomExists() {
       if (user) {
-        const response = await fetch(
-          `${API_URL}/api/v1/rooms/${roomId}`,
-          {
-            method: "GET",
-            headers: { Authorization: `Bearer ${user.accessToken}` },
-          }
-        );
-  
+        const response = await fetch(`${API_URL}/api/v1/rooms/${roomId}`, {
+          method: "GET",
+          headers: { Authorization: `Bearer ${user.accessToken}` },
+        });
+
         const json = await response.json();
         if (json && json.message == "Room exists") {
           setRoomExists(true);
@@ -154,11 +129,10 @@ const MeetingRoom = () => {
         "ROOM EXISTS + GOT PERMISSION!!!, going to connect to our socket and create a peer"
       );
 
-
       socket.connect();
       const myPeer = new Peer({
-        // host: "/",
-        // port: "3001",
+        host: "/",
+        port: "3001",
       });
 
       myPeer.on("close", () => {
@@ -271,7 +245,7 @@ const MeetingRoom = () => {
           video.play();
         });
         const div = document.createElement("div");
-        div.setAttribute("id", userId)
+        div.setAttribute("id", userId);
         div.append(video);
         videoGrid.current.append(div);
       }
@@ -299,7 +273,17 @@ const MeetingRoom = () => {
   ) : roomExists ? (
     <div className="relative h-screen overflow-hidden bg-zinc-900 px-6 pt-10 md:px-16">
       <Header fullscreen={fullscreen} setSideMenuOpen={setSideMenuOpen} />
-      <SideMenu socket={socket} socketConnected={socketConnected} alreadySetup={alreadySetup} onChange={e => {console.log(e)}} sideMenuOpen={sideMenuOpen} setSideMenuOpen={setSideMenuOpen} />
+      <SideMenu
+      // TODO: dont pass the socket stuff as props, instead just use the useSocketContext hook
+        socket={socket}
+        socketConnected={socketConnected}
+        alreadySetup={alreadySetup}
+        onChange={(e) => {
+          console.log(e);
+        }}
+        sideMenuOpen={sideMenuOpen}
+        setSideMenuOpen={setSideMenuOpen}
+      />
       <div
         className={`overflow-auto pb-12 transition-all md:pb-[0vh] ${
           fullscreen ? "-mt-32 h-screen" : "mt-0 h-[calc(100%-12rem)]"
