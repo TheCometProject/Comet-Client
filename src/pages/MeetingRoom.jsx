@@ -111,7 +111,7 @@ const MeetingRoom = () => {
 
   // fixes hot reload bug
   // FEATURE: now even if the socket connection is lost, existing peers will remain connected
-  // and it will keep trying to connect to the socket untill it does successfully
+  // and it will keep trying to connect to the socket untill it does sosuccessfully
   // untill socket connection is restored, new peers cannot joined the meeting as it requires
   // a socket event to tell everyone a new user has joined
   useEffect(() => {
@@ -274,9 +274,6 @@ const MeetingRoom = () => {
     <div className="relative h-screen overflow-hidden bg-zinc-900 px-6 pt-10 md:px-16">
       <Header fullscreen={fullscreen} setSideMenuOpen={setSideMenuOpen} />
       <SideMenu
-      // TODO: dont pass the socket stuff as props, instead just use the useSocketContext hook
-        socket={socket}
-        socketConnected={socketConnected}
         alreadySetup={alreadySetup}
         onChange={(e) => {
           console.log(e);

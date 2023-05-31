@@ -5,14 +5,11 @@ import peopleFillIcon from "../../pages/Assets/Icons/people-fill.svg";
 import chatIcon from "../../pages/Assets/Icons/chat-square.svg";
 import chatFillIcon from "../../pages/Assets/Icons/chat-square-fill.svg";
 import crossIcon from "../../pages/Assets/Icons/cross.svg";
+import { useSocketContext } from "../../hooks/useSocketContext";
 
-export default function ({
-  sideMenuOpen,
-  setSideMenuOpen,
-  socket,
-  socketConnected,
-  alreadySetup,
-}) {
+export default function ({ sideMenuOpen, setSideMenuOpen, alreadySetup }) {
+  const { socket, socketConnected, setSocketConnected } = useSocketContext();
+
   const [chatDisplayed, setChatDisplayed] = useState(false);
   const [msg, setMsg] = useState("");
 
@@ -29,7 +26,6 @@ export default function ({
         console.log("current msgs: ", messages);
       });
     }
-    
   }, [socketConnected, alreadySetup]);
 
   return (
@@ -43,7 +39,7 @@ export default function ({
           <button onClick={() => setSideMenuOpen(() => false)}>
             <img className="w-5" src={crossIcon} alt="" />
           </button>
-          <p className="text-2xl text-slate-700 font-semibold">
+          <p className="text-2xl font-semibold text-slate-700">
             {chatDisplayed ? "Chat" : "Participants"}
           </p>
         </div>
