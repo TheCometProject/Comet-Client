@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 import { useState } from "react";
 import Logo from "./Assets/Logo.png";
@@ -15,9 +15,8 @@ export default function () {
   const [micEnabled, setMicEnabled] = useState(true);
   const [cameraEnabled, setCameraEnabled] = useState(true);
   const [copied, setCopied] = useState(false);
-  const [roomID, setRoomID] = useState("b4o5kd");
+  const [roomID, setRoomID] = useState("b4o5ffkd");
   const navigate = useNavigate();
-  
 
   async function copyText() {
     try {
@@ -32,7 +31,7 @@ export default function () {
     const data = {
       author: "badie",
       roomId: roomID,
-      roomTitle: roomName
+      roomTitle: roomName,
     };
     const res = await fetch(`${API_URL}/api/v1/rooms`, {
       method: "POST",
@@ -43,7 +42,7 @@ export default function () {
     });
     const json = await res.json();
     console.log(json);
-    if(json.success){
+    if (json.success) {
       navigate(`/meeting/${roomID}`);
     }
   }
@@ -99,7 +98,10 @@ export default function () {
                 alt=""
               />
             </div>
-            <button onClick={createRoom} className="button-solid mx-auto whitespace-nowrap">
+            <button
+              onClick={createRoom}
+              className="button-solid mx-auto whitespace-nowrap"
+            >
               Create space
             </button>
           </div>
