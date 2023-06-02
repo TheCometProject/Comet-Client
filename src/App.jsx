@@ -42,6 +42,10 @@ function App() {
               element={<Error />} 
             />
             <Route 
+              path="/Dashboard" 
+              element={<Dashboard />} 
+            />
+            <Route 
               path="/terms-and-services" 
               element={<TOS />} 
             /> 
