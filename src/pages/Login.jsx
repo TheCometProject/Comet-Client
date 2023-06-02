@@ -28,17 +28,17 @@ const Login = () => {
         <div className="min-w-sm md:cez min-w-sm md:w-1/2 flex w-full flex-col items-center justify-center sm:mt-16 lg:mt-36">
           <div className="sm:mr-[100px] md:ml-[85px] md:mr-[270px] absolute right-0 top-0  mt-8 md:mt-6 hidden sm:block">
             <p className="text-16 font-bold text-[#334155] ">
-              New to comet?
+              New to comet?{" "}
               <Link to="/Signup" className="text-[#1D4ED8] underline">
                 <span className="cursor-pointer text-[#1D4ED8] underline">
-                  Sign up
+                    Sign up
                 </span>
               </Link>
               &nbsp;here
             </p>
           </div>
           <div  className=" ml-[270px] -mt-7 text-16 font-bold underline text-blue-700 lg:hidden sm:hidden md:hidden">
-             <Link to="/Signup" >Sign up</Link>
+             <Link to="/Signup" > Sign up</Link>
           </div>
           <h3 className="mt-12 whitespace-nowrap text-center  text-4xl font-bold text-[#334155] sm:mt-0 md:-mr-2  md:-mt-10 lg:text-5xl">
             Log in
