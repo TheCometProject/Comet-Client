@@ -24,6 +24,7 @@ const MeetingRoom = () => {
 
   const { roomId } = useParams();
   const [roomExists, setRoomExists] = useState(false);
+  const [roomTitle, setRoomTitle] = useState("");
   const videoGrid = useRef();
   const myVideo = document.createElement("video");
   myVideo.muted = true;
@@ -37,23 +38,14 @@ const MeetingRoom = () => {
   const [alreadySetup, setAlreadySetup] = useState(false);
 
   useEffect(() => {
-    async function createRoom() {
-      const data = {
-        author: "badie",
-        roomId: 69,
-      };
-      const res = await fetch(`${API_URL}/meeting/rooms`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
+    async function requestTitle(){
+      const res = await fetch(`${API_URL}/api/v1/rooms/${roomId}`, {
+        method: "GET"
       });
-      const res2 = await res.json();
-      console.log(res2);
+      const json = await res.json();
+      setRoomTitle(json.room.roomTitle);
     }
-
-    // createRoom();
+    requestTitle();
   }, []);
 
   // check if room exists
@@ -271,8 +263,8 @@ const MeetingRoom = () => {
     // TODO: style loading better? (optional)
     <div>Loading</div>
   ) : roomExists ? (
-    <div className="relative h-screen overflow-hidden bg-zinc-900 px-6 pt-10 md:px-16">
-      <Header fullscreen={fullscreen} setSideMenuOpen={setSideMenuOpen} />
+    <div className="relative h-screen overflow-hidden bg-slate-50 px-6 pt-10 md:px-16">
+      <Header fullscreen={fullscreen} setSideMenuOpen={setSideMenuOpen} roomTitle={roomTitle}/>
       <SideMenu
         alreadySetup={alreadySetup}
         onChange={(e) => {
