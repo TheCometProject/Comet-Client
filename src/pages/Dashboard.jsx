@@ -1,10 +1,10 @@
 import React from 'react';
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import heroimg from "./Assets/Images/image 3.png";
-import img1 from "./Assets/Logo.png";
-import prfl from "./Assets/profilsvg.svg";
-import keyboard from "./Assets/Icons/Keyboard.svg";
+import heroimg from "../Assets/Images/image 3.png";
+import img1 from "../Assets/Logo.png";
+import prfl from "../Assets/profilsvg.svg";
+import keyboard from "../Assets/Icons/Keyboard.svg";
 
 
   const Dashboard  = () =>{
