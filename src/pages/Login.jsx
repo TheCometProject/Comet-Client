@@ -77,9 +77,9 @@ const Login = () => {
                 </button>
                 {error &&
                   (Array.isArray(error) ? (
-                    error.map((err) => <div key={err.msg}>{error.msg}</div>)
+                    error.map((err) => <div className="text-red-500 text-sm ml-12 sm:ml-0 mt-1" key={err.msg}>{error.msg}</div>)
                   ) : (
-                    <div>{error}</div>
+                    <div className="text-red-500 text-sm ml-12 sm:ml-0 mt-1">{error}</div>
                   ))}
               </div>
             </div>
