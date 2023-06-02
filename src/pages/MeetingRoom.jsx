@@ -1,26 +1,23 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useParams, useNavigate, Navigate } from "react-router-dom";
+import { useParams, Navigate, useNavigate } from "react-router-dom";
 import { useAuthContext } from "../hooks/useAuthContext";
+import { useSocketContext } from "../hooks/useSocketContext";
+import Loading from "../components/MeetingRoom/Loading";
+import { API_URL } from "../constants";
 
-import { io } from "socket.io-client";
 import Peer from "peerjs";
 
 import SideMenu from "../components/MeetingRoom/SideMenu";
 import Actions from "../components/MeetingRoom/Actions";
 import Header from "../components/MeetingRoom/Header";
-
-// initialize socket but dont connect
-console.log("SOCKET INITIALIZATION SHOULD ONLY RUN ONCE");
-// const socket = io("http://localhost:10000", {
-//   autoConnect: false,
-// });
-const socket = io("https://9fab-41-111-227-1.ngrok-free.app", {
-  autoConnect: false,
-});
+import ErrorComponent from "../components/Error";
 
 const MeetingRoom = () => {
   const { user } = useAuthContext();
+  const { socket, socketConnected, setSocketConnected } = useSocketContext();
+  const [peerInstance, setPeerInstance] = useState(null);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   // CONTROLS+UI STATES:
   // TODO: default state should be whatever the user accepted in permissions
@@ -31,95 +28,87 @@ const MeetingRoom = () => {
 
   const { roomId } = useParams();
   const [roomExists, setRoomExists] = useState(false);
+  const [roomTitle, setRoomTitle] = useState("");
   const videoGrid = useRef();
   const myVideo = document.createElement("video");
   myVideo.muted = true;
   let peers = {};
-  let callStreams = []
+  let callStreams = [];
   const [participants, setParticipants] = useState([]);
-  const [socketConnected, setSocketConnected] = useState(false);
   const [permissionAllowed, setPermissionAllowed] = useState(false);
   const [localMediaStream, setLocalMediaStream] = useState(null);
   const [isReady, setIsReady] = useState(false);
   const [currentPeerId, setCurrentPeerId] = useState("");
   const [alreadySetup, setAlreadySetup] = useState(false);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
-    async function createRoom() {
-      const data = {
-        author: "badie",
-        roomId: 69,
-      };
-      const res = await fetch("https://0f9c-129-45-97-64.ngrok-free.app", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
+    if (error) {
+      localMediaStream.getTracks().forEach(function (track) {
+        track.stop();
       });
-      const res2 = await res.json();
-      console.log(res2);
+
+      if (socket) socket.disconnect();
+
+      if (peerInstance) peerInstance.destroy();
+
+      navigate("/Error");
     }
+  }, [error]);
 
-    // createRoom();
-  }, []);
-
-  // setup some socket events
   useEffect(() => {
-    socket.on("connect", onConnect);
-    socket.on("disconnect", onDisconnect);
-    function onConnect() {
-      // TODO: for error handling, whenever our socket disconnects
-      // we can for example reload the page to force a reconnect or redirect to /error ...etc
-      console.log("socket connected");
-      setSocketConnected(true);
+    if (roomExists) {
+      async function requestTitle() {
+        const res = await fetch(`${API_URL}/api/v1/rooms/${roomId}`, {
+          method: "GET",
+        });
+        const json = await res.json();
+        setRoomTitle(json.room.roomTitle);
+      }
+      requestTitle();
     }
-    function onDisconnect() {
-      console.log("socket disconnected");
-      setSocketConnected(false);
-    }
-  }, []);
+  }, [roomExists]);
 
   // check if room exists
   useEffect(() => {
     async function checkRoomExists() {
-      const response = await fetch(//http://localhost:4000
-        `https://b1ca-41-111-227-1.ngrok-free.app/api/v1/rooms/${roomId}`,
-        {
+      if (user) {
+        const response = await fetch(`${API_URL}/api/v1/rooms/${roomId}`, {
           method: "GET",
           headers: { Authorization: `Bearer ${user.accessToken}` },
-        }
-      );
+        });
 
-      const json = await response.json();
-      if (json && json.message == "Room exists") {
-        setRoomExists(true);
+        const json = await response.json();
+        if (json && json.message == "Room exists") {
+          setRoomExists(true);
+        }
       }
       setLoading(false);
     }
-    // TODO: testing
     checkRoomExists();
   }, []);
 
   // request user media
   useEffect(() => {
-    navigator.mediaDevices
-      .getUserMedia({ video: true, audio: true, echoCancellation: true })
-      .then((stream) => {
-        if (!stream) console.warn("wtf bro? stream should never be null");
+    if (roomExists) {
+      navigator.mediaDevices
+        .getUserMedia({ video: true, audio: true, echoCancellation: true })
+        .then((stream) => {
+          if (!stream) console.warn("wtf bro? stream should never be null");
 
-        stream.getVideoTracks()[0].enabled = videoEnabled;
-        stream.getAudioTracks()[0].enabled = audioEnabled;
+          stream.getVideoTracks()[0].enabled = videoEnabled;
+          stream.getAudioTracks()[0].enabled = audioEnabled;
 
-        // used to toggle video/mic
-        setLocalMediaStream(stream);
-        setPermissionAllowed(true);
-      })
-      .catch((err) => {
-        console.error("error while asking for video permission:", err);
-        setPermissionAllowed(false);
-      });
-  }, []);
+          // used to toggle video/mic
+          setLocalMediaStream(stream);
+          setPermissionAllowed(true);
+        })
+        .catch((err) => {
+          console.error("error while asking for video permission:", err);
+          setPermissionAllowed(false);
+        });
+    }
+  }, [roomExists]);
 
   // send "ready" event when peer finishes setting up
   useEffect(() => {
@@ -136,7 +125,7 @@ const MeetingRoom = () => {
 
   // fixes hot reload bug
   // FEATURE: now even if the socket connection is lost, existing peers will remain connected
-  // and it will keep trying to connect to the socket untill it does successfully
+  // and it will keep trying to connect to the socket untill it does sosuccessfully
   // untill socket connection is restored, new peers cannot joined the meeting as it requires
   // a socket event to tell everyone a new user has joined
   useEffect(() => {
@@ -154,26 +143,26 @@ const MeetingRoom = () => {
         "ROOM EXISTS + GOT PERMISSION!!!, going to connect to our socket and create a peer"
       );
 
-
       socket.connect();
       const myPeer = new Peer({
-        // host: "/",
-        // port: "3001",
+        host: "/",
+        port: "3001",
       });
+      setPeerInstance(myPeer);
 
       myPeer.on("close", () => {
-        // TODO: show "connection lost" message to user
         console.error("peer closed!!!");
+        setError(true);
       });
 
       myPeer.on("disconnected", (currentId) => {
-        // TODO: show "connection lost" message to user
         console.error("peer disconnected!!!");
+        setError(true);
       });
 
       myPeer.on("error", (err) => {
-        // TODO: show "connection lost" message to user
         console.error(err);
+        setError(true);
       });
 
       myPeer.on("open", (id) => {
@@ -192,6 +181,7 @@ const MeetingRoom = () => {
 
         call.on("error", (error) => {
           console.log(error);
+          setError(true);
         });
 
         call.on("stream", (userVideoStream) => {
@@ -206,16 +196,12 @@ const MeetingRoom = () => {
           video.remove();
         });
 
-        // TODO: this is not tested but it should have fixed a bug
         peers[call.peer] = call;
         setParticipants(peers);
       });
 
       socket.on("user-connected", (userId) => {
         console.log("user connected to this room with userId:", userId);
-        // TODO: if that problem occurs again just add a 1s delay
-        // https://stackoverflow.com/questions/66937384/peer-oncalll-is-never-being-called
-        // setTimeout(() => connectToNewUser(userId, localMediaStream), 1000);
         connectToNewUser(userId, localMediaStream);
       });
 
@@ -271,7 +257,7 @@ const MeetingRoom = () => {
           video.play();
         });
         const div = document.createElement("div");
-        div.setAttribute("id", userId)
+        div.setAttribute("id", userId);
         div.append(video);
         videoGrid.current.append(div);
       }
@@ -294,12 +280,23 @@ const MeetingRoom = () => {
   };
 
   return loading ? (
-    // TODO: style loading better? (optional)
-    <div>Loading</div>
+    <Loading />
   ) : roomExists ? (
-    <div className="relative h-screen overflow-hidden bg-zinc-900 px-6 pt-10 md:px-16">
-      <Header fullscreen={fullscreen} setSideMenuOpen={setSideMenuOpen} />
-      <SideMenu onChange={e => {console.log(e)}} sideMenuOpen={sideMenuOpen} setSideMenuOpen={setSideMenuOpen} />
+    <div className="relative h-screen overflow-hidden bg-slate-50 px-6 pt-10 md:px-16">
+      <Header
+        roomId={roomId}
+        fullscreen={fullscreen}
+        setSideMenuOpen={setSideMenuOpen}
+        roomTitle={roomTitle}
+      />
+      <SideMenu
+        alreadySetup={alreadySetup}
+        onChange={(e) => {
+          console.log(e);
+        }}
+        sideMenuOpen={sideMenuOpen}
+        setSideMenuOpen={setSideMenuOpen}
+      />
       <div
         className={`overflow-auto pb-12 transition-all md:pb-[0vh] ${
           fullscreen ? "-mt-32 h-screen" : "mt-0 h-[calc(100%-12rem)]"
@@ -322,7 +319,7 @@ const MeetingRoom = () => {
       />
     </div>
   ) : (
-    <Navigate to="/error" />
+    <ErrorComponent message="The link you entered does not lead to a valid room." />
   );
 };
 

@@ -1,11 +1,11 @@
-import cameraIcon from "../../pages/Assets/Icons/camera-video.svg";
-import cameraOffIcon from "../../pages/Assets/Icons/camera-video-off.svg";
-import micIcon from "../../pages/Assets/Icons/mic.svg";
-import micMutedIcon from "../../pages/Assets/Icons/mic-mute.svg";
-import fullScreenIcon from "../../pages/Assets/Icons/fullscreen.svg";
-import fullScreenExitIcon from "../../pages/Assets/Icons/fullscreen-exit.svg";
-import shareScreenIcon from "../../pages/Assets/Icons/box-arrow-up.svg";
-import hangUpIcon from "../../pages/Assets/Icons/telephone-fill.svg";
+import cameraIcon from "../../Assets/Icons/camera-video.svg";
+import cameraOffIcon from "../../Assets/Icons/camera-video-off.svg";
+import micIcon from "../../Assets/Icons/mic.svg";
+import micMutedIcon from "../../Assets/Icons/mic-mute.svg";
+import fullScreenIcon from "../../Assets/Icons/fullscreen.svg";
+import fullScreenExitIcon from "../../Assets/Icons/fullscreen-exit.svg";
+import shareScreenIcon from "../../Assets/Icons/box-arrow-up.svg";
+import hangUpIcon from "../../Assets/Icons/telephone-fill.svg";
 
 export default function ({
   sideMenuOpen,
@@ -30,7 +30,7 @@ export default function ({
           : "bottom-0"
       } `}
     >
-      <div className="mx-auto flex w-fit gap-2 rounded-full bg-blue-900 bg-opacity-30 px-6 py-4">
+      <div className="mx-auto flex w-fit gap-2 rounded-full bg-opacity-30 px-6 py-4">
         <div
           className=" flex h-12 w-12 items-center justify-center rounded-full bg-blue-300"
           onClick={toggleVideo}

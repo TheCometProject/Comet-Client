@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useLogin } from "../hooks/useLogin";
-import img1 from "./Assets/Logo.png";
-import img2 from "./Assets/pic.svg";
+import img1 from "../Assets/Logo.png";
+import img2 from "../Assets/pic.svg";
 import { mdiGoogle } from "@mdi/js";
 
 const Login = () => {

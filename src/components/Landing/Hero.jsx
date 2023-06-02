@@ -1,7 +1,7 @@
 import { useState } from "react";
-import camera from "../../pages/Assets/Icons/Button camera.svg";
-import keyboard from "../../pages/Assets/Icons/Keyboard.svg";
-import heroimg from "../../pages/Assets/Images/image 3.png";
+import camera from "../../Assets/Icons/Button camera.svg";
+import keyboard from "../../Assets/Icons/Keyboard.svg";
+import heroimg from "../../Assets/Images/image 3.png";
 
 export default function () {
 
