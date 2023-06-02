@@ -11,6 +11,8 @@ import Dashboard from "./pages/Dashboard";
 import TOS from "./pages/TOS";
 import MeetingRoom from "./pages/MeetingRoom";
 import CreateRoom from "./pages/CreateRoom";
+import Forgot from "./pages/Forget";
+import Reset from "./pages/Reset";
 
 // components
 function App() {
@@ -40,6 +42,18 @@ function App() {
             <Route 
               path="/Error" 
               element={<Error />} 
+            />
+            <Route 
+              path="/Dashboard" 
+              element={<Dashboard />} 
+            />
+            <Route 
+              path="/Forget" 
+              element={<Forgot />} 
+            />
+             <Route 
+              path="/Reset" 
+              element={<Reset />} 
             />
             <Route 
               path="/terms-and-services" 

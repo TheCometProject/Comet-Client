@@ -22,20 +22,23 @@ const Login = () => {
         className=" flex h-full flex-col bg-[#F8FAFC]  md:flex-row"
       >
         <div className="lg:w-1/2 md:pl-[85px] flex flex-col pl-[50px]  sm:pl-8">
-          <img src={img1} className=" mt-4 h-[33px] w-[130px] items-start" />
-          <Link to="/"><img src={img2} className="-ml-4 -mt-2 hidden lg:flex" /></Link>
+        <Link to="/"><img src={img1} className=" mt-6 h-[33px] w-[130px] items-start"  alt="Comet logo" /></Link>
+          <img src={img2} className="-ml-4 -mt-2 hidden lg:flex" />
         </div>
         <div className="min-w-sm md:cez min-w-sm md:w-1/2 flex w-full flex-col items-center justify-center sm:mt-16 lg:mt-36">
-          <div className="sm:mr-[100px] md:ml-[85px] md:mr-[270px] absolute right-0 top-0 mt-4 hidden sm:block">
+          <div className="sm:mr-[100px] md:ml-[85px] md:mr-[270px] absolute right-0 top-0  mt-8 md:mt-6 hidden sm:block">
             <p className="text-16 font-bold text-[#334155] ">
-              New to comet?
+              New to comet?{" "}
               <Link to="/Signup" className="text-[#1D4ED8] underline">
                 <span className="cursor-pointer text-[#1D4ED8] underline">
-                  Sign up
+                    Sign up
                 </span>
               </Link>
               &nbsp;here
             </p>
+          </div>
+          <div  className=" ml-[270px] -mt-7 text-16 font-bold underline text-blue-700 lg:hidden sm:hidden md:hidden">
+             <Link to="/Signup" > Sign up</Link>
           </div>
           <h3 className="mt-12 whitespace-nowrap text-center  text-4xl font-bold text-[#334155] sm:mt-0 md:-mr-2  md:-mt-10 lg:text-5xl">
             Log in

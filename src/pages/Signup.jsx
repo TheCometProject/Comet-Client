@@ -25,15 +25,15 @@ const Signup = () => {
         className="flex flex-col bg-[#F8FAFC]  md:flex-row"
       >
         <div className="lg:w-1/2 flex flex-col md:pl-[85px] sm:pl-8  pl-[50px]">
-        <Link to="/"><img src={img1} className=" items-start w-32 h-[33px] mt-4" /></Link>
+        <Link to="/"><img src={img1} className=" items-start w-32 h-[33px] mt-6" alt="Comet logo" /></Link>
           <img
             src={img2}
-            className="z mt-8 -ml-4 hidden h-auto w-full lg:block"
+            className="z -mt-4 -ml-8 hidden h-auto w-full lg:block"
             alt="Illustration"
           />
         </div>
         <div className="md:cez min-w-sm flex w-full flex-col items-center justify-center sm:mt-12 md:w-1/2 lg:mt-32">
-          <div className="absolute right-0 top-0 mt-4 hidden sm:mr-[100px] sm:block md:ml-[85px] md:mr-[250px]">
+          <div className="absolute right-0 top-0  mt-8 md:mt-6 hidden sm:mr-[100px] sm:block md:ml-[85px] md:mr-[250px]">
             <p className="text-16 font-bold text-[#334155] ">
               Already have an account?{" "}
               <Link to="/Login" className="text-[#1D4ED8] underline">
@@ -43,6 +43,9 @@ const Signup = () => {
               </Link>{" "}
               here
             </p>
+          </div>
+          <div  className=" ml-[270px] -mt-7 text-16 font-bold underline text-blue-700 lg:hidden sm:hidden md:hidden">
+             <Link to="/Login" >Log in</Link>
           </div>
           <h3 className="whitespace-nowrap text-center text-4xl  font-bold text-[#334155] sm:mt-0 md:-mr-2  md:-mt-14 mt-12 lg:text-5xl">
             Sign up
