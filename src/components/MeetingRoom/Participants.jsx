@@ -1,5 +1,6 @@
 import { useState } from "react"
 import profile from "../../Assets/Avatars/avatar02.png";
+import { useEffect } from "react";
 
 export default function(){
 

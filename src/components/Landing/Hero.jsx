@@ -28,7 +28,7 @@ export default function () {
               className="mx-2 inline w-4 fill-slate-50"
               src={camera}
               alt="camera icon"
-            />{" "}
+            />
             Create a space
           </button>
           <div className="relative">
