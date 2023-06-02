@@ -59,6 +59,12 @@ export default function ({ sideMenuOpen, setSideMenuOpen, alreadySetup }) {
     setMsg("");
   };
 
+  function keySendMessage(e){
+    if(e.key == "Enter"){
+      return sendMessage
+    }
+  }
+
   useEffect(() => {
     if (alreadySetup && socketConnected) {
       socket.on("message", (msg) => {
@@ -170,7 +176,7 @@ export default function ({ sideMenuOpen, setSideMenuOpen, alreadySetup }) {
         </div>
 
         {/* SEND MESSAGE INPUT */}
-        <div className="absolute bottom-4 left-0 right-0 px-6">
+        <form onSubmit={sendMessage} className="absolute bottom-4 left-0 right-0 px-6">
           <input
             className="mx-auto block h-12 w-full rounded-xl px-4"
             type="text"
@@ -180,11 +186,11 @@ export default function ({ sideMenuOpen, setSideMenuOpen, alreadySetup }) {
           />
           <button
             className="absolute right-[calc(5%+1rem)] top-1/2 -translate-y-1/2 cursor-pointer"
-            onClick={sendMessage}
+            type="submit"
           >
             <img src={sendIcon} />
           </button>
-        </div>
+        </form>
       </div>
     </div>
   );

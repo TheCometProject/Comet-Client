@@ -266,6 +266,7 @@ const MeetingRoom = () => {
   ) : roomExists ? (
     <div className="relative h-screen overflow-hidden bg-slate-50 px-6 pt-10 md:px-16">
       <Header
+        roomId={roomId}
         fullscreen={fullscreen}
         setSideMenuOpen={setSideMenuOpen}
         roomTitle={roomTitle}
