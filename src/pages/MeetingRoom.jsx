@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useParams, Navigate } from "react-router-dom";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useSocketContext } from "../hooks/useSocketContext";
+import Loading from "../components/MeetingRoom/Loading";
 import { API_URL } from "../constants";
 
 import Peer from "peerjs";
@@ -39,9 +40,9 @@ const MeetingRoom = () => {
   const [alreadySetup, setAlreadySetup] = useState(false);
 
   useEffect(() => {
-    async function requestTitle(){
+    async function requestTitle() {
       const res = await fetch(`${API_URL}/api/v1/rooms/${roomId}`, {
-        method: "GET"
+        method: "GET",
       });
       const json = await res.json();
       setRoomTitle(json.room.roomTitle);
@@ -261,11 +262,14 @@ const MeetingRoom = () => {
   };
 
   return loading ? (
-    // TODO: style loading better? (optional)
-    <div>Loading</div>
+    <Loading />
   ) : roomExists ? (
     <div className="relative h-screen overflow-hidden bg-slate-50 px-6 pt-10 md:px-16">
-      <Header fullscreen={fullscreen} setSideMenuOpen={setSideMenuOpen} roomTitle={roomTitle}/>
+      <Header
+        fullscreen={fullscreen}
+        setSideMenuOpen={setSideMenuOpen}
+        roomTitle={roomTitle}
+      />
       <SideMenu
         alreadySetup={alreadySetup}
         onChange={(e) => {

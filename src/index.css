@@ -89,3 +89,13 @@ img {
   #video-grid div video {
     @apply absolute h-full object-cover left-1/2 -translate-x-1/2 bg-red-800;
   }
+
+  .animation-delay-100 {
+    animation-delay: 100ms;
+  }
+  .animation-delay-200 {
+    animation-delay: 200ms;
+  }
+  .animation-delay-300 {
+    animation-delay: 300ms;
+  }
