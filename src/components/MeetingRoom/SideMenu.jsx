@@ -39,13 +39,23 @@ export default function ({ sideMenuOpen, setSideMenuOpen, alreadySetup }) {
       message: "Yes please",
       profilePic: profile,
       self: false,
-    }
+    },
   ]);
+
+  const addMessage = (obj) => {
+    setMessageArr([...messageArr, obj]);
+  };
 
   const sendMessage = (e) => {
     e.preventDefault();
     console.log(msg);
     socket.emit("message", msg);
+    addMessage({
+      sender: "nemi",
+      message: msg,
+      profilePic: profile,
+      self: true,
+    })
     setMsg("");
   };
 
@@ -53,6 +63,12 @@ export default function ({ sideMenuOpen, setSideMenuOpen, alreadySetup }) {
     if (alreadySetup && socketConnected) {
       socket.on("message", (msg) => {
         console.warn(`RECEIVED MSG ${msg}`);
+        addMessage({
+          sender: "LOL",
+          message: msg,
+          profilePic: profile,
+          self: false,
+        })
       });
     }
   }, [socketConnected, alreadySetup]);
@@ -116,11 +132,12 @@ export default function ({ sideMenuOpen, setSideMenuOpen, alreadySetup }) {
       </div>
       <div>
         {/* CHAT/PARTICIPANTS HERE */}
-        <div className="absolute bottom-20 left-0 right-0 px-6 h-[calc(100vh-169px)] overflow-y-auto flex flex-col justify-end">
+        <div className="absolute bottom-20 left-0 right-0 flex h-[calc(100vh-169px)] flex-col justify-end overflow-y-auto px-6">
           {messageArr.map(({ sender, self, message, profilePic }, i) => {
             return (
-              <div key={i}
-                className={`flex w-fit flex-row items-end gap-2 max-w-[80%] ${
+              <div
+                key={i}
+                className={`flex w-fit max-w-[80%] flex-row items-end gap-2 ${
                   self && "ml-auto"
                 }`}
               >
