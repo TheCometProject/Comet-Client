@@ -1,7 +1,7 @@
 import { useSwiper } from "swiper/react";
 
-import LeftArrow from "../../../pages/Assets/Icons/Left arrow.svg"
-import RightArrow from "../../../pages/Assets/Icons/Right arrow.svg"
+import LeftArrow from "../../../Assets/Icons/Left arrow.svg"
+import RightArrow from "../../../Assets/Icons/Right arrow.svg"
 
 export default function () {
   const swiper = useSwiper();

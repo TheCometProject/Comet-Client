@@ -1,7 +1,7 @@
-import Logo from "../../pages/Assets/Logo light.png";
-import facebookIcon from "../../pages/Assets/Icons/facebook.svg";
-import instagramIcon from "../../pages/Assets/Icons/instagram.svg";
-import twitterIcon from "../../pages/Assets/Icons/twitter.svg";
+import Logo from "../../Assets/Logo light.png";
+import facebookIcon from "../../Assets/Icons/facebook.svg";
+import instagramIcon from "../../Assets/Icons/instagram.svg";
+import twitterIcon from "../../Assets/Icons/twitter.svg";
 
 import { Link } from "react-router-dom";
 

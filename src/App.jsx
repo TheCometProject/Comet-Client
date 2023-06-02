@@ -4,13 +4,13 @@ import { useAuthContext } from "./hooks/useAuthContext";
 // pages
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
-import Error from "./pages/error";
 import Contact from "./pages/Contact";
 import Landing from "./pages/Landing";
 import Dashboard from "./pages/Dashboard";
 import TOS from "./pages/TOS";
 import MeetingRoom from "./pages/MeetingRoom";
 import CreateRoom from "./pages/CreateRoom";
+import TestPage from "./pages/TestPage";
 
 // components
 function App() {
@@ -38,10 +38,6 @@ function App() {
               element={<Contact />} 
             />
             <Route 
-              path="/error" 
-              element={<Error />} 
-            />
-            <Route 
               path="/terms-and-services" 
               element={<TOS />} 
             /> 
@@ -55,8 +51,12 @@ function App() {
               element={user? <CreateRoom/> : <Navigate to="/" />}
             />
             <Route
+              path="/test"
+              element={<TestPage/>}
+            />
+            <Route
               path="/*"
-              element={<Navigate to="/" />}y
+              element={<Navigate to="/" />}
             />
           </Routes>
         </div>

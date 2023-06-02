@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Logo from "./Assets/Logo.png";
+import Logo from "../Assets/Logo.png";
 
 export default function () {
   const [roomName, setRoomName] = useState("");

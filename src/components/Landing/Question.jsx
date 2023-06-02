@@ -1,5 +1,5 @@
-import lessIcon from "../../pages/Assets/Icons/Less.svg"
-import moreIcon from "../../pages/Assets/Icons/More.svg"
+import lessIcon from "../../Assets/Icons/Less.svg"
+import moreIcon from "../../Assets/Icons/More.svg"
 
 export default function({question, answer, extended, handleClick}){
     return (

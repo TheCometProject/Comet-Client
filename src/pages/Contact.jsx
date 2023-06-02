@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-import img1 from "./Assets/Logo.png";
-import img2 from "./Assets/pic2.svg";
+import img1 from "../Assets/Logo.png";
+import img2 from "../Assets/pic2.svg";
 
 export default function () {
   const [formData, setFormData] = useState({

@@ -1,7 +1,7 @@
-import clockIcon from "../../pages/Assets/Icons/clock.svg";
-import recordIcon from "../../pages/Assets/Icons/record-circle-fill.svg";
-import peopleIcon from "../../pages/Assets/Icons/people.svg";
-import hamburgerIcon from "../../pages/Assets/Icons/menu-burger.svg";
+import clockIcon from "../../Assets/Icons/clock.svg";
+import recordIcon from "../../Assets/Icons/record-circle-fill.svg";
+import peopleIcon from "../../Assets/Icons/people.svg";
+import hamburgerIcon from "../../Assets/Icons/menu-burger.svg";
 
 export default function({fullscreen, setSideMenuOpen}){
     return (

@@ -1,14 +1,14 @@
-import featuresImg1 from "../../pages/Assets/Images/image 4.png";
-import featuresImg2 from "../../pages/Assets/Images/image 3.png";
-import featuresImg3 from "../../pages/Assets/Images/image 2.png";
+import featuresImg1 from "../../Assets/Images/image 4.png";
+import featuresImg2 from "../../Assets/Images/image 3.png";
+import featuresImg3 from "../../Assets/Images/image 2.png";
 
-import screenIcon from "../../pages/Assets/Icons/Desktop.svg";
-import penIcon from "../../pages/Assets/Icons/Pen.svg";
-import codeIcon from "../../pages/Assets/Icons/Code.svg";
-import cameraIcon from "../../pages/Assets/Icons/Camera.svg";
-import recordIcon from "../../pages/Assets/Icons/Record.svg";
-import pollIcon from "../../pages/Assets/Icons/Poll.svg";
-import notesIcon from "../../pages/Assets/Icons/Notes.svg";
+import screenIcon from "../../Assets/Icons/Desktop.svg";
+import penIcon from "../../Assets/Icons/Pen.svg";
+import codeIcon from "../../Assets/Icons/Code.svg";
+import cameraIcon from "../../Assets/Icons/Camera.svg";
+import recordIcon from "../../Assets/Icons/Record.svg";
+import pollIcon from "../../Assets/Icons/Poll.svg";
+import notesIcon from "../../Assets/Icons/Notes.svg";
 
 export default function () {
   return (
