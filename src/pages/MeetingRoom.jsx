@@ -34,13 +34,13 @@ const MeetingRoom = () => {
   myVideo.muted = true;
   let peers = {};
   let callStreams = [];
-  const [participants, setParticipants] = useState([]);
   const [permissionAllowed, setPermissionAllowed] = useState(false);
   const [localMediaStream, setLocalMediaStream] = useState(null);
   const [isReady, setIsReady] = useState(false);
   const [currentPeerId, setCurrentPeerId] = useState("");
   const [alreadySetup, setAlreadySetup] = useState(false);
   const [error, setError] = useState(false);
+  const [participants, setParticipants] = useState([]);
 
   useEffect(() => {
     if (error) {
@@ -174,10 +174,11 @@ const MeetingRoom = () => {
 
       myPeer.on("call", (call) => {
         peers[call.peer] = call;
-        setParticipants(peers);
         console.log("going to answer call from: ", call.peer);
         call.answer(localMediaStream);
         const video = document.createElement("video");
+        console.log(call.metadata);
+        setParticipants([...participants, call.peer]);
 
         call.on("error", (error) => {
           console.log(error);
@@ -185,7 +186,6 @@ const MeetingRoom = () => {
         });
 
         call.on("stream", (userVideoStream) => {
-          console.log("received stream from: ", call.peer, userVideoStream);
           if (!callStreams[call.peer]) {
             addVideoStream(call.peer, video, userVideoStream);
             callStreams[call.peer] = userVideoStream;
@@ -197,7 +197,6 @@ const MeetingRoom = () => {
         });
 
         peers[call.peer] = call;
-        setParticipants(peers);
       });
 
       socket.on("user-connected", (userId) => {
@@ -207,8 +206,8 @@ const MeetingRoom = () => {
 
       socket.on("user-disconnected", (userId) => {
         console.warn("user disconnected from this room with userId:", userId);
+        setParticipants(participants.filter((user) => user != userId));
         if (peers[userId]) peers[userId].close();
-        setParticipants(peers);
         // TODO: also destroy the user from peers object?
         let videoToDelete = document.getElementById(userId);
         videoToDelete.parentElement.removeChild(videoToDelete);
@@ -216,7 +215,12 @@ const MeetingRoom = () => {
 
       function connectToNewUser(userId, stream) {
         console.log("going to call peer: ", userId);
-        const call = myPeer.call(userId, stream);
+        const call = myPeer.call(userId, stream, {
+          metadata: {
+            fullName: user.fullName,
+            profilePicture: user.profilePicture,
+          },
+        });
         console.log(
           userId,
           "called, waiting for him to send his stream",
@@ -242,7 +246,6 @@ const MeetingRoom = () => {
         });
 
         peers[userId] = call;
-        setParticipants(peers);
       }
 
       function addVideoStream(userId, video, stream) {
