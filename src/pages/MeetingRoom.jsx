@@ -9,6 +9,7 @@ import Peer from "peerjs";
 import SideMenu from "../components/MeetingRoom/SideMenu";
 import Actions from "../components/MeetingRoom/Actions";
 import Header from "../components/MeetingRoom/Header";
+import ErrorComponent from "../components/Error";
 
 const MeetingRoom = () => {
   const { user } = useAuthContext();
@@ -295,7 +296,7 @@ const MeetingRoom = () => {
       />
     </div>
   ) : (
-    <Navigate to="/error" />
+    <Navigate to="/Error" />
   );
 };
 

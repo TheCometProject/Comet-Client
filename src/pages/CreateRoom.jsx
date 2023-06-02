@@ -1,12 +1,12 @@
 import { useNavigate } from "react-router-dom";
 
 import { useState } from "react";
-import Logo from "./Assets/Logo.png";
-import micMuted from "./Assets/Icons/mic-mute.svg";
-import mic from "./Assets/Icons/mic.svg";
-import camera from "./Assets/Icons/camera-video.svg";
-import cameraOff from "./Assets/Icons/camera-video-off.svg";
-import copyIcon from "./Assets/Icons/copy.svg";
+import Logo from "../Assets/Logo.png";
+import micMuted from "../Assets/Icons/mic-mute.svg";
+import mic from "../Assets/Icons/mic.svg";
+import camera from "../Assets/Icons/camera-video.svg";
+import cameraOff from "../Assets/Icons/camera-video-off.svg";
+import copyIcon from "../Assets/Icons/copy.svg";
 
 import { API_URL } from "../constants";
 

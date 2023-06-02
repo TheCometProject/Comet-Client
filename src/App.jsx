@@ -4,7 +4,7 @@ import { useAuthContext } from "./hooks/useAuthContext";
 // pages
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
-import Error from "./pages/error";
+import Error from "./pages/Error";
 import Contact from "./pages/Contact";
 import Landing from "./pages/Landing";
 import Dashboard from "./pages/Dashboard";
@@ -38,7 +38,7 @@ function App() {
               element={<Contact />} 
             />
             <Route 
-              path="/error" 
+              path="/Error" 
               element={<Error />} 
             />
             <Route 
@@ -56,7 +56,7 @@ function App() {
             />
             <Route
               path="/*"
-              element={<Navigate to="/" />}y
+              element={<Navigate to="/" />}
             />
           </Routes>
         </div>

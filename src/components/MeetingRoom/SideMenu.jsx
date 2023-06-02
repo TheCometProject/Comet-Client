@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 
-import peopleIcon from "../../pages/Assets/Icons/people.svg";
-import peopleFillIcon from "../../pages/Assets/Icons/people-fill.svg";
-import chatIcon from "../../pages/Assets/Icons/chat-square.svg";
-import chatFillIcon from "../../pages/Assets/Icons/chat-square-fill.svg";
-import crossIcon from "../../pages/Assets/Icons/cross.svg";
+import peopleIcon from "../../Assets/Icons/people.svg";
+import peopleFillIcon from "../../Assets/Icons/people-fill.svg";
+import chatIcon from "../../Assets/Icons/chat-square.svg";
+import chatFillIcon from "../../Assets/Icons/chat-square-fill.svg";
+import crossIcon from "../../Assets/Icons/cross.svg";
 import sendIcon from "../../pages/Assets/Icons/send.png";
 import profile from "../../pages/Assets/Avatars/avatar02.png";
 import { useSocketContext } from "../../hooks/useSocketContext";
@@ -53,7 +53,6 @@ export default function ({ sideMenuOpen, setSideMenuOpen, alreadySetup }) {
     if (alreadySetup && socketConnected) {
       socket.on("message", (msg) => {
         console.warn(`RECEIVED MSG ${msg}`);
-        console.log("current msgs: ", messages);
       });
     }
   }, [socketConnected, alreadySetup]);
