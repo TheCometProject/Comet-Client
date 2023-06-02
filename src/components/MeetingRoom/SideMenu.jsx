@@ -5,8 +5,8 @@ import peopleFillIcon from "../../Assets/Icons/people-fill.svg";
 import chatIcon from "../../Assets/Icons/chat-square.svg";
 import chatFillIcon from "../../Assets/Icons/chat-square-fill.svg";
 import crossIcon from "../../Assets/Icons/cross.svg";
-import sendIcon from "../../pages/Assets/Icons/send.png";
-import profile from "../../pages/Assets/Avatars/avatar02.png";
+import sendIcon from "../../Assets/Icons/send.png";
+import profile from "../../Assets/Avatars/avatar02.png";
 import { useSocketContext } from "../../hooks/useSocketContext";
 
 export default function ({ sideMenuOpen, setSideMenuOpen, alreadySetup }) {
