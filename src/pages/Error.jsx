@@ -2,10 +2,7 @@ import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import img1 from "../Assets/Logo.png";
 
-export default function ErrorPage({props}) {
-  console.log(props);
-  const location = useLocation();
-  console.log(location.state)
+export default function ErrorPage() {
   return (
     <div className=" bg-gray-100">
       <div className="absolute left-0 top-0 p-4 pl-[50px] sm:pl-8  md:pl-[85px]">

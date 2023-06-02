@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useParams, Navigate } from "react-router-dom";
+import { useParams, Navigate, useNavigate } from "react-router-dom";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useSocketContext } from "../hooks/useSocketContext";
 import Loading from "../components/MeetingRoom/Loading";
@@ -15,7 +15,9 @@ import ErrorComponent from "../components/Error";
 const MeetingRoom = () => {
   const { user } = useAuthContext();
   const { socket, socketConnected, setSocketConnected } = useSocketContext();
+  const [peerInstance, setPeerInstance] = useState(null);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   // CONTROLS+UI STATES:
   // TODO: default state should be whatever the user accepted in permissions
@@ -38,17 +40,34 @@ const MeetingRoom = () => {
   const [isReady, setIsReady] = useState(false);
   const [currentPeerId, setCurrentPeerId] = useState("");
   const [alreadySetup, setAlreadySetup] = useState(false);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
-    async function requestTitle() {
-      const res = await fetch(`${API_URL}/api/v1/rooms/${roomId}`, {
-        method: "GET",
+    if (error) {
+      localMediaStream.getTracks().forEach(function (track) {
+        track.stop();
       });
-      const json = await res.json();
-      setRoomTitle(json.room.roomTitle);
+
+      if (socket) socket.disconnect();
+
+      if (peerInstance) peerInstance.destroy();
+
+      navigate("/Error");
     }
-    requestTitle();
-  }, []);
+  }, [error]);
+
+  useEffect(() => {
+    if (roomExists) {
+      async function requestTitle() {
+        const res = await fetch(`${API_URL}/api/v1/rooms/${roomId}`, {
+          method: "GET",
+        });
+        const json = await res.json();
+        setRoomTitle(json.room.roomTitle);
+      }
+      requestTitle();
+    }
+  }, [roomExists]);
 
   // check if room exists
   useEffect(() => {
@@ -66,29 +85,30 @@ const MeetingRoom = () => {
       }
       setLoading(false);
     }
-    // TODO: testing
     checkRoomExists();
   }, []);
 
   // request user media
   useEffect(() => {
-    navigator.mediaDevices
-      .getUserMedia({ video: true, audio: true, echoCancellation: true })
-      .then((stream) => {
-        if (!stream) console.warn("wtf bro? stream should never be null");
+    if (roomExists) {
+      navigator.mediaDevices
+        .getUserMedia({ video: true, audio: true, echoCancellation: true })
+        .then((stream) => {
+          if (!stream) console.warn("wtf bro? stream should never be null");
 
-        stream.getVideoTracks()[0].enabled = videoEnabled;
-        stream.getAudioTracks()[0].enabled = audioEnabled;
+          stream.getVideoTracks()[0].enabled = videoEnabled;
+          stream.getAudioTracks()[0].enabled = audioEnabled;
 
-        // used to toggle video/mic
-        setLocalMediaStream(stream);
-        setPermissionAllowed(true);
-      })
-      .catch((err) => {
-        console.error("error while asking for video permission:", err);
-        setPermissionAllowed(false);
-      });
-  }, []);
+          // used to toggle video/mic
+          setLocalMediaStream(stream);
+          setPermissionAllowed(true);
+        })
+        .catch((err) => {
+          console.error("error while asking for video permission:", err);
+          setPermissionAllowed(false);
+        });
+    }
+  }, [roomExists]);
 
   // send "ready" event when peer finishes setting up
   useEffect(() => {
@@ -128,20 +148,21 @@ const MeetingRoom = () => {
         host: "/",
         port: "3001",
       });
+      setPeerInstance(myPeer);
 
       myPeer.on("close", () => {
-        // TODO: show "connection lost" message to user
         console.error("peer closed!!!");
+        setError(true);
       });
 
       myPeer.on("disconnected", (currentId) => {
-        // TODO: show "connection lost" message to user
         console.error("peer disconnected!!!");
+        setError(true);
       });
 
       myPeer.on("error", (err) => {
-        // TODO: show "connection lost" message to user
         console.error(err);
+        setError(true);
       });
 
       myPeer.on("open", (id) => {
@@ -160,6 +181,7 @@ const MeetingRoom = () => {
 
         call.on("error", (error) => {
           console.log(error);
+          setError(true);
         });
 
         call.on("stream", (userVideoStream) => {
@@ -174,16 +196,12 @@ const MeetingRoom = () => {
           video.remove();
         });
 
-        // TODO: this is not tested but it should have fixed a bug
         peers[call.peer] = call;
         setParticipants(peers);
       });
 
       socket.on("user-connected", (userId) => {
         console.log("user connected to this room with userId:", userId);
-        // TODO: if that problem occurs again just add a 1s delay
-        // https://stackoverflow.com/questions/66937384/peer-oncalll-is-never-being-called
-        // setTimeout(() => connectToNewUser(userId, localMediaStream), 1000);
         connectToNewUser(userId, localMediaStream);
       });
 
@@ -301,7 +319,7 @@ const MeetingRoom = () => {
       />
     </div>
   ) : (
-    <Navigate to="/Error" />
+    <ErrorComponent message="The link you entered does not lead to a valid room." />
   );
 };
 
