@@ -5,11 +5,11 @@ import hamburgerIcon from "../../Assets/Icons/menu-burger.svg";
 import { API_URL } from "../../constants";
 import { useEffect, useState } from "react";
 
-export default function ({ fullscreen, setSideMenuOpen, roomTitle, roomId }) {
+export default function ({ fullscreen, setSideMenuOpen, roomTitle, roomId, participantsCount }) {
   const [meetingTime, setMeetingTime] = useState(new Date(0));
   let createdAt;
-  const minutes = meetingTime.getMinutes().toString();
   const seconds = meetingTime.getSeconds().toString();
+  const minutes = meetingTime.getMinutes().toString();
   const hours = meetingTime.getHours().toString();
 
   useEffect(() => {
@@ -67,7 +67,7 @@ export default function ({ fullscreen, setSideMenuOpen, roomTitle, roomId }) {
         </div>
         <div className="mb-2 flex items-center gap-2 rounded-full bg-blue-300 px-4 py-1">
           <img src={peopleIcon} alt="" />
-          <p className="text-xs text-slate-900">24</p>
+          <p className="text-xs text-slate-900">{participantsCount}</p>
         </div>
       </div>
     </header>
