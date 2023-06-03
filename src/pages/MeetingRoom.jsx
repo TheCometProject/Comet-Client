@@ -2,33 +2,28 @@ import React, { useState, useEffect, useRef } from "react";
 import { useParams, Navigate, useNavigate } from "react-router-dom";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useSocketContext } from "../hooks/useSocketContext";
-import Peer from "peerjs";
+import Loading from "../components/MeetingRoom/Loading";
 import { API_URL } from "../constants";
 
-import Loading from "../components/MeetingRoom/Loading";
-import SideMenu from "../components/MeetingRoom/SideMenu";
-import Actions from "../components/MeetingRoom/Actions";
-import Header from "../components/MeetingRoom/Header";
+import Peer from "peerjs";
+
 import ErrorComponent from "../components/Error";
-import ReadyToJoin from "./ReadyToJoin";
+import MeetingComponent from "../components/MeetingRoom/MeetingComponent";
+import SetupComponent from "../components/MeetingRoom/SetupComponent";
 
 const MeetingRoom = () => {
   const { user } = useAuthContext();
   const { socket, socketConnected, setSocketConnected } = useSocketContext();
   const [peerInstance, setPeerInstance] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [readyToJoin, setReadyToJoin] = useState(false);
-  const [error, setError] = useState(false);
-  const [videoEnabled, setVideoEnabled] = useState(true);
-  const [audioEnabled, setAudioEnabled] = useState(true);
-  const [localMediaStream, setLocalMediaStream] = useState(null);
-  const [errorMessage, setErrorMessage] = useState(false);
   const navigate = useNavigate();
 
   // CONTROLS+UI STATES:
-  // TODO: default state should be whatever the user accepted in permissions
+  const [videoEnabled, setVideoEnabled] = useState(true);
+  const [audioEnabled, setAudioEnabled] = useState(true);
   const [sideMenuOpen, setSideMenuOpen] = useState(false);
   const [fullscreen, setFullScreen] = useState(false);
+  const [settingUp, setSettingUp] = useState(true);
 
   const { roomId } = useParams();
   const [roomExists, setRoomExists] = useState(false);
@@ -39,9 +34,11 @@ const MeetingRoom = () => {
   let peers = {};
   let callStreams = [];
   const [permissionAllowed, setPermissionAllowed] = useState(false);
+  const [localMediaStream, setLocalMediaStream] = useState(null);
   const [isReady, setIsReady] = useState(false);
   const [currentPeerId, setCurrentPeerId] = useState("");
   const [alreadySetup, setAlreadySetup] = useState(false);
+  const [error, setError] = useState(false);
   const [messageArr, setMessageArr] = useState([]);
   const [participantArr, setParticipantArr] = useState([
     {
@@ -50,6 +47,7 @@ const MeetingRoom = () => {
       profilePic: user.profilePic,
     },
   ]);
+  const [errorMessage, setErrorMessage] = useState("");
 
   function addParticipant(userId, name, profilePic) {
     setParticipantArr((prev) => {
@@ -119,7 +117,7 @@ const MeetingRoom = () => {
           stream.getAudioTracks()[0].enabled = audioEnabled;
 
           // used to toggle video/mic
-          // setLocalMediaStream(stream);
+          setLocalMediaStream(stream);
           setPermissionAllowed(true);
         })
         .catch((err) => {
@@ -161,7 +159,7 @@ const MeetingRoom = () => {
   }, [socketConnected]);
 
   useEffect(() => {
-    if (roomExists && permissionAllowed && !alreadySetup) {
+    if (roomExists && permissionAllowed && !alreadySetup && !settingUp) {
       console.log(
         "ROOM EXISTS + GOT PERMISSION!!!, going to connect to our socket and create a peer"
       );
@@ -302,7 +300,7 @@ const MeetingRoom = () => {
         videoGrid.current.append(div);
       }
     }
-  }, [roomExists, permissionAllowed]);
+  }, [roomExists, permissionAllowed, settingUp]);
 
   const addMessage = (obj) => {
     setMessageArr((prev) => {
@@ -327,59 +325,53 @@ const MeetingRoom = () => {
     setAudioEnabled(localMediaStream.getAudioTracks()[0].enabled);
   };
 
-  return error ? (
-    <ErrorComponent message={errorMessage} />
-  ) : loading ? (
-    <Loading />
-  ) : readyToJoin ? (
-    <div className="relative h-screen overflow-hidden bg-slate-50 px-6 pt-10 md:px-16">
-      <Header
-        roomId={roomId}
-        fullscreen={fullscreen}
-        setSideMenuOpen={setSideMenuOpen}
-        roomTitle={roomTitle}
-        participantsCount={participantArr.length}
-      />
-      <SideMenu
-        onChange={(e) => {
-          console.log(e);
-        }}
-        sideMenuOpen={sideMenuOpen}
-        setSideMenuOpen={setSideMenuOpen}
-        participantArr={participantArr}
-        messageArr={messageArr}
-        setMessageArr={setMessageArr}
-      />
-      <div
-        className={`overflow-auto pb-12 transition-all md:pb-[0vh] ${
-          fullscreen ? "-mt-32 h-screen" : "mt-0 h-[calc(100%-12rem)]"
-        }`}
-      >
-        <div
-          id="video-grid"
-          ref={videoGrid}
-          className=" -mr-4 flex h-fit w-full flex-wrap place-content-start justify-start gap-4"
-        ></div>
-      </div>
-      <Actions
-        sideMenuOpen={sideMenuOpen}
-        fullScreen={fullscreen}
-        setFullScreen={setFullScreen}
-        videoEnabled={videoEnabled}
-        toggleVideo={toggleVideo}
-        audioEnabled={audioEnabled}
-        toggleMic={toggleMic}
-      />
-    </div>
-  ) : (
-    <ReadyToJoin
-      audioEnabled={audioEnabled}
-      videoEnabled={videoEnabled}
-      setAudioEnabled={setAudioEnabled}
-      setVideoEnabled={setVideoEnabled}
-      setReadyToJoin={setReadyToJoin}
-    />
-  );
+  function getComponent() {
+    if (error) {
+      return <ErrorComponent message={errorMessage} />;
+    } else if (loading || !localMediaStream) {
+      return <Loading />;
+    } else {
+      if (!roomExists) {
+        return (
+          <ErrorComponent message="The link you entered does not lead to a valid room." />
+        );
+      } else {
+        if (settingUp) {
+          return (
+            <SetupComponent
+              setSettingUp={setSettingUp}
+              localMediaStream={localMediaStream}
+              toggleVideo={toggleVideo}
+              toggleMic={toggleMic}
+              videoEnabled={videoEnabled}
+              audioEnabled={audioEnabled}
+            />
+          );
+        } else {
+          return (
+            <MeetingComponent
+              roomId={roomId}
+              roomTitle={roomTitle}
+              videoGrid={videoGrid}
+              fullscreen={fullscreen}
+              setFullScreen={setFullScreen}
+              videoEnabled={videoEnabled}
+              toggleVideo={toggleVideo}
+              audioEnabled={audioEnabled}
+              toggleMic={toggleMic}
+              sideMenuOpen={sideMenuOpen}
+              setSideMenuOpen={setSideMenuOpen}
+              participantArr={participantArr}
+              messageArr={messageArr}
+              setMessageArr={setMessageArr}
+            />
+          );
+        }
+      }
+    }
+  }
+
+  return getComponent();
 };
 
 export default MeetingRoom;
