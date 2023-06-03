@@ -1,6 +1,5 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import heroimg from "../Assets/Images/image 3.png";
 import img1 from "../Assets/Logo.png";
@@ -9,12 +8,8 @@ import camera from "../Assets/Icons/Button camera.svg";
 import keyboard from "../Assets/Icons/Keyboard.svg";
 import { API_URL } from "../constants";
 import ErrorPage from "../components/Error";
-import { API_URL } from "../constants";
-import ErrorPage from "../components/Error";
 
 const Dashboard = () => {
-  const [roomId, setRoomId] = useState("");
-  const navigate = useNavigate();
   const [roomId, setRoomId] = useState("");
   const navigate = useNavigate();
 
@@ -28,24 +23,7 @@ const Dashboard = () => {
   async function handleJoinMeeting() {
     const res = await fetch(`${API_URL}/api/v1/rooms/${roomId}`);
     const json = await res.json();
-    if (json.message == "Room exists"){
-      navigate(`/setup/${roomId}`);
-    } else {
-      setErrorMessage("The space code you entered does not seem to exist!");
-      setError(true);
-    }
-  }
-
-  return error ? (
-    <ErrorPage message={errorMessage} />
-  ) : (
-  const [error, setError] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
-
-  async function handleJoinMeeting() {
-    const res = await fetch(`${API_URL}/api/v1/rooms/${roomId}`);
-    const json = await res.json();
-    if (json.message == "Room exists"){
+    if (json.message == "Room exists") {
       navigate(`/setup/${roomId}`);
     } else {
       setErrorMessage("The space code you entered does not seem to exist!");
@@ -71,14 +49,13 @@ const Dashboard = () => {
             src={prfl}
             alt="Profile Picture"
             className="-mt-2 mr-4 h-10 w-10 rounded-full"
-            className="-mt-2 mr-4 h-10 w-10 rounded-full"
           />
         </div>
       </div>
       <section id="hero2" className=" flex px-20 pb-48 pt-36">
         <div className=" w-1/2 items-center md:justify-center ">
           <h1 className=" mb-8  justify-normal text-5xl font-bold leading-[65px]  text-slate-700 sm:items-center sm:text-6xl sm:leading-[65px] md:justify-center md:leading-[76px] lg:text-6xl">
-            Experience <br/>
+            Experience <br />
             seamless virtual
             <br /> meetings<span className="text-blue-700">_</span>
           </h1>
@@ -88,14 +65,14 @@ const Dashboard = () => {
           </p>
           <div className=" flex flex-col gap-3  sm:flex-row ">
             <div className=" flex flex-col sm:flex-row">
-            <button className="rounded-sm w-auto h-[47px] sm:w-[165px] sm:h-[auto]  bg-blue-700 text-sm text-white">
-            <img
-              className="  mx-2 inline w-4 fill-slate-50"
-              src={camera}
-              alt="camera icon"
-            />
-            Create a space
-          </button>
+              <button className="h-[47px] w-auto rounded-sm bg-blue-700 text-sm  text-white sm:h-[auto] sm:w-[165px]">
+                <img
+                  className="  mx-2 inline w-4 fill-slate-50"
+                  src={camera}
+                  alt="camera icon"
+                />
+                Create a space
+              </button>
             </div>
 
             <div className="flex flex-row">
@@ -111,12 +88,8 @@ const Dashboard = () => {
                   className="button-outlined !pl-12  !pr-0 placeholder:text-blue-700"
                   placeholder="Enter the space code"
                   value={roomId}
-                  value={roomId}
                 />
               </div>
-              <button onClick={handleJoinMeeting} className="button-invisible">
-                Join
-              </button>
               <button onClick={handleJoinMeeting} className="button-invisible">
                 Join
               </button>
