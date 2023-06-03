@@ -50,11 +50,15 @@ function App() {
             <Route
               path="/LeftMeeting"
 <<<<<<< HEAD
+<<<<<<< HEAD
               element={ <LeftMeeting/>}
             /> 
             <Route
               path="/*"
               element={<Navigate to="/" />}
+=======
+              element={user ? <LeftMeeting /> : <Navigate to="/" />}
+>>>>>>> 06e5113acb4fafae0ed48696375753c32b993f0d
 =======
               element={user ? <LeftMeeting /> : <Navigate to="/" />}
 >>>>>>> 06e5113acb4fafae0ed48696375753c32b993f0d
