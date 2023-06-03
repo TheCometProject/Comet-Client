@@ -28,7 +28,7 @@ export default function () {
               Total security
             </h3>
             <img className="mb-8 md:hidden" src={featuresImg1} alt="" />
-            <p className="max-w-xl text-center text-xl font-light md:text-left">
+            <p className="max-w-xl text-center  text-xl font-light md:text-left">
               The Total Security feature of our project, TheComet, ensures that
               your video conferencing experience is protected at every level. We
               understand the importance of maintaining the privacy and
@@ -84,7 +84,7 @@ export default function () {
         <div className="| | flex basis-full flex-col items-center gap-6 rounded-2xl bg-slate-100 px-9 pb-10 pt-11 text-center md:basis-[calc(50%-2rem)] lg:basis-[calc(33.3333%-2rem)]">
           <img className="w-12" src={screenIcon} alt="" />
           <h4 className="h4 | text-blue-700">Share Your Screen</h4>
-          <p>
+          <p className="text-justify">
             you can easily share your screen during video conferences, allowing
             participants to view your presentations, documents, or any other
             content in real-time.Enhance collaboration and engage your audience
@@ -94,7 +94,7 @@ export default function () {
         <div className="flex basis-full flex-col items-center gap-6 rounded-2xl bg-slate-100 px-9 pb-10 pt-11 text-center md:basis-[calc(50%-2rem)] lg:basis-[calc(33.3333%-2rem)]">
           <img className="w-12" src={penIcon} alt="" />
           <h4 className="h4 text-blue-700">Draw On Board</h4>
-          <p>
+          <p className="text-justify">
             It empowers you to sketch, annotate, and highlight key points
             directly on a shared virtual whiteboard. Collaborate seamlessly with
             others by illustrating ideas, brainstorming, or visually
@@ -104,7 +104,7 @@ export default function () {
         <div className="| | flex basis-full flex-col items-center gap-6 rounded-2xl bg-slate-100 px-9 pb-10 pt-11 text-center md:basis-[calc(50%-2rem)] lg:basis-[calc(33.3333%-2rem)]">
           <img className="w-12" src={codeIcon} alt="" />
           <h4 className="h4 | text-blue-700">Write Code</h4>
-          <p>
+          <p className="text-justify ">
             you can effortlessly write, edit, and share code in real-time during
             the call. Whether you're discussing programming concepts,
             troubleshooting issues, or conducting live coding sessions, this
@@ -114,7 +114,7 @@ export default function () {
         <div className="| | flex basis-full flex-col items-center gap-6 rounded-2xl bg-slate-100 px-9 pb-10 pt-11 text-center md:basis-[calc(50%-2rem)] lg:basis-[calc(33.3333%-2rem)]">
           <img className="w-12" src={recordIcon} alt="" />
           <h4 className="h4 | text-blue-700">Record Your Call</h4>
-          <p>
+          <p className="text-justify">
             It allows you to easily capture and save your call for future
             reference. you can effortlessly record your calls with a single
             click. Preserve valuable insights, ensure accurate information
@@ -125,7 +125,7 @@ export default function () {
         <div className="| | flex basis-full flex-col items-center gap-6 rounded-2xl bg-slate-100 px-9 pb-10 pt-11 text-center md:basis-[calc(50%-2rem)] lg:basis-[calc(33.3333%-2rem)]">
           <img className="w-12" src={notesIcon} alt="" />
           <h4 className="h4 | text-blue-700">Take Notes</h4>
-          <p>
+          <p className="text-justify">
             It empowers you to stay organized and capture important information
             during the call. With the ability to easily jot down notes directly
             within the platform, you can effortlessly keep track of key
@@ -136,8 +136,8 @@ export default function () {
         </div>
         <div className="| | flex basis-full flex-col items-center gap-6 rounded-2xl bg-slate-100 px-9 pb-10 pt-11 text-center md:basis-[calc(50%-2rem)] lg:basis-[calc(33.3333%-2rem)]">
           <img className="w-12" src={pollIcon} alt="" />
-          <h4 className="h4 | text-blue-700">Create Polls</h4>
-          <p>
+          <h4 className="h4 | text-blue-700 ">Create Polls</h4>
+          <p className="text-justify">
             you can create customized polls and share them with your attendees,
             allowing them to vote and express their opinions in real-time.
             Whether you need to make group decisions, gather opinions, or

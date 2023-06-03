@@ -75,7 +75,7 @@ function App() {
             />
             <Route
               path="/LeftMeeting"
-              element={user? <LeftMeeting/> : <Navigate to="/" />}
+              element={ <LeftMeeting/>}
             /> 
             <Route
               path="/*"
