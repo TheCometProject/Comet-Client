@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import img1 from "../Assets/Logo.png";
-import forget from "../Assets/forget.svg" ;
+import forget from "../Assets/forget.svg";
 
 
 const Reset = () => {
