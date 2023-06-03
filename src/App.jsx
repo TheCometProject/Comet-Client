@@ -25,10 +25,7 @@ function App() {
       <BrowserRouter>
         <div className="pages">
           <Routes>
-            <Route
-              path="/"
-              element={!user ? <Landing /> : <Dashboard />}
-            />
+            <Route path="/" element={!user ? <Landing /> : <Dashboard />} />
             <Route
               path="/Login"
               element={!user ? <Login /> : <Navigate to="/" />}
@@ -37,50 +34,29 @@ function App() {
               path="/Signup"
               element={!user ? <Signup /> : <Navigate to="/" />}
             />
-            <Route 
-              path="/Contact" 
-              element={<Contact />} 
+            <Route path="/Contact" element={<Contact />} />
+            <Route path="/Error" element={<Error />} />
+            <Route path="/Dashboard" element={<Dashboard />} />
+            <Route path="/Forget" element={<Forgot />} />
+            <Route path="/Reset" element={<Reset />} />
+            <Route path="/terms-and-services" element={<TOS />} />
+            <Route
+              path="/meeting/:roomId"
+              element={user ? <MeetingRoom /> : <Navigate to="/" />}
             />
-            <Route 
-              path="/Error" 
-              element={<Error />} 
-            />
-            <Route 
-              path="/Dashboard" 
-              element={<Dashboard />} 
-            />
-            <Route 
-              path="/Forget" 
-              element={<Forgot />} 
-            />
-             <Route 
-              path="/Reset" 
-              element={<Reset />} 
-            />
-            <Route 
-              path="/terms-and-services" 
-              element={<TOS />} 
-            /> 
-            <Route 
-              path="/meeting/:roomId" 
-              element={user ? <MeetingRoom /> : <Navigate to="/" />} 
-            /> 
             <Route
               path="/Create-room"
-              element={user? <CreateRoom/> : <Navigate to="/" />}
+              element={user ? <CreateRoom /> : <Navigate to="/" />}
             />
             <Route
-              path="/Setup"
-              element={user? <ReadyToJoin/> : <Navigate to="/" />}
+              path="/Setup/:roomId"
+              element={user ? <ReadyToJoin/> : <Navigate to="/" />}
             />
             <Route
               path="/LeftMeeting"
-              element={user? <LeftMeeting/> : <Navigate to="/" />}
-            /> 
-            <Route
-              path="/*"
-              element={<Navigate to="/" />}
+              element={user ? <LeftMeeting /> : <Navigate to="/" />}
             />
+            <Route path="/*" element={<Navigate to="/" />} />
           </Routes>
         </div>
       </BrowserRouter>
