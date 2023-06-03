@@ -80,6 +80,7 @@ export default function ({ messageArr, setMessageArr }) {
           value={msg}
           onChange={(e) => setMsg(e.target.value)}
           placeholder="Write your message here..."
+          autoFocus={true}
         />
         <button
           className="absolute right-[calc(5%+1rem)] top-1/2 -translate-y-1/2 cursor-pointer"

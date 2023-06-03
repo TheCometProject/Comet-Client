@@ -7,10 +7,9 @@ import { API_URL } from "../constants";
 
 import Peer from "peerjs";
 
-import SideMenu from "../components/MeetingRoom/SideMenu";
-import Actions from "../components/MeetingRoom/Actions";
-import Header from "../components/MeetingRoom/Header";
 import ErrorComponent from "../components/Error";
+import MeetingComponent from "../components/MeetingRoom/MeetingComponent";
+import SetupComponent from "../components/MeetingRoom/SetupComponent";
 
 const MeetingRoom = () => {
   const { user } = useAuthContext();
@@ -20,11 +19,12 @@ const MeetingRoom = () => {
   const navigate = useNavigate();
 
   // CONTROLS+UI STATES:
-  // TODO: default state should be whatever the user accepted in permissions
   const [videoEnabled, setVideoEnabled] = useState(true);
   const [audioEnabled, setAudioEnabled] = useState(true);
   const [sideMenuOpen, setSideMenuOpen] = useState(false);
   const [fullscreen, setFullScreen] = useState(false);
+  const [settingUp, setSettingUp] = useState(true);
+  const [callEnded, setCallEnded] = useState(false);
 
   const { roomId } = useParams();
   const [roomExists, setRoomExists] = useState(false);
@@ -63,16 +63,25 @@ const MeetingRoom = () => {
   }
 
   useEffect(() => {
-    if (error) {
+    if (localMediaStream) {
       localMediaStream.getTracks().forEach(function (track) {
+        track.enabled = false;
         track.stop();
       });
-
-      if (socket) socket.disconnect();
-
-      if (peerInstance) peerInstance.destroy();
     }
-  }, [error]);
+
+    if (socket) {
+      socket.disconnect();
+      socket.offAny();
+      socket.offAnyOutgoing();
+    }
+
+    if (peerInstance) peerInstance.destroy();
+
+    if (callEnded) {
+      navigate("/LeftMeeting");
+    }
+  }, [error, callEnded]);
 
   useEffect(() => {
     if (roomExists) {
@@ -160,7 +169,7 @@ const MeetingRoom = () => {
   }, [socketConnected]);
 
   useEffect(() => {
-    if (roomExists && permissionAllowed && !alreadySetup) {
+    if (roomExists && permissionAllowed && !alreadySetup && !settingUp) {
       console.log(
         "ROOM EXISTS + GOT PERMISSION!!!, going to connect to our socket and create a peer"
       );
@@ -301,7 +310,7 @@ const MeetingRoom = () => {
         videoGrid.current.append(div);
       }
     }
-  }, [roomExists, permissionAllowed]);
+  }, [roomExists, permissionAllowed, settingUp]);
 
   const addMessage = (obj) => {
     setMessageArr((prev) => {
@@ -326,53 +335,54 @@ const MeetingRoom = () => {
     setAudioEnabled(localMediaStream.getAudioTracks()[0].enabled);
   };
 
-  return error ? (
-    <ErrorComponent message={errorMessage} />
-  ) : loading ? (
-    <Loading />
-  ) : roomExists ? (
-    <div className="relative h-screen overflow-hidden bg-slate-50 px-6 pt-10 md:px-16">
-      <Header
-        roomId={roomId}
-        fullscreen={fullscreen}
-        setSideMenuOpen={setSideMenuOpen}
-        roomTitle={roomTitle}
-        participantsCount={participantArr.length}
-      />
-      <SideMenu
-        onChange={(e) => {
-          console.log(e);
-        }}
-        sideMenuOpen={sideMenuOpen}
-        setSideMenuOpen={setSideMenuOpen}
-        participantArr={participantArr}
-        messageArr={messageArr}
-        setMessageArr={setMessageArr}
-      />
-      <div
-        className={`overflow-auto pb-12 transition-all md:pb-[0vh] ${
-          fullscreen ? "-mt-32 h-screen" : "mt-0 h-[calc(100%-12rem)]"
-        }`}
-      >
-        <div
-          id="video-grid"
-          ref={videoGrid}
-          className=" -mr-4 flex h-fit w-full flex-wrap place-content-start justify-start gap-4"
-        ></div>
-      </div>
-      <Actions
-        sideMenuOpen={sideMenuOpen}
-        fullScreen={fullscreen}
-        setFullScreen={setFullScreen}
-        videoEnabled={videoEnabled}
-        toggleVideo={toggleVideo}
-        audioEnabled={audioEnabled}
-        toggleMic={toggleMic}
-      />
-    </div>
-  ) : (
-    <ErrorComponent message="The link you entered does not lead to a valid room." />
-  );
+  function getComponent() {
+    if (error) {
+      return <ErrorComponent message={errorMessage} />;
+    } else if (loading || !localMediaStream) {
+      return <Loading />;
+    } else {
+      if (!roomExists) {
+        return (
+          <ErrorComponent message="The link you entered does not lead to a valid room." />
+        );
+      } else {
+        if (settingUp) {
+          return (
+            <SetupComponent
+              setSettingUp={setSettingUp}
+              localMediaStream={localMediaStream}
+              toggleVideo={toggleVideo}
+              toggleMic={toggleMic}
+              videoEnabled={videoEnabled}
+              audioEnabled={audioEnabled}
+            />
+          );
+        } else {
+          return (
+            <MeetingComponent
+              roomId={roomId}
+              roomTitle={roomTitle}
+              videoGrid={videoGrid}
+              fullscreen={fullscreen}
+              setFullScreen={setFullScreen}
+              videoEnabled={videoEnabled}
+              toggleVideo={toggleVideo}
+              audioEnabled={audioEnabled}
+              toggleMic={toggleMic}
+              setCallEnded={setCallEnded}
+              sideMenuOpen={sideMenuOpen}
+              setSideMenuOpen={setSideMenuOpen}
+              participantArr={participantArr}
+              messageArr={messageArr}
+              setMessageArr={setMessageArr}
+            />
+          );
+        }
+      }
+    }
+  }
+
+  return getComponent();
 };
 
 export default MeetingRoom;

@@ -7,6 +7,7 @@ import prfl from "../Assets/profilsvg.svg";
 import camera from "../Assets/Icons/Button camera.svg";
 import keyboard from "../Assets/Icons/Keyboard.svg";
 import { API_URL } from "../constants";
+import ErrorPage from "../components/Error";
 
 const Dashboard = () => {
   const [roomId, setRoomId] = useState("");
@@ -16,17 +17,23 @@ const Dashboard = () => {
     setRoomId(() => e.target.value);
   }
 
+  const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+
   async function handleJoinMeeting() {
     const res = await fetch(`${API_URL}/api/v1/rooms/${roomId}`);
     const json = await res.json();
-    if(json.message == "Room exists"){
-      navigate("/setup");
+    if (json.message == "Room exists") {
+      navigate(`/setup/${roomId}`);
     } else {
-      navigate("/error")
+      setErrorMessage("The space code you entered does not seem to exist!");
+      setError(true);
     }
   }
 
-  return (
+  return error ? (
+    <ErrorPage message={errorMessage} />
+  ) : (
     <div className="h-full w-full bg-slate-50">
       <div
         id="navbar"
@@ -41,7 +48,7 @@ const Dashboard = () => {
           <img
             src={prfl}
             alt="Profile Picture"
-            className="l -mt-2 mr-4 h-10 w-10 rounded-full"
+            className="-mt-2 mr-4 h-10 w-10 rounded-full"
           />
         </div>
       </div>
@@ -58,16 +65,14 @@ const Dashboard = () => {
           </p>
           <div className=" flex flex-col gap-3  sm:flex-row ">
             <div className=" flex flex-col sm:flex-row">
-              <Link to="/Create-room">
-                <button className="button-solid">
-                  <img
-                    className="mx-2 inline w-4 fill-slate-50"
-                    src={camera}
-                    alt="camera icon"
-                  />
-                  Create a space
-                </button>
-              </Link>
+              <button className="h-[47px] w-auto rounded-sm bg-blue-700 text-sm  text-white sm:h-[auto] sm:w-[165px]">
+                <img
+                  className="  mx-2 inline w-4 fill-slate-50"
+                  src={camera}
+                  alt="camera icon"
+                />
+                Create a space
+              </button>
             </div>
 
             <div className="flex flex-row">
@@ -85,14 +90,9 @@ const Dashboard = () => {
                   value={roomId}
                 />
               </div>
-              {/* <Link to="setup"> */}
-                <button
-                  onClick={handleJoinMeeting}
-                  className="button-invisible"
-                >
-                  Join
-                </button>
-              {/* </Link> */}
+              <button onClick={handleJoinMeeting} className="button-invisible">
+                Join
+              </button>
             </div>
           </div>
         </div>

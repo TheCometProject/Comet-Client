@@ -8,8 +8,12 @@ import { useState } from "react";
 export default function () {
   const [sideMenuOpen, setSideMenuOpen] = useState(false);
   return (
-    <header className="fixed left-0 top-0 z-10 flex w-full items-start justify-between bg-slate-50 px-8 md:px-20 pb-2 pt-4 lg:items-center">
-       <div class={`absolute inset-0 h-screen bg-gray-900 pointer-events-none transition-all ${sideMenuOpen?"opacity-50":"opacity-0"}`}></div>
+    <header className="fixed left-0 top-0 z-10 flex w-full items-start justify-between bg-slate-50 px-8 pb-2 pt-4 md:px-20 lg:items-center">
+      <div
+        className={`pointer-events-none absolute inset-0 h-screen bg-gray-900 transition-all ${
+          sideMenuOpen ? "opacity-50" : "opacity-0"
+        }`}
+      ></div>
       <div className="lg:basis-1/3">
         <Link to="/">
           <img className="w-32" src={Logo} alt="Comet Logo" />
@@ -53,12 +57,14 @@ export default function () {
             </li>
           </ul>
         </div>
-        <div className="mt-10 flex w-48 lg:w-auto flex-col gap-2 lg:mt-0 lg:flex-row lg:gap-8">
+        <div className="mt-10 flex w-48 flex-col gap-2 lg:mt-0 lg:w-auto lg:flex-row lg:gap-8">
           <Link to="/Login">
             <button className="button-solid !w-full lg:w-auto">Login</button>
           </Link>
           <Link to="/Signup">
-            <button className="button-outlined w-full lg:w-auto">Sign up</button>
+            <button className="button-outlined w-full lg:w-auto">
+              Sign up
+            </button>
           </Link>
         </div>
       </div>

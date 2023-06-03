@@ -10,12 +10,12 @@ export default function ErrorPage() {
       </div>
       <div className="flex h-full flex-col items-center justify-center -mt-16 bg-gray-100 px-6 sm:px-8 md:px-10 lg:px-16 xl:px-20">
         <p className="text-bold mb-6 text-5xl text-blue-700 sm:mb-6">Oops!</p>
-        <p className="text-bold mb-6 text-center text-[30px]  text-slate-900 sm:mb-8">
+        <p className="text-bold mb-6 text-center text-[30px]  text-[#334155] sm:mb-8">
           An unknown error has occured.
         </p>
 
         <hr className="mt-4  w-[358px]  border-[#6B7280] sm:w-[658px]"></hr>
-        <p className="mb-4 mt-4 text-center text-[20px] text-slate-900 sm:mb-8">
+        <p className="mb-4 mt-4 text-center text-[20px] text-[#334155] sm:mb-8">
           If you have any questions, please don't hesitate to
           <span>
             <Link
