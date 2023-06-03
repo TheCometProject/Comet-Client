@@ -1,5 +1,6 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import heroimg from "../Assets/Images/image 3.png";
 import img1 from "../Assets/Logo.png";
@@ -8,8 +9,12 @@ import camera from "../Assets/Icons/Button camera.svg";
 import keyboard from "../Assets/Icons/Keyboard.svg";
 import { API_URL } from "../constants";
 import ErrorPage from "../components/Error";
+import { API_URL } from "../constants";
+import ErrorPage from "../components/Error";
 
 const Dashboard = () => {
+  const [roomId, setRoomId] = useState("");
+  const navigate = useNavigate();
   const [roomId, setRoomId] = useState("");
   const navigate = useNavigate();
 
@@ -17,6 +22,23 @@ const Dashboard = () => {
     setRoomId(() => e.target.value);
   }
 
+  const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+
+  async function handleJoinMeeting() {
+    const res = await fetch(`${API_URL}/api/v1/rooms/${roomId}`);
+    const json = await res.json();
+    if (json.message == "Room exists"){
+      navigate(`/setup/${roomId}`);
+    } else {
+      setErrorMessage("The space code you entered does not seem to exist!");
+      setError(true);
+    }
+  }
+
+  return error ? (
+    <ErrorPage message={errorMessage} />
+  ) : (
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -48,6 +70,7 @@ const Dashboard = () => {
           <img
             src={prfl}
             alt="Profile Picture"
+            className="-mt-2 mr-4 h-10 w-10 rounded-full"
             className="-mt-2 mr-4 h-10 w-10 rounded-full"
           />
         </div>
@@ -88,8 +111,12 @@ const Dashboard = () => {
                   className="button-outlined !pl-12  !pr-0 placeholder:text-blue-700"
                   placeholder="Enter the space code"
                   value={roomId}
+                  value={roomId}
                 />
               </div>
+              <button onClick={handleJoinMeeting} className="button-invisible">
+                Join
+              </button>
               <button onClick={handleJoinMeeting} className="button-invisible">
                 Join
               </button>
