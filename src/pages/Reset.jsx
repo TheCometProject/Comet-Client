@@ -3,20 +3,21 @@ import { Link } from "react-router-dom";
 import img1 from "../Assets/Logo.png";
 import forget from "../Assets/forget.svg";
 
-
 const Reset = () => {
 const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    
-    if (password !== confirmPassword) {
+    if(!password || !confirmPassword){
+      setErrorMessage('Please enter a password');
+    }
+    else if (password !== confirmPassword) {
       setErrorMessage('Passwords do not match');
     } else {
-      setErrorMessage('Password change successful!');
+      setErrorMessage('Password changed successful!');
     }
   };
 
@@ -47,7 +48,7 @@ const [password, setPassword] = useState('');
                      <input
                          type="password"
                          placeholder="Confirm password"
-                          onChange={(e) => setPassword(e.target.value)}
+                          onChange={(e) => setConfirmPassword(e.target.value)}
                          value={confirmPassword}
                   className="sm:w-[400px] sm:h-[63px]  h-[45px] w-[300px] rounded-md border border-[#1D4ED8] px-4 text-base text-[#334155] mt-6 sm:ml-0"
                      />
@@ -55,6 +56,8 @@ const [password, setPassword] = useState('');
                     <button
                        className="text-18 sm:w-[400px] sm:h-[63px]  mt-6 h-[45px] w-[300px] rounded-md bg-[#1D4ED8] text-center font-bold text-white sm:ml-0" 
                     > Save</button>
+                     {errorMessage && <div className="text-red-500 text-sm ml-0 sm:ml-0 mt-1">{errorMessage}</div>} 
+                 
                  </div>
             </div>
   

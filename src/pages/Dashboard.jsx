@@ -23,7 +23,7 @@ const Dashboard = () => {
   async function handleJoinMeeting() {
     const res = await fetch(`${API_URL}/api/v1/rooms/${roomId}`);
     const json = await res.json();
-    if (json.message == "Room exists"){
+    if (json.message == "Room exists") {
       navigate(`/setup/${roomId}`);
     } else {
       setErrorMessage("The space code you entered does not seem to exist!");
@@ -65,16 +65,14 @@ const Dashboard = () => {
           </p>
           <div className=" flex flex-col gap-3  sm:flex-row ">
             <div className=" flex flex-col sm:flex-row">
-              <Link to="/Create-room">
-                <button className="button-solid">
-                  <img
-                    className="mx-2 inline w-4 fill-slate-50"
-                    src={camera}
-                    alt="camera icon"
-                  />
-                  Create a space
-                </button>
-              </Link>
+              <button className="h-[47px] w-auto rounded-sm bg-blue-700 text-sm  text-white sm:h-[auto] sm:w-[165px]">
+                <img
+                  className="  mx-2 inline w-4 fill-slate-50"
+                  src={camera}
+                  alt="camera icon"
+                />
+                Create a space
+              </button>
             </div>
 
             <div className="flex flex-row">
