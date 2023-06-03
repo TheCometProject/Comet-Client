@@ -16,18 +16,19 @@ export default function ({ messageArr, setMessageArr }) {
 
   const sendMessage = (e) => {
     e.preventDefault();
-    socket.emit("message", msg); 
-    // {
-    //   fullName: user.fullName,
-    //   profilePic: user.profilePic,
-    // }
-    addMessage({
-      sender: user.fullName,
-      message: msg,
-      profilePic: user.profilePic,
-      self: true,
-    });
-    setMsg("");
+    if (socketConnected) {
+      socket.emit("message", msg); 
+      addMessage({
+        sender: user.fullName,
+        message: msg,
+        profilePic: user.profilePic,
+        self: true,
+      });
+      setMsg("");
+    }
+    else {
+      console.error("Cannot send message, socket not connected");
+    }
   };
 
   return (
@@ -42,7 +43,7 @@ export default function ({ messageArr, setMessageArr }) {
               }`}
             >
               <img
-                className={`${self && "hidden"} w-8`}
+                className={`${self && "hidden"} w-8 rounded-full`}
                 src={profilePic}
                 alt=""
               />
