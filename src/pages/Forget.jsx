@@ -7,13 +7,19 @@ import forget from "../Assets/forget.svg";
 
 const Forgot = () => {
   const [email, setEmail] = useState('');
-
+  const [errorMessage, setErrorMessage] = useState('');
+  
  
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!email) {
+      setErrorMessage('Please enter your email');
+    }
     console.log('Reset password link sent to:', email);
     setEmail('');
+    
   };
+  
 
   return (
     <div className="min-h-screen w-full bg-[#F8FAFC] ">
@@ -46,7 +52,9 @@ const Forgot = () => {
                    
                    <button
                      className="text-18 sm:w-[400px] sm:h-[63px]  mt-6 h-[45px] w-[300px] rounded-md bg-[#1D4ED8] text-center font-bold text-white sm:ml-0">   
-                  Send</button>   
+                  Send</button>  
+                  {errorMessage && <div className="text-red-500 text-sm ml-0 sm:ml-0 mt-1">{errorMessage}</div>} 
+                  
                  </div>
             </div>
             

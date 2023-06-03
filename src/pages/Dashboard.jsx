@@ -36,7 +36,7 @@ const Dashboard = () => {
       <section id="hero2" className=" flex px-20 pb-48 pt-36">
         <div className=" w-1/2 items-center md:justify-center ">
           <h1 className=" mb-8  justify-normal text-5xl font-bold leading-[65px]  text-slate-700 sm:items-center sm:text-6xl sm:leading-[65px] md:justify-center md:leading-[76px] lg:text-6xl">
-            Experience <br />
+            Experience <br/>
             seamless virtual
             <br /> meetings<span className="text-blue-700">_</span>
           </h1>
@@ -46,9 +46,9 @@ const Dashboard = () => {
           </p>
           <div className=" flex flex-col gap-3  sm:flex-row ">
             <div className=" flex flex-col sm:flex-row">
-            <button className="button-solid">
+            <button className="rounded-sm w-auto h-[47px] sm:w-[165px] sm:h-[auto]  bg-blue-700 text-sm text-white">
             <img
-              className="mx-2 inline w-4 fill-slate-50"
+              className="  mx-2 inline w-4 fill-slate-50"
               src={camera}
               alt="camera icon"
             />

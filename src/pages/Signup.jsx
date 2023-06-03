@@ -28,7 +28,7 @@ const Signup = () => {
         <Link to="/"><img src={img1} className=" items-start w-32 h-[33px] mt-6" alt="Comet logo" /></Link>
           <img
             src={img2}
-            className="z -mt-4 -ml-8 hidden h-auto w-full lg:block"
+            className="mt-[15px] -ml-16 hidden h-auto w-full lg:block"
             alt="Illustration"
           />
         </div>

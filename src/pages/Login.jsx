@@ -23,7 +23,7 @@ const Login = () => {
       >
         <div className="lg:w-1/2 md:pl-[85px] flex flex-col pl-[50px]  sm:pl-8">
         <Link to="/"><img src={img1} className=" mt-6 h-[33px] w-[130px] items-start"  alt="Comet logo" /></Link>
-          <img src={img2} className="-ml-4 -mt-2 hidden lg:flex" />
+          <img src={img2} className="mt-[15px] -ml-16 hidden h-auto w-full lg:block" />
         </div>
         <div className="min-w-sm md:cez min-w-sm md:w-1/2 flex w-full flex-col items-center justify-center sm:mt-16 lg:mt-36">
           <div className="mr-8 md:mr-[80px] lg:mr-[270px] absolute right-0 top-0  mt-8 md:mt-6 hidden sm:block">
@@ -64,9 +64,9 @@ const Login = () => {
                   <input type="checkbox" className="mr-2 h-4 w-4" />
                   <p className="text-sm text-[#334155]">Remember me?</p>
                 </div>
-                <p className="mr-12 cursor-pointer whitespace-nowrap text-sm font-medium underline underline-offset-2 sm:-mr-0">
+                <Link to="/Forget"><p className="mr-12 cursor-pointer whitespace-nowrap text-sm font-medium underline underline-offset-2 sm:-mr-0">
                   Forgot password?
-                </p>
+                </p></Link>
               </div>
               <div>
                 <button
