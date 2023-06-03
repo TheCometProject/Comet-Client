@@ -26,7 +26,7 @@ const Login = () => {
           <img src={img2} className="-ml-4 -mt-2 hidden lg:flex" />
         </div>
         <div className="min-w-sm md:cez min-w-sm md:w-1/2 flex w-full flex-col items-center justify-center sm:mt-16 lg:mt-36">
-          <div className="sm:mr-[100px] md:ml-[85px] md:mr-[270px] absolute right-0 top-0  mt-8 md:mt-6 hidden sm:block">
+          <div className="mr-8 md:mr-[80px] lg:mr-[270px] absolute right-0 top-0  mt-8 md:mt-6 hidden sm:block">
             <p className="text-16 font-bold text-[#334155] ">
               New to comet?{" "}
               <Link to="/Signup" className="text-[#1D4ED8] underline">
@@ -40,7 +40,7 @@ const Login = () => {
           <div  className=" ml-[270px] -mt-7 text-16 font-bold underline text-blue-700 lg:hidden sm:hidden md:hidden">
              <Link to="/Signup" > Sign up</Link>
           </div>
-          <h3 className="mt-12 whitespace-nowrap text-center  text-4xl font-bold text-[#334155] sm:mt-0 md:-mr-2  md:-mt-10 lg:text-5xl">
+          <h3 className=" whitespace-nowrap text-center  text-4xl font-bold text-[#334155]  md:-mr-2  mt-[70px] sm:mt-6  lg:-mt-6 lg:text-5xl">
             Log in
           </h3>
           <div className=" h-[63px]max-w-md mt-14 w-[400px] sm:ml-0 ">
@@ -77,9 +77,9 @@ const Login = () => {
                 </button>
                 {error &&
                   (Array.isArray(error) ? (
-                    error.map((err) => <div key={err.msg}>{error.msg}</div>)
+                    error.map((err) => <div className="text-red-500 text-sm ml-12 sm:ml-0 mt-1" key={err.msg}>{error.msg}</div>)
                   ) : (
-                    <div>{error}</div>
+                    <div className="text-red-500 text-sm ml-12 sm:ml-0 mt-1">{error}</div>
                   ))}
               </div>
             </div>
