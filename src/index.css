@@ -87,7 +87,9 @@ img {
   }
   
   #video-grid div video {
-    @apply absolute h-full object-cover left-1/2 -translate-x-1/2 bg-red-800;
+    @apply absolute h-full object-cover bg-red-800;
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
   }
 
   .animation-delay-100 {
