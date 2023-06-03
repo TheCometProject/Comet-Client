@@ -6,7 +6,7 @@ import RightArrow from "../../../Assets/Icons/Right arrow.svg"
 export default function () {
   const swiper = useSwiper();
   return (
-    <div className="mx-auto w-fit flex gap-44 mt-14">
+    <div className="mx-auto w-fit gap-44 mt-14 hidden md:flex">
       <button className="w-16 h-16 flex items-center justify-center bg-slate-100 rounded-full" onClick={()=>swiper.slidePrev()}>
         <img src={LeftArrow} alt="" />
       </button>

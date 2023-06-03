@@ -14,24 +14,41 @@ import communityData from "./communityData.js";
 
 export default function () {
   const [data, setData] = useState(communityData);
+  const breakpoints = {
+    520: {
+      slidesPerView: 1.5,
+      spaceBetween: 20,
+    },
+    // when window width is >= 480px
+    680: {
+      slidesPerView: 2.2,
+      spaceBetween: 30,
+    },
+    // when window width is >= 640px
+    1000: {
+      slidesPerView: 2.5,
+      spaceBetween: 40,
+    },
+  };
   return (
-    <section id="Community" className="pb-48 pt-24">
-      <div className="w-max mx-auto">
-        <p className="text-center text-blue-700 text-2xl font-light">
+    <section id="Community" className="pb-48 pt-24 overflow-x-hidden">
+      <div className="mx-auto w-max">
+        <p className="text-center text-2xl font-light text-blue-700">
           Our community
         </p>
-        <div className="bg-blue-700 h-[2px] rounded-3xl mx-auto w-1/3"></div>
+        <div className="mx-auto h-[2px] w-1/3 rounded-3xl bg-blue-700"></div>
       </div>
-      <h2 className="h2 | text-center mb-16">What they've said</h2>
+      <h2 className="h2 | mb-16 text-center">What they've said</h2>
       <Swiper
         modules={[Navigation, Pagination]}
         pagination={{ clickable: true }}
-        spaceBetween={50} 
-        slidesPerView={2.7}
+        spaceBetween={50}
+        breakpoints={breakpoints}
+        slidesPerView={1}
       >
         {data.map((item) => (
           <SwiperSlide className="pt-16" key={item.name + item.title}>
-            <div className="pb relative rounded-3xl bg-slate-100 px-12 text-center">
+            <div className="relative rounded-3xl bg-slate-100 px-12 text-center">
               <img
                 className="absolute left-1/2 w-28 -translate-x-1/2 -translate-y-1/2"
                 src={item.image}

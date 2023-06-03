@@ -1,101 +1,104 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap%27');
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap%27");
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-
-html, body {
-    font-family: 'Space grotesk';
-    scroll-behavior: smooth;
-    @apply h-screen bg-slate-50;
+html,
+body {
+  font-family: "Space grotesk";
+  scroll-behavior: smooth;
+  @apply h-screen bg-slate-50;
 }
 
 img {
-    object-fit: contain
+  object-fit: contain;
 }
 
 .button-solid {
-    @apply bg-blue-700 px-4 py-3 text-slate-50 text-input-md font-medium rounded-[4px] block border-blue-700 border-2;
+  @apply block w-fit rounded-[4px] border-2 border-blue-700 bg-blue-700 px-4 py-3 text-input-md font-medium text-slate-50;
 }
 
 .button-outlined {
-    @apply  px-4 py-3 text-blue-700 text-input-md font-medium border-blue-700 border-2 rounded-[4px] block border-separate;
+  @apply block border-separate rounded-[4px] border-2 border-blue-700 px-4 py-3 text-input-md font-medium text-blue-700;
 }
 
 .button-invisible {
-    @apply  px-4 py-3 text-blue-700 font-medium;
+  @apply px-4 py-3 font-medium text-blue-700;
 }
 
 .h2 {
-    @apply font-bold text-5xl text-slate-700 pt-4 pb-6;
+  @apply pb-6 pt-4 text-4xl font-bold text-slate-700 md:text-5xl;
 }
 
 .h3 {
-    @apply text-4xl font-medium text-slate-700 pt-3 pb-5;
+  @apply pb-5 pt-3 text-3xl font-medium text-slate-700 md:text-4xl;
 }
 
 .h4 {
-    @apply text-3xl font-normal text-slate-700 pt-3 pb-5;
+  @apply pb-5 pt-3 text-2xl font-normal text-slate-700 md:text-3xl;
 }
 
 .h5 {
-    @apply text-2xl font-medium text-slate-700 pt-3 pb-5;
-
+  @apply pb-5 pt-3 text-xl font-medium text-slate-700 md:text-2xl;
 }
 
 /* Slider styles */
 
+.swiper {
+  @apply !overflow-visible;
+}
+
 .swiper-pagination {
-    @apply !mb-2 !w-fit !mx-auto !left-1/2 !-translate-x-1/2;
+  @apply !absolute !-bottom-32 !left-1/2 !mx-auto !mb-3 !w-fit !-translate-x-1/2 md:!bottom-0;
 }
 
 .swiper-pagination-bullet-active {
-    @apply !bg-blue-500;
+  @apply !bg-blue-500;
 }
 
 .swiper-pagination-bullet {
-    @apply  !w-5 !h-5 !mx-3;
+  @apply !mx-3 !h-3 !w-3 md:!h-5 md:!w-5;
 }
 
 .swiper-pagination-bullet:not(.swiper-pagination-bullet-active) {
-    @apply !border-blue-500 !border-2 !opacity-100 !bg-transparent;
+  @apply !border-2 !border-blue-500 !bg-transparent !opacity-100;
 }
 
 /* Scroll bar customization */
 ::-webkit-scrollbar {
-    @apply w-2
-  }
-  
-  /* Track */
-  ::-webkit-scrollbar-track {
-    @apply bg-slate-200;
-  }
-  
-  /* Handle */
-  ::-webkit-scrollbar-thumb {
-    @apply bg-slate-400 transition-all;
-  }
-  
-  /* Handle on hover */
-  ::-webkit-scrollbar-thumb:hover {
-    @apply bg-slate-500 transition-all;
-  }
+  @apply w-2;
+}
 
-  #video-grid div {
-    @apply relative mb-0 !block h-0 w-[calc(50%-1rem)] overflow-hidden rounded-xl border border-blue-700 pb-[calc(50%-1rem)] md:pb-[calc(33%-1rem)] md:w-[calc(33%-1rem)] lg:pb-[calc(25%-1rem)] lg:w-[calc(25%-1rem)];
-  }
-  
-  #video-grid div video {
-    @apply absolute h-full object-cover left-1/2 -translate-x-1/2 bg-red-800;
-  }
+/* Track */
+::-webkit-scrollbar-track {
+  @apply bg-slate-200;
+}
 
-  .animation-delay-100 {
-    animation-delay: 100ms;
-  }
-  .animation-delay-200 {
-    animation-delay: 200ms;
-  }
-  .animation-delay-300 {
-    animation-delay: 300ms;
-  }
+/* Handle */
+::-webkit-scrollbar-thumb {
+  @apply bg-slate-400 transition-all;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-slate-500 transition-all;
+}
+
+#video-grid div {
+  @apply relative mb-0 !block h-0 w-[calc(50%-1rem)] overflow-hidden rounded-xl border border-blue-700 pb-[calc(50%-1rem)] md:w-[calc(33%-1rem)] md:pb-[calc(33%-1rem)] lg:w-[calc(25%-1rem)] lg:pb-[calc(25%-1rem)];
+}
+
+#video-grid div video {
+  @apply absolute left-1/2 h-full -translate-x-1/2 bg-red-800 object-cover;
+}
+
+.animation-delay-100 {
+  animation-delay: 100ms;
+}
+.animation-delay-200 {
+  animation-delay: 200ms;
+}
+.animation-delay-300 {
+  animation-delay: 300ms;
+}

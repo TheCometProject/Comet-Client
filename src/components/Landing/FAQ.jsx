@@ -24,7 +24,7 @@ export default function () {
     setData((prevData) => temp);
   }
   return (
-    <section id="FAQ" className="px-20 pb-48 pt-24">
+    <section id="FAQ" className="px-8 md:px-20 pb-48 pt-24">
       <div className="mx-auto w-max">
         <p className="text-center text-2xl font-light text-blue-700">
           Frequently asked questions
@@ -43,7 +43,7 @@ export default function () {
           />
         ))}
       </div>
-      <p className="text-2xl mx-auto w-fit mt-10">Got more questions? don’t hesitate to <span className="text-blue-700"><Link to="/contact">contact us!</Link></span></p>
+      <p className="text-2xl mx-auto w-fit mt-10 text-center">Got more questions? don’t hesitate to <span className="text-blue-700"><Link to="/contact">contact us!</Link></span></p>
     </section>
   );
 }
