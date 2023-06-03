@@ -13,14 +13,15 @@ export default function ({
   toggleVideo,
   audioEnabled,
   toggleMic,
-  
+  setCallEnded,
+
   sideMenuOpen,
   setSideMenuOpen,
-  
+
   participantArr,
 
   messageArr,
-  setMessageArr,  
+  setMessageArr,
 }) {
   return (
     <div className="relative h-screen overflow-hidden bg-slate-50 px-6 pt-10 md:px-16">
@@ -60,6 +61,7 @@ export default function ({
         toggleVideo={toggleVideo}
         audioEnabled={audioEnabled}
         toggleMic={toggleMic}
+        setCallEnded={setCallEnded}
       />
     </div>
   );

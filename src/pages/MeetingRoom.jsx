@@ -24,6 +24,7 @@ const MeetingRoom = () => {
   const [sideMenuOpen, setSideMenuOpen] = useState(false);
   const [fullscreen, setFullScreen] = useState(false);
   const [settingUp, setSettingUp] = useState(true);
+  const [callEnded, setCallEnded] = useState(false);
 
   const { roomId } = useParams();
   const [roomExists, setRoomExists] = useState(false);
@@ -62,16 +63,25 @@ const MeetingRoom = () => {
   }
 
   useEffect(() => {
-    if (error) {
+    if (localMediaStream) {
       localMediaStream.getTracks().forEach(function (track) {
+        track.enabled = false;
         track.stop();
       });
-
-      if (socket) socket.disconnect();
-
-      if (peerInstance) peerInstance.destroy();
     }
-  }, [error]);
+
+    if (socket) {
+      socket.disconnect();
+      socket.offAny();
+      socket.offAnyOutgoing();
+    }
+
+    if (peerInstance) peerInstance.destroy();
+
+    if (callEnded) {
+      navigate("/LeftMeeting");
+    }
+  }, [error, callEnded]);
 
   useEffect(() => {
     if (roomExists) {
@@ -359,6 +369,7 @@ const MeetingRoom = () => {
               toggleVideo={toggleVideo}
               audioEnabled={audioEnabled}
               toggleMic={toggleMic}
+              setCallEnded={setCallEnded}
               sideMenuOpen={sideMenuOpen}
               setSideMenuOpen={setSideMenuOpen}
               participantArr={participantArr}

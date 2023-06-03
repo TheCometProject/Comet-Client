@@ -15,6 +15,7 @@ export default function ({
   toggleVideo,
   audioEnabled,
   toggleMic,
+  setCallEnded,
 }) {
   function handleFullScreen() {
     setFullScreen(() => !fullScreen);
@@ -60,7 +61,7 @@ export default function ({
         <div className=" flex h-12 w-12 items-center justify-center rounded-full bg-blue-300">
           <img className="w-4" src={shareScreenIcon} alt="" />
         </div>
-        <div className=" flex h-12 w-16 items-center justify-center rounded-full bg-red-300">
+        <div onClick={() => setCallEnded(true)} className=" flex h-12 w-16 items-center justify-center rounded-full bg-red-300">
           <img className="w-6" src={hangUpIcon} alt="" />
         </div>
       </div>
