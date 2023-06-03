@@ -12,15 +12,20 @@ import { useSocketContext } from "../../hooks/useSocketContext";
 import Chat from "./Chat";
 import Participants from "./Participants";
 
-export default function ({ sideMenuOpen, setSideMenuOpen, alreadySetup }) {
-
+export default function ({
+  sideMenuOpen,
+  setSideMenuOpen,
+  participantArr,
+  messageArr,
+  setMessageArr,
+}) {
   const [chatDisplayed, setChatDisplayed] = useState(false);
 
   return (
     <div
       className={`${
         sideMenuOpen ? "right-0" : "-right-full"
-      } absolute top-0 z-10 h-screen w-full rounded-l-lg bg-slate-200 border px-6 pt-10 transition-all sm:w-[400px]`}
+      } absolute top-0 z-10 h-screen w-full rounded-l-lg border bg-slate-200 px-6 pt-10 transition-all sm:w-[400px]`}
     >
       <div className="flex items-center justify-between border-b-[1px] border-slate-400 pb-4">
         <div className="flex gap-2">
@@ -75,10 +80,11 @@ export default function ({ sideMenuOpen, setSideMenuOpen, alreadySetup }) {
       </div>
       <div>
         {/* CHAT/PARTICIPANTS HERE */}
-        {chatDisplayed?
-        <Chat alreadySetup={alreadySetup}/>:  
-        <Participants />  
-      }
+        {chatDisplayed ? (
+          <Chat messageArr={messageArr} setMessageArr={setMessageArr} />
+        ) : (
+          <Participants participantArr={participantArr} />
+        )}
       </div>
     </div>
   );

@@ -40,7 +40,26 @@ const MeetingRoom = () => {
   const [currentPeerId, setCurrentPeerId] = useState("");
   const [alreadySetup, setAlreadySetup] = useState(false);
   const [error, setError] = useState(false);
-  const [participants, setParticipants] = useState([]);
+  const [messageArr, setMessageArr] = useState([]);
+  const [participantArr, setParticipantArr] = useState([
+    {
+      userId: "",
+      name: user.fullName,
+      profilePic: user.profilePic,
+    },
+  ]);
+
+  function addParticipant(userId, name, profilePic) {
+    setParticipantArr((prev) => {
+      const temp = [...prev];
+      temp.push({
+        userId: userId,
+        name: name,
+        profilePic: profilePic,
+      });
+      return temp;
+    });
+  }
 
   useEffect(() => {
     if (error) {
@@ -116,7 +135,11 @@ const MeetingRoom = () => {
       console.log(
         `peer connection opened with id ${currentPeerId}, going to emit join-room event now`
       );
-      socket.emit("join-room", roomId, currentPeerId);
+      socket.emit("join-room", roomId, {
+        userId: currentPeerId,
+        fullName: user.fullName,
+        profilePic: user.profilePic,
+      });
       console.log("emitted join-room, only NOW can u send a ready event");
       socket.emit("ready");
       setAlreadySetup(true);
@@ -177,8 +200,8 @@ const MeetingRoom = () => {
         console.log("going to answer call from: ", call.peer);
         call.answer(localMediaStream);
         const video = document.createElement("video");
-        console.log(call.metadata);
-        setParticipants([...participants, call.peer]);
+
+        addParticipant(call.peer, call.metadata.fullName, user.profilePic);
 
         call.on("error", (error) => {
           console.log(error);
@@ -199,18 +222,28 @@ const MeetingRoom = () => {
         peers[call.peer] = call;
       });
 
-      socket.on("user-connected", (userId) => {
-        console.log("user connected to this room with userId:", userId);
-        connectToNewUser(userId, localMediaStream);
+      socket.on("user-connected", (user) => {
+        console.log("user connected to this room with userId:", user);
+        addParticipant(user.userId, user.fullName, user.profilePic);
+        connectToNewUser(user.userId, localMediaStream);
       });
 
       socket.on("user-disconnected", (userId) => {
         console.warn("user disconnected from this room with userId:", userId);
-        setParticipants(participants.filter((user) => user != userId));
+        setParticipantArr(participantArr.filter((user) => user != userId));
         if (peers[userId]) peers[userId].close();
         // TODO: also destroy the user from peers object?
         let videoToDelete = document.getElementById(userId);
         videoToDelete.parentElement.removeChild(videoToDelete);
+      });
+
+      socket.on("message", (msg, user) => {
+        addMessage({
+          sender: user.fullName,
+          profilePic: user.profilePic,
+          message: msg,
+          self: false,
+        });
       });
 
       function connectToNewUser(userId, stream) {
@@ -218,7 +251,7 @@ const MeetingRoom = () => {
         const call = myPeer.call(userId, stream, {
           metadata: {
             fullName: user.fullName,
-            profilePicture: user.profilePicture,
+            profilePic: user.profilePic,
           },
         });
         console.log(
@@ -267,6 +300,14 @@ const MeetingRoom = () => {
     }
   }, [roomExists, permissionAllowed]);
 
+  const addMessage = (obj) => {
+    setMessageArr((prev) => {
+      const temp = [...prev];
+      temp.push(obj);
+      return temp;
+    });
+  };
+
   const toggleVideo = () => {
     // TODO: (optional) sometimes toggle doesn't work when connection is lost to socket server idk why
     if (localMediaStream)
@@ -293,12 +334,14 @@ const MeetingRoom = () => {
         roomTitle={roomTitle}
       />
       <SideMenu
-        alreadySetup={alreadySetup}
         onChange={(e) => {
           console.log(e);
         }}
         sideMenuOpen={sideMenuOpen}
         setSideMenuOpen={setSideMenuOpen}
+        participantArr={participantArr}
+        messageArr={messageArr}
+        setMessageArr={setMessageArr}
       />
       <div
         className={`overflow-auto pb-12 transition-all md:pb-[0vh] ${
