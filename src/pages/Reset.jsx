@@ -2,8 +2,6 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import img1 from "../Assets/Logo.png";
 import forget from "../Assets/forget.svg";
-import { useSignup } from "../hooks/useSignup";
-
 
 const Reset = () => {
 const [password, setPassword] = useState('');
@@ -19,7 +17,7 @@ const [password, setPassword] = useState('');
     else if (password !== confirmPassword) {
       setErrorMessage('Passwords do not match');
     } else {
-      setErrorMessage('Password change successful!');
+      setErrorMessage('Password changed successful!');
     }
   };
 
