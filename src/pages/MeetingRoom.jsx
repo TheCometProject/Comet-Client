@@ -337,6 +337,7 @@ const MeetingRoom = () => {
         fullscreen={fullscreen}
         setSideMenuOpen={setSideMenuOpen}
         roomTitle={roomTitle}
+        participantsCount={participantArr.length}
       />
       <SideMenu
         onChange={(e) => {
