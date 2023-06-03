@@ -33,7 +33,7 @@ const Signup = () => {
           />
         </div>
         <div className="md:cez min-w-sm flex w-full flex-col items-center justify-center sm:mt-12 md:w-1/2 lg:mt-32">
-          <div className="absolute right-0 top-0  mt-8 md:mt-6 hidden sm:mr-[100px] sm:block md:ml-[85px] md:mr-[250px]">
+          <div className="absolute right-0 top-0  mt-8 md:mt-6 hidden  sm:block mr-8 md:mr-[80px] lg:mr-[230px]">
             <p className="text-16 font-bold text-[#334155] ">
               Already have an account?{" "}
               <Link to="/Login" className="text-[#1D4ED8] underline">
@@ -47,10 +47,10 @@ const Signup = () => {
           <div  className=" ml-[270px] -mt-7 text-16 font-bold underline text-blue-700 lg:hidden sm:hidden md:hidden">
              <Link to="/Login" >Log in</Link>
           </div>
-          <h3 className="whitespace-nowrap text-center text-4xl  font-bold text-[#334155] sm:mt-0 md:-mr-2  md:-mt-14 mt-12 lg:text-5xl">
+          <h3 className="whitespace-nowrap text-center text-4xl  font-bold text-[#334155] mt-[70px] sm:mt-6  lg:-mt-6  md:mr-6 lg:text-5xl">
             Sign up
           </h3>
-          <div className="mt-14 w-[400px] max-w-md">
+          <div className="mt-8 w-[400px] max-w-md">
             <div className="flex flex-col">
               <input
                 type="text"
