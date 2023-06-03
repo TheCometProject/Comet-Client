@@ -15,7 +15,7 @@ export default function () {
   const [micEnabled, setMicEnabled] = useState(true);
   const [cameraEnabled, setCameraEnabled] = useState(true);
   const [copied, setCopied] = useState(false);
-  const [roomID, setRoomID] = useState("b4dezwdejo5deffkd");
+  const [roomID, setRoomID] = useState("room51");
   const navigate = useNavigate();
 
   async function copyText() {

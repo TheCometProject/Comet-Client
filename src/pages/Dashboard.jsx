@@ -1,17 +1,29 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import heroimg from "../Assets/Images/image 3.png";
 import img1 from "../Assets/Logo.png";
 import prfl from "../Assets/profilsvg.svg";
 import camera from "../Assets/Icons/Button camera.svg";
 import keyboard from "../Assets/Icons/Keyboard.svg";
+import { API_URL } from "../constants";
 
 const Dashboard = () => {
-  const [roomID, setRoomId] = useState("");
+  const [roomId, setRoomId] = useState("");
+  const navigate = useNavigate();
 
   function handleChange(e) {
     setRoomId(() => e.target.value);
+  }
+
+  async function handleJoinMeeting() {
+    const res = await fetch(`${API_URL}/api/v1/rooms/${roomId}`);
+    const json = await res.json();
+    if(json.message == "Room exists"){
+      navigate("/setup");
+    } else {
+      navigate("/error")
+    }
   }
 
   return (
@@ -46,14 +58,16 @@ const Dashboard = () => {
           </p>
           <div className=" flex flex-col gap-3  sm:flex-row ">
             <div className=" flex flex-col sm:flex-row">
-            <button className="button-solid">
-            <img
-              className="mx-2 inline w-4 fill-slate-50"
-              src={camera}
-              alt="camera icon"
-            />
-            Create a space
-          </button>
+              <Link to="/Create-room">
+                <button className="button-solid">
+                  <img
+                    className="mx-2 inline w-4 fill-slate-50"
+                    src={camera}
+                    alt="camera icon"
+                  />
+                  Create a space
+                </button>
+              </Link>
             </div>
 
             <div className="flex flex-row">
@@ -68,10 +82,17 @@ const Dashboard = () => {
                   type="text"
                   className="button-outlined !pl-12  !pr-0 placeholder:text-blue-700"
                   placeholder="Enter the space code"
-                  value={roomID}
+                  value={roomId}
                 />
               </div>
-              <button className="button-invisible">Join</button>
+              {/* <Link to="setup"> */}
+                <button
+                  onClick={handleJoinMeeting}
+                  className="button-invisible"
+                >
+                  Join
+                </button>
+              {/* </Link> */}
             </div>
           </div>
         </div>

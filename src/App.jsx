@@ -13,6 +13,8 @@ import MeetingRoom from "./pages/MeetingRoom";
 import CreateRoom from "./pages/CreateRoom";
 import Forgot from "./pages/Forget";
 import Reset from "./pages/Reset";
+import ReadyToJoin from "./pages/ReadyToJoin";
+import LeftMeeting from "./pages/LeftMeeting";
 
 // components
 function App() {
@@ -67,6 +69,14 @@ function App() {
               path="/Create-room"
               element={user? <CreateRoom/> : <Navigate to="/" />}
             />
+            <Route
+              path="/Setup"
+              element={user? <ReadyToJoin/> : <Navigate to="/" />}
+            />
+            <Route
+              path="/LeftMeeting"
+              element={user? <LeftMeeting/> : <Navigate to="/" />}
+            /> 
             <Route
               path="/*"
               element={<Navigate to="/" />}
