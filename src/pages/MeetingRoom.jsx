@@ -34,13 +34,33 @@ const MeetingRoom = () => {
   myVideo.muted = true;
   let peers = {};
   let callStreams = [];
-  const [participants, setParticipants] = useState([]);
   const [permissionAllowed, setPermissionAllowed] = useState(false);
   const [localMediaStream, setLocalMediaStream] = useState(null);
   const [isReady, setIsReady] = useState(false);
   const [currentPeerId, setCurrentPeerId] = useState("");
   const [alreadySetup, setAlreadySetup] = useState(false);
   const [error, setError] = useState(false);
+  const [messageArr, setMessageArr] = useState([]);
+  const [participantArr, setParticipantArr] = useState([
+    {
+      userId: "",
+      name: user.fullName,
+      profilePic: user.profilePic,
+    },
+  ]);
+  const [errorMessage, setErrorMessage] = useState("");
+
+  function addParticipant(userId, name, profilePic) {
+    setParticipantArr((prev) => {
+      const temp = [...prev];
+      temp.push({
+        userId: userId,
+        name: name,
+        profilePic: profilePic,
+      });
+      return temp;
+    });
+  }
 
   useEffect(() => {
     if (error) {
@@ -51,8 +71,6 @@ const MeetingRoom = () => {
       if (socket) socket.disconnect();
 
       if (peerInstance) peerInstance.destroy();
-
-      navigate("/Error");
     }
   }, [error]);
 
@@ -116,7 +134,11 @@ const MeetingRoom = () => {
       console.log(
         `peer connection opened with id ${currentPeerId}, going to emit join-room event now`
       );
-      socket.emit("join-room", roomId, currentPeerId);
+      socket.emit("join-room", roomId, {
+        userId: currentPeerId,
+        fullName: user.fullName,
+        profilePic: user.profilePic,
+      });
       console.log("emitted join-room, only NOW can u send a ready event");
       socket.emit("ready");
       setAlreadySetup(true);
@@ -152,16 +174,19 @@ const MeetingRoom = () => {
 
       myPeer.on("close", () => {
         console.error("peer closed!!!");
+        setErrorMessage("Peer connection lost!");
         setError(true);
       });
 
       myPeer.on("disconnected", (currentId) => {
         console.error("peer disconnected!!!");
+        setErrorMessage("Peer connection lost!");
         setError(true);
       });
 
       myPeer.on("error", (err) => {
         console.error(err);
+        setErrorMessage("Peer connection lost!");
         setError(true);
       });
 
@@ -174,18 +199,19 @@ const MeetingRoom = () => {
 
       myPeer.on("call", (call) => {
         peers[call.peer] = call;
-        setParticipants(peers);
         console.log("going to answer call from: ", call.peer);
         call.answer(localMediaStream);
         const video = document.createElement("video");
 
+        addParticipant(call.peer, call.metadata.fullName, user.profilePic);
+
         call.on("error", (error) => {
           console.log(error);
+          setErrorMessage("An unknown error has occured during call");
           setError(true);
         });
 
         call.on("stream", (userVideoStream) => {
-          console.log("received stream from: ", call.peer, userVideoStream);
           if (!callStreams[call.peer]) {
             addVideoStream(call.peer, video, userVideoStream);
             callStreams[call.peer] = userVideoStream;
@@ -197,26 +223,40 @@ const MeetingRoom = () => {
         });
 
         peers[call.peer] = call;
-        setParticipants(peers);
       });
 
-      socket.on("user-connected", (userId) => {
-        console.log("user connected to this room with userId:", userId);
-        connectToNewUser(userId, localMediaStream);
+      socket.on("user-connected", (user) => {
+        console.log("user connected to this room with userId:", user);
+        addParticipant(user.userId, user.fullName, user.profilePic);
+        connectToNewUser(user.userId, localMediaStream);
       });
 
       socket.on("user-disconnected", (userId) => {
         console.warn("user disconnected from this room with userId:", userId);
+        setParticipantArr(participantArr.filter((user) => user != userId));
         if (peers[userId]) peers[userId].close();
-        setParticipants(peers);
         // TODO: also destroy the user from peers object?
         let videoToDelete = document.getElementById(userId);
         videoToDelete.parentElement.removeChild(videoToDelete);
       });
 
+      socket.on("message", (msg, user) => {
+        addMessage({
+          sender: user.fullName,
+          profilePic: user.profilePic,
+          message: msg,
+          self: false,
+        });
+      });
+
       function connectToNewUser(userId, stream) {
         console.log("going to call peer: ", userId);
-        const call = myPeer.call(userId, stream);
+        const call = myPeer.call(userId, stream, {
+          metadata: {
+            fullName: user.fullName,
+            profilePic: user.profilePic,
+          },
+        });
         console.log(
           userId,
           "called, waiting for him to send his stream",
@@ -242,7 +282,6 @@ const MeetingRoom = () => {
         });
 
         peers[userId] = call;
-        setParticipants(peers);
       }
 
       function addVideoStream(userId, video, stream) {
@@ -264,6 +303,14 @@ const MeetingRoom = () => {
     }
   }, [roomExists, permissionAllowed]);
 
+  const addMessage = (obj) => {
+    setMessageArr((prev) => {
+      const temp = [...prev];
+      temp.push(obj);
+      return temp;
+    });
+  };
+
   const toggleVideo = () => {
     // TODO: (optional) sometimes toggle doesn't work when connection is lost to socket server idk why
     if (localMediaStream)
@@ -279,7 +326,9 @@ const MeetingRoom = () => {
     setAudioEnabled(localMediaStream.getAudioTracks()[0].enabled);
   };
 
-  return loading ? (
+  return error ? (
+    <ErrorComponent message={errorMessage} />
+  ) : loading ? (
     <Loading />
   ) : roomExists ? (
     <div className="relative h-screen overflow-hidden bg-slate-50 px-6 pt-10 md:px-16">
@@ -288,14 +337,17 @@ const MeetingRoom = () => {
         fullscreen={fullscreen}
         setSideMenuOpen={setSideMenuOpen}
         roomTitle={roomTitle}
+        participantsCount={participantArr.length}
       />
       <SideMenu
-        alreadySetup={alreadySetup}
         onChange={(e) => {
           console.log(e);
         }}
         sideMenuOpen={sideMenuOpen}
         setSideMenuOpen={setSideMenuOpen}
+        participantArr={participantArr}
+        messageArr={messageArr}
+        setMessageArr={setMessageArr}
       />
       <div
         className={`overflow-auto pb-12 transition-all md:pb-[0vh] ${

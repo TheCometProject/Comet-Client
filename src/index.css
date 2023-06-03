@@ -85,13 +85,15 @@ img {
   @apply bg-slate-500 transition-all;
 }
 
-#video-grid div {
-  @apply relative mb-0 !block h-0 w-[calc(50%-1rem)] overflow-hidden rounded-xl border border-blue-700 pb-[calc(50%-1rem)] md:w-[calc(33%-1rem)] md:pb-[calc(33%-1rem)] lg:w-[calc(25%-1rem)] lg:pb-[calc(25%-1rem)];
-}
-
-#video-grid div video {
-  @apply absolute left-1/2 h-full -translate-x-1/2 bg-red-800 object-cover;
-}
+  #video-grid div {
+    @apply relative mb-0 !block h-0 w-[calc(50%-1rem)] overflow-hidden rounded-xl border border-blue-700 pb-[calc(50%-1rem)] md:pb-[calc(33%-1rem)] md:w-[calc(33%-1rem)] lg:pb-[calc(25%-1rem)] lg:w-[calc(25%-1rem)];
+  }
+  
+  #video-grid div video {
+    @apply absolute h-full object-cover bg-red-800;
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+  }
 
 .animation-delay-100 {
   animation-delay: 100ms;

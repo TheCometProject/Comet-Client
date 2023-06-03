@@ -1,93 +1,14 @@
-import { useState } from "react"
-import profile from "../../Assets/Avatars/avatar02.png";
-import { useEffect } from "react";
-
-export default function(){
-
-    const [participantArr, setParticipantArr] = useState([
-        {
-            name: "Badie Alili",
-            profilePic: profile
-        },
-        {
-            name: "Badie Alili",
-            profilePic: profile
-        },
-        {
-            name: "Badie Alili",
-            profilePic: profile
-        },
-        {
-            name: "Badie Alili",
-            profilePic: profile
-        },
-        {
-            name: "Badie Alili",
-            profilePic: profile
-        },
-        {
-            name: "Badie Alili",
-            profilePic: profile
-        },
-        {
-            name: "Badie Alili",
-            profilePic: profile
-        },
-        {
-            name: "Badie Alili",
-            profilePic: profile
-        },
-        {
-            name: "Badie Alili",
-            profilePic: profile
-        },
-        {
-            name: "Badie Alili",
-            profilePic: profile
-        },
-        {
-            name: "Badie Alili",
-            profilePic: profile
-        },
-        {
-            name: "Badie Alili",
-            profilePic: profile
-        },
-        {
-            name: "Badie Alili",
-            profilePic: profile
-        },
-        {
-            name: "Badie Alili",
-            profilePic: profile
-        },
-        {
-            name: "Badie Alili",
-            profilePic: profile
-        },
-        {
-            name: "Badie Alili",
-            profilePic: profile
-        },
-        {
-            name: "Badie Alili",
-            profilePic: profile
-        }
-    ])
-
-
-    return (
-        <div className="flex flex-col pt-4 pb-6 max-h-[calc(100vh-65px)] overflow-y-auto">
-            {
-                participantArr.map(({name, profilePic})=>{
-                    return(
-                        <div className="flex gap-4 border-b border-slate-300 py-2">
-                            <img className="w-12" src={profilePic} alt="" />
-                            <p className="mt-2 text-lg text-slate-900">{name}</p>
-                        </div>
-                    )
-                })
-            }
-        </div>
-    )
+export default function ({ participantArr }) {
+  return (
+    <div className="flex max-h-[calc(100vh-65px)] flex-col overflow-y-auto pb-6 pt-4">
+      {participantArr.map(({ userId, name, profilePic }) => {
+        return (
+          <div key={userId} className="flex gap-4 border-b border-slate-300 py-2">
+            <img className="w-12 rounded-full" src={profilePic} alt="" />
+            <p className="mt-2 text-lg text-slate-900">{name}</p>
+          </div>
+        );
+      })}
+    </div>
+  );
 }

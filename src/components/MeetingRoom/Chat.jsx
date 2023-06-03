@@ -1,40 +1,14 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useSocketContext } from "../../hooks/useSocketContext";
+import { useAuthContext } from "../../hooks/useAuthContext";
 
 import sendIcon from "../../Assets/Icons/send.png";
-import profile from "../../Assets/Avatars/avatar02.png";
 
-export default function ({alreadySetup}) {
+export default function ({ messageArr, setMessageArr }) {
   const { socket, socketConnected, setSocketConnected } = useSocketContext();
+  const { user } = useAuthContext();
 
   const [msg, setMsg] = useState("");
-
-  const [messageArr, setMessageArr] = useState([
-    {
-      sender: "Badie alili",
-      message: "Job",
-      profilePic: profile,
-      self: true,
-    },
-    {
-      sender: "Ayoub salhi",
-      message: "Wah",
-      profilePic: profile,
-      self: false,
-    },
-    {
-      sender: "Badie alili",
-      message: "Nikek?",
-      profilePic: profile,
-      self: true,
-    },
-    {
-      sender: "Ayoub salhi",
-      message: "Yes please",
-      profilePic: profile,
-      self: false,
-    },
-  ]);
 
   const addMessage = (obj) => {
     setMessageArr([...messageArr, obj]);
@@ -42,30 +16,20 @@ export default function ({alreadySetup}) {
 
   const sendMessage = (e) => {
     e.preventDefault();
-    console.log(msg);
-    socket.emit("message", msg);
-    addMessage({
-      sender: "nemi",
-      message: msg,
-      profilePic: profile,
-      self: true,
-    });
-    setMsg("");
-  };
-
-  useEffect(() => {
-    if (alreadySetup && socketConnected) {
-      socket.on("message", (msg) => {
-        console.warn(`RECEIVED MSG ${msg}`);
-        addMessage({
-          sender: "LOL",
-          message: msg,
-          profilePic: profile,
-          self: false,
-        });
+    if (socketConnected) {
+      socket.emit("message", msg); 
+      addMessage({
+        sender: user.fullName,
+        message: msg,
+        profilePic: user.profilePic,
+        self: true,
       });
+      setMsg("");
     }
-  }, [socketConnected, alreadySetup]);
+    else {
+      console.error("Cannot send message, socket not connected");
+    }
+  };
 
   return (
     <div>
@@ -79,7 +43,7 @@ export default function ({alreadySetup}) {
               }`}
             >
               <img
-                className={`${self && "hidden"} w-8`}
+                className={`${self && "hidden"} w-8 rounded-full`}
                 src={profilePic}
                 alt=""
               />
