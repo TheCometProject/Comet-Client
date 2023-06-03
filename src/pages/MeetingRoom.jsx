@@ -2,27 +2,31 @@ import React, { useState, useEffect, useRef } from "react";
 import { useParams, Navigate, useNavigate } from "react-router-dom";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useSocketContext } from "../hooks/useSocketContext";
-import Loading from "../components/MeetingRoom/Loading";
+import Peer from "peerjs";
 import { API_URL } from "../constants";
 
-import Peer from "peerjs";
-
+import Loading from "../components/MeetingRoom/Loading";
 import SideMenu from "../components/MeetingRoom/SideMenu";
 import Actions from "../components/MeetingRoom/Actions";
 import Header from "../components/MeetingRoom/Header";
 import ErrorComponent from "../components/Error";
+import ReadyToJoin from "./ReadyToJoin";
 
 const MeetingRoom = () => {
   const { user } = useAuthContext();
   const { socket, socketConnected, setSocketConnected } = useSocketContext();
   const [peerInstance, setPeerInstance] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [readyToJoin, setReadyToJoin] = useState(false);
+  const [error, setError] = useState(false);
+  const [videoEnabled, setVideoEnabled] = useState(true);
+  const [audioEnabled, setAudioEnabled] = useState(true);
+  const [localMediaStream, setLocalMediaStream] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(false);
   const navigate = useNavigate();
 
   // CONTROLS+UI STATES:
   // TODO: default state should be whatever the user accepted in permissions
-  const [videoEnabled, setVideoEnabled] = useState(true);
-  const [audioEnabled, setAudioEnabled] = useState(true);
   const [sideMenuOpen, setSideMenuOpen] = useState(false);
   const [fullscreen, setFullScreen] = useState(false);
 
@@ -35,11 +39,9 @@ const MeetingRoom = () => {
   let peers = {};
   let callStreams = [];
   const [permissionAllowed, setPermissionAllowed] = useState(false);
-  const [localMediaStream, setLocalMediaStream] = useState(null);
   const [isReady, setIsReady] = useState(false);
   const [currentPeerId, setCurrentPeerId] = useState("");
   const [alreadySetup, setAlreadySetup] = useState(false);
-  const [error, setError] = useState(false);
   const [messageArr, setMessageArr] = useState([]);
   const [participantArr, setParticipantArr] = useState([
     {
@@ -48,7 +50,6 @@ const MeetingRoom = () => {
       profilePic: user.profilePic,
     },
   ]);
-  const [errorMessage, setErrorMessage] = useState("");
 
   function addParticipant(userId, name, profilePic) {
     setParticipantArr((prev) => {
@@ -118,7 +119,7 @@ const MeetingRoom = () => {
           stream.getAudioTracks()[0].enabled = audioEnabled;
 
           // used to toggle video/mic
-          setLocalMediaStream(stream);
+          // setLocalMediaStream(stream);
           setPermissionAllowed(true);
         })
         .catch((err) => {
@@ -330,7 +331,7 @@ const MeetingRoom = () => {
     <ErrorComponent message={errorMessage} />
   ) : loading ? (
     <Loading />
-  ) : roomExists ? (
+  ) : readyToJoin ? (
     <div className="relative h-screen overflow-hidden bg-slate-50 px-6 pt-10 md:px-16">
       <Header
         roomId={roomId}
@@ -371,7 +372,13 @@ const MeetingRoom = () => {
       />
     </div>
   ) : (
-    <ErrorComponent message="The link you entered does not lead to a valid room." />
+    <ReadyToJoin
+      audioEnabled={audioEnabled}
+      videoEnabled={videoEnabled}
+      setAudioEnabled={setAudioEnabled}
+      setVideoEnabled={setVideoEnabled}
+      setReadyToJoin={setReadyToJoin}
+    />
   );
 };
 

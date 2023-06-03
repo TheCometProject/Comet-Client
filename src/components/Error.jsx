@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import img1 from "../Assets/Logo.png";
 
 export default ({message}) => {
+  console.log(message);
   return (
     <div className=" bg-gray-100 h-screen overflow-y-hidden">
       <div className="lg:w-1/2 md:pl-[85px] flex flex-col pl-[50px]  sm:pl-8">
