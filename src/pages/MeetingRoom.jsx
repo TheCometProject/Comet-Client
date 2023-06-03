@@ -48,6 +48,7 @@ const MeetingRoom = () => {
       profilePic: user.profilePic,
     },
   ]);
+  const [errorMessage, setErrorMessage] = useState("");
 
   function addParticipant(userId, name, profilePic) {
     setParticipantArr((prev) => {
@@ -70,8 +71,6 @@ const MeetingRoom = () => {
       if (socket) socket.disconnect();
 
       if (peerInstance) peerInstance.destroy();
-
-      navigate("/Error");
     }
   }, [error]);
 
@@ -175,16 +174,19 @@ const MeetingRoom = () => {
 
       myPeer.on("close", () => {
         console.error("peer closed!!!");
+        setErrorMessage("Peer connection lost!");
         setError(true);
       });
 
       myPeer.on("disconnected", (currentId) => {
         console.error("peer disconnected!!!");
+        setErrorMessage("Peer connection lost!");
         setError(true);
       });
 
       myPeer.on("error", (err) => {
         console.error(err);
+        setErrorMessage("Peer connection lost!");
         setError(true);
       });
 
@@ -205,6 +207,7 @@ const MeetingRoom = () => {
 
         call.on("error", (error) => {
           console.log(error);
+          setErrorMessage("An unknown error has occured during call");
           setError(true);
         });
 
@@ -323,7 +326,9 @@ const MeetingRoom = () => {
     setAudioEnabled(localMediaStream.getAudioTracks()[0].enabled);
   };
 
-  return loading ? (
+  return error ? (
+    <ErrorComponent message={errorMessage} />
+  ) : loading ? (
     <Loading />
   ) : roomExists ? (
     <div className="relative h-screen overflow-hidden bg-slate-50 px-6 pt-10 md:px-16">
