@@ -14,16 +14,21 @@ export default function ({
   audioEnabled
 }) {
   const myVideo = useRef();
+  const myVideo2 = useRef();
   myVideo.muted = true;
   useEffect(() => {
-    if (localMediaStream) {
-      console.log("ndjend");
+    if (localMediaStream && myVideo2) {
       myVideo.current.srcObject = localMediaStream;
       myVideo.current.addEventListener("loadedmetadata", () => {
         myVideo.current.play();
       });
+
+      myVideo2.current.srcObject = localMediaStream;
+      myVideo2.current.addEventListener("loadedmetadata", () => {
+        myVideo2.current.play();
+      });
     }
-  }, [localMediaStream])
+  }, [localMediaStream, myVideo2])
   
   return (
     <div className="flex items-center overflow-y-hidden px-8 min-h-screen">
@@ -46,7 +51,7 @@ export default function ({
           <div className="pb-1/2 relative h-fit w-[80vw] -scale-x-100 rounded-md border border-blue-700 md:hidden">
             <video
               className="aspect-[16/9] h-full w-full object-cover"
-              ref={myVideo}
+              ref={myVideo2}
               src=""
             ></video>
           </div>
