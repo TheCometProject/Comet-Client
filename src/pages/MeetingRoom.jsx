@@ -350,6 +350,7 @@ const MeetingRoom = () => {
           return (
             <SetupComponent
               setSettingUp={setSettingUp}
+              roomTitle={roomTitle}
               localMediaStream={localMediaStream}
               toggleVideo={toggleVideo}
               toggleMic={toggleMic}

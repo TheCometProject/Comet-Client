@@ -28,7 +28,7 @@ export default function ({
   return (
     <div className="flex items-center overflow-y-hidden px-8 min-h-screen">
       <div className="flex w-full">
-        <div className="pb-1/2 relative basis-1/2 hidden h-fit -scale-x-100   rounded-md border border-blue-700 md:block">
+        <div className="pb-1/2 relative basis-1/2 z h-fit -scale-x-100   rounded-md border border-blue-700 md:block">
           <video
             className="aspect-[16/9] h-full w-full object-cover"
             ref={myVideo}

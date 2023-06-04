@@ -32,7 +32,7 @@ export default function ({
       } `}
     >
       <div className="mx-auto flex w-fit gap-2 rounded-full bg-opacity-30 px-6 py-4">
-        <div
+        <button
           className=" flex h-12 w-12 items-center justify-center rounded-full bg-blue-300"
           onClick={toggleVideo}
         >
@@ -41,14 +41,14 @@ export default function ({
             src={videoEnabled ? cameraIcon :cameraOffIcon}
             alt=""
           />
-        </div>
-        <div
+        </button>
+        <button
           className=" flex h-12 w-12 items-center justify-center rounded-full bg-blue-300"
           onClick={toggleMic}
         >
           <img className="w-4" src={audioEnabled ? micIcon : micMutedIcon} alt="" />
-        </div>
-        <div
+        </button>
+        <button
           className=" flex h-12 w-12 items-center justify-center rounded-full bg-blue-300"
           onClick={handleFullScreen}
         >
@@ -57,13 +57,13 @@ export default function ({
             src={!fullScreen ? fullScreenIcon : fullScreenExitIcon}
             alt=""
           />
-        </div>
-        <div className=" flex h-12 w-12 items-center justify-center rounded-full bg-blue-300">
+        </button>
+        <button className=" flex h-12 w-12 items-center justify-center rounded-full bg-blue-300">
           <img className="w-4" src={shareScreenIcon} alt="" />
-        </div>
-        <div onClick={() => setCallEnded(true)} className=" flex h-12 w-16 items-center justify-center rounded-full bg-red-300">
+        </button>
+        <button onClick={() => setCallEnded(true)} className=" flex h-12 w-16 items-center justify-center rounded-full bg-red-300">
           <img className="w-6" src={hangUpIcon} alt="" />
-        </div>
+        </button>
       </div>
     </div>
   );
