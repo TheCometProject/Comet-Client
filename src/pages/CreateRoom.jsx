@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
+import { generate as uuid } from "short-uuid";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Logo from "../Assets/Logo.png";
 import micMuted from "../Assets/Icons/mic-mute.svg";
 import mic from "../Assets/Icons/mic.svg";
@@ -13,24 +14,29 @@ import { API_URL } from "../constants";
 export default function () {
   const [roomName, setRoomName] = useState("");
   const [micEnabled, setMicEnabled] = useState(true);
+  const [roomId, setRoomId] = useState("");
   const [cameraEnabled, setCameraEnabled] = useState(true);
   const [copied, setCopied] = useState(false);
-  const [roomID, setRoomID] = useState("room51");
   const navigate = useNavigate();
+
+  useEffect(()=>{
+  setRoomId(()=>uuid());
+  }, [])
 
   async function copyText() {
     try {
-      await navigator.clipboard.writeText(roomID);
+      await navigator.clipboard.writeText(roomId);
       setCopied(true);
     } catch (error) {
       console.error("Failed to copy text: ", error);
     }
   }
 
-  async function createRoom() {
+  async function createRoom(e) {
+    e.preventDefault();
     const data = {
       author: "badie",
-      roomId: roomID,
+      roomId: roomId,
       roomTitle: roomName,
     };
     const res = await fetch(`${API_URL}/api/v1/rooms`, {
@@ -43,12 +49,12 @@ export default function () {
     const json = await res.json();
     console.log(json);
     if (json.success) {
-      navigate(`/meeting/${roomID}`);
+      navigate(`/meeting/${roomId}`);
     }
   }
 
   return (
-    <div>
+    <form>
       <header className="px-8 pb-2 pt-4 sm:px-20">
         <img className="w-32" src={Logo} alt="" />
       </header>
@@ -68,11 +74,12 @@ export default function () {
               placeholder="UI UX Team meeting"
               value={roomName}
               onChange={(e) => setRoomName(() => e.target.value)}
+              required
             />
           </div>
           <div className="flex gap-4">
             <p className=" text-xl font-semibold text-slate-900">
-              roomID: <span className="text-blue-700">{roomID}</span>
+              roomId: <span className="text-blue-700">{roomId}</span>
             </p>
             <img
               onClick={copyText}
@@ -81,26 +88,11 @@ export default function () {
               alt=""
             />
           </div>
-          <div className="flex flex-wrap justify-center gap-4 py-4">
-            <div
-              className="rounded-md border-2 border-blue-700 bg-blue-100 p-4"
-              onClick={() => setMicEnabled(!micEnabled)}
-            >
-              <img className="w-6" src={micEnabled ? mic : micMuted} alt="" />
-            </div>
-            <div
-              className="rounded-md border-2 border-blue-700 bg-blue-100 p-4"
-              onClick={() => setCameraEnabled(!cameraEnabled)}
-            >
-              <img
-                className="w-6"
-                src={cameraEnabled ? camera : cameraOff}
-                alt=""
-              />
-            </div>
+          <div className="py-4">
             <button
               onClick={createRoom}
-              className="button-solid mx-auto whitespace-nowrap"
+              className="button-solid mx-auto whitespace-nowrap !w-full"
+              type="submit"
             >
               Create space
             </button>
@@ -114,6 +106,6 @@ export default function () {
           </p>
         </div>
       </main>
-    </div>
+    </form>
   );
 }

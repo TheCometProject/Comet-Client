@@ -37,7 +37,7 @@ const Dashboard = () => {
     <div className="h-full w-full bg-slate-50">
       <div
         id="navbar"
-        className="fixed left-0 top-0 z-10 flex w-full items-center justify-between px-20 pb-2  pt-4"
+        className="fixed left-0 top-0 z-10 flex w-full items-center justify-between px-8 pb-2 pt-4  md:px-20"
       >
         <div className="">
           <Link to="/">
@@ -45,15 +45,17 @@ const Dashboard = () => {
           </Link>
         </div>
         <div className="-mr-2 mt-4 flex justify-end">
+          <Link to="/profile">
           <img
             src={prfl}
             alt="Profile Picture"
             className="-mt-2 mr-4 h-10 w-10 rounded-full"
           />
+          </Link>
         </div>
       </div>
-      <section id="hero2" className=" flex px-20 pb-48 pt-36">
-        <div className=" w-1/2 items-center md:justify-center ">
+      <section id="hero2" className=" flex px-8 pb-48 pt-36 md:px-20">
+        <div className="w-full items-center md:w-1/2 md:justify-center ">
           <h1 className=" mb-8  justify-normal text-5xl font-bold leading-[65px]  text-slate-700 sm:items-center sm:text-6xl sm:leading-[65px] md:justify-center md:leading-[76px] lg:text-6xl">
             Experience <br />
             seamless virtual
@@ -64,15 +66,17 @@ const Dashboard = () => {
             <br /> in one place
           </p>
           <div className=" flex flex-col gap-3  sm:flex-row ">
-            <div className=" flex flex-col sm:flex-row">
-              <button className="h-[47px] w-auto rounded-sm bg-blue-700 text-sm  text-white sm:h-[auto] sm:w-[165px]">
-                <img
-                  className="  mx-2 inline w-4 fill-slate-50"
-                  src={camera}
-                  alt="camera icon"
-                />
-                Create a space
-              </button>
+            <div className=" flex flex-col flex-wrap whitespace-nowrap lg:flex-row">
+              <Link to="/create-room">
+                <button className="button-solid">
+                  <img
+                    className="  mx-2 inline w-4 fill-slate-50"
+                    src={camera}
+                    alt="camera icon"
+                  />
+                  Create a space
+                </button>
+              </Link>
             </div>
 
             <div className="flex flex-row">
@@ -96,9 +100,9 @@ const Dashboard = () => {
             </div>
           </div>
         </div>
-        <div className=" w-1/2">
+        <div className="hidden w-full md:block md:w-1/2">
           <img
-            className=" hero-img ml-auto hidden aspect-auto h-full md:block"
+            className=" hero-img ml-auto aspect-auto h-full"
             src={heroimg}
             alt=""
           />

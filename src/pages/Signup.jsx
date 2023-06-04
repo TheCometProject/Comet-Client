@@ -24,16 +24,22 @@ const Signup = () => {
         onSubmit={handleSubmit}
         className="flex flex-col bg-[#F8FAFC]  md:flex-row"
       >
-        <div className="lg:w-1/2 flex flex-col md:pl-[85px] sm:pl-8  pl-[50px]">
-        <Link to="/"><img src={img1} className=" items-start w-32 h-[33px] mt-6" alt="Comet logo" /></Link>
+        <div className="flex flex-col pl-[50px] sm:pl-8 md:pl-[85px]  lg:w-1/2">
+          <Link to="/">
+            <img
+              src={img1}
+              className=" mt-6 h-[33px] w-32 items-start"
+              alt="Comet logo"
+            />
+          </Link>
           <img
             src={img2}
-            className="mt-[15px] -ml-16 hidden h-auto w-full lg:block"
+            className="-ml-16 mt-[15px] hidden h-auto w-full lg:block"
             alt="Illustration"
           />
         </div>
         <div className="md:cez min-w-sm flex w-full flex-col items-center justify-center sm:mt-12 md:w-1/2 lg:mt-32">
-          <div className="absolute right-0 top-0  mt-8 md:mt-6 hidden  sm:block mr-8 md:mr-[80px] lg:mr-[230px]">
+          <div className="absolute right-0 top-0  mr-8 mt-8 hidden  sm:block md:mr-[80px] md:mt-6 lg:mr-[230px]">
             <p className="text-16 font-bold text-[#334155] ">
               Already have an account?{" "}
               <Link to="/Login" className="text-[#1D4ED8] underline">
@@ -44,10 +50,10 @@ const Signup = () => {
               here
             </p>
           </div>
-          <div  className=" ml-[270px] -mt-7 text-16 font-bold underline text-blue-700 lg:hidden sm:hidden md:hidden">
-             <Link to="/Login" >Log in</Link>
+          <div className=" text-16 -mt-7 ml-[270px] font-bold text-blue-700 underline sm:hidden md:hidden lg:hidden">
+            <Link to="/Login">Log in</Link>
           </div>
-          <h3 className="whitespace-nowrap text-center text-4xl  font-bold text-[#334155] mt-[70px] sm:mt-0  lg:-mt-8  md:mr-6 lg:text-5xl">
+          <h3 className="mt-[70px] whitespace-nowrap text-center  text-4xl font-bold text-[#334155] sm:mt-0  md:mr-6  lg:-mt-8 lg:text-5xl">
             Sign up
           </h3>
           <div className="mt-8 w-[400px] max-w-md">
@@ -57,14 +63,16 @@ const Signup = () => {
                 placeholder="First Name"
                 onChange={(e) => setFirstName(e.target.value)}
                 value={firstName}
-                className="  sm:w-[400px] sm:h-[63px] w-[300px] h-[45px] rounded-md border border-[#1D4ED8] px-4 sm:ml-0 ml-[50px] text-base text-[#334155]"
+                className="  ml-[50px] h-[45px] w-[300px] rounded-md border border-[#1D4ED8] px-4 text-base text-[#334155] sm:ml-0 sm:h-[63px] sm:w-[400px]"
+                required
               />
               <input
                 type="text"
                 placeholder="Last Name"
                 onChange={(e) => setLastName(e.target.value)}
                 value={lastName}
-                className=" mt-6 sm:w-[400px] sm:h-[63px] w-[300px] h-[45px] rounded-md border border-[#1D4ED8] px-4 sm:ml-0 ml-[50px] text-base text-[#334155]"
+                className=" ml-[50px] mt-6 h-[45px] w-[300px] rounded-md border border-[#1D4ED8] px-4 text-base text-[#334155] sm:ml-0 sm:h-[63px] sm:w-[400px]"
+                required
               />
 
               {/* PAGE 2 */}
@@ -74,54 +82,89 @@ const Signup = () => {
                 placeholder="Email"
                 onChange={(e) => setEmail(e.target.value)}
                 value={email}
-                className="mt-6 sm:w-[400px] sm:h-[63px] w-[300px] h-[45px] rounded-md border border-[#1D4ED8] px-4 sm:ml-0 ml-[50px] text-base text-[#334155]"
+                className="ml-[50px] mt-6 h-[45px] w-[300px] rounded-md border border-[#1D4ED8] px-4 text-base text-[#334155] sm:ml-0 sm:h-[63px] sm:w-[400px]"
+                required
               />
               <input
                 type="password"
                 placeholder="Password"
                 onChange={(e) => setPassword(e.target.value)}
                 value={password}
-                className="mt-6 sm:w-[400px] sm:h-[63px] w-[300px] h-[45px] rounded-md border border-[#1D4ED8] px-4 sm:ml-0 ml-[50px] text-base text-[#334155]"
+                className="ml-[50px] mt-6 h-[45px] w-[300px] rounded-md border border-[#1D4ED8] px-4 text-base text-[#334155] sm:ml-0 sm:h-[63px] sm:w-[400px]"
+                required
               />
               <input
                 type="password"
                 placeholder="Confirm password"
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 value={confirmPassword}
-                className="mt-6 sm:w-[400px] sm:h-[63px] w-[300px] h-[45px] rounded-md border border-[#1D4ED8] px-4 sm:ml-0 ml-[50px] text-base text-[#334155]"
+                className="ml-[50px] mt-6 h-[45px] w-[300px] rounded-md border border-[#1D4ED8] px-4 text-base text-[#334155] sm:ml-0 sm:h-[63px] sm:w-[400px]"
+                required
               />
 
               <div>
+                {error &&
+                  (Array.isArray(error) ? (
+                    error.map((err) => (
+                      <div
+                        className="mt-4 flex rounded-md bg-red-50 p-2 text-sm text-red-500"
+                        role="alert"
+                        key={err.msg}
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="mr-3 inline h-5 w-5 flex-shrink-0"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                            clip-rule="evenodd"
+                          ></path>
+                        </svg>
+                        <div>
+                          <span class="font-medium"></span>
+                        </div>
+                        {err.msg}
+                        <span class="sr-only">Info</span>
+                      </div>
+                    ))
+                  ) : (
+                    <div className="ml-12 mt-4 flex w-[300px] rounded-md bg-red-50 p-2 text-sm text-red-500 sm:ml-0 sm:w-auto">
+                      <svg
+                        aria-hidden="true"
+                        class="mr-3 inline h-5 w-5 flex-shrink-0"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                          clip-rule="evenodd"
+                        ></path>
+                      </svg>
+                      <div>
+                        <span class="font-medium"></span>
+                      </div>
+                      {error}
+                      <span class="sr-only">Info</span>
+                    </div>
+                  ))}
                 <button
-                  className="text-18 mt-6 sm:w-[400px] sm:h-[63px] w-[300px] h-[45px] rounded-md bg-[#1D4ED8] sm:ml-0 ml-[50px] text-center font-bold text-white"
+                  type="submit"
+                  className="text-18 ml-[50px] mt-6 h-[45px] w-[300px] rounded-md bg-[#1D4ED8] text-center font-bold text-white sm:ml-0 sm:h-[63px] sm:w-[400px]"
                   disabled={isLoading}
                 >
                   Sign up
                 </button>
-                {error &&
-                  (Array.isArray(error) ? (
-                    error.map((err) => (
-                      <div  className="flex p-2 mt-4 text-sm text-red-500 rounded-md bg-red-50" role="alert" key={err.msg}>
-                         <svg aria-hidden="true" class="flex-shrink-0 inline w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
-                         <div>
-                          <span class="font-medium"></span>
-                         </div>
-                        {err.msg}<span class="sr-only">Info</span>
-                      </div>
-                    ))
-                  ) : (
-                    <div className="flex p-2 ml-12 sm:ml-0 w-[300px] sm:w-auto mt-4 text-sm text-red-500 rounded-md bg-red-50">
-                      <svg aria-hidden="true" class="flex-shrink-0 inline w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
-                         <div>
-                          <span class="font-medium"></span>
-                         </div>
-                      {error}<span class="sr-only">Info</span></div>
-                  ))}
                 {success && <div className="success">{success}</div>}
               </div>
             </div>
           </div>
-        {/*-------- <div className="mt-6 grid sm:w-[403px] w-[303px] grid-cols-3  items-center text-[#6B7280]">
+          {/*-------- <div className="mt-6 grid sm:w-[403px] w-[303px] grid-cols-3  items-center text-[#6B7280]">
             <hr className="border-[#6B7280]"></hr>
             <p className="text-16 text-center font-bold ">Or</p>
             <hr className="border-[#6B7280]"></hr>

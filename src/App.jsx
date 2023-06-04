@@ -14,6 +14,7 @@ import CreateRoom from "./pages/CreateRoom";
 import Forgot from "./pages/Forget";
 import Reset from "./pages/Reset";
 import LeftMeeting from "./pages/LeftMeeting";
+import Profile from "./pages/Profile";
 
 // components
 function App() {
@@ -50,6 +51,10 @@ function App() {
             <Route
               path="/LeftMeeting/:roomId"
               element={user ? <LeftMeeting /> : <Navigate to="/" />}
+            />
+            <Route
+              path="/profile"
+              element={user ? <Profile /> : <Navigate to="/" />}
             />
             <Route path="/*" element={<Navigate to="/" />} />
           </Routes>

@@ -6,6 +6,7 @@ import micIcon from "../../Assets/Icons/mic.svg";
 import micMutedIcon from "../../Assets/Icons/mic-mute.svg";
 
 export default function ({
+  roomTitle,
   setSettingUp,
   localMediaStream,
   toggleVideo,
@@ -33,7 +34,7 @@ export default function ({
   return (
     <div className="flex items-center overflow-y-hidden px-8 min-h-screen">
       <div className="flex w-full">
-        <div className="pb-1/2 relative basis-1/2 z h-fit -scale-x-100   rounded-md border border-blue-700 md:block">
+        <div className="pb-1/2 relative basis-1/2 z h-fit -scale-x-100  hidden rounded-md border border-blue-700 md:block">
           <video
             className="aspect-[16/9] h-full w-full object-cover"
             ref={myVideo}
@@ -45,7 +46,7 @@ export default function ({
             <h1 className="mb-4 text-3xl text-slate-900">Ready to join?</h1>
             <p>
               Space Name:{" "}
-              <span className="text-blue-700">Front End Dev Is Cool</span>
+              <span className="text-blue-700">{roomTitle}</span>
             </p>
           </div>
           <div className="pb-1/2 relative h-fit w-[80vw] -scale-x-100 rounded-md border border-blue-700 md:hidden">
