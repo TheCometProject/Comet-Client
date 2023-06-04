@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import img1 from "../Assets/Logo.png";
 
 export default function() {
   const [seconds, setSeconds] = useState(60);
   const navigate = useNavigate();
+
+  const {roomId} = useParams();
 
   useEffect(() => {
     const countdown = setInterval(() => {
@@ -34,7 +36,7 @@ export default function() {
           You left the meeting
         </p>
         <div className="flex justify-center">
-          <Link to="/ReadyToJoin">
+          <Link to={`/meeting/${roomId}`}>
             <button className="bg-white text-blue-700 rounded-[7px] h-[55px] w-[230px] mt-8 mb-5 border-blue-700 border-2 md:w-[265px]">
               Rejoin
             </button>

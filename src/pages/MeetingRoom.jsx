@@ -79,7 +79,7 @@ const MeetingRoom = () => {
     if (peerInstance) peerInstance.destroy();
 
     if (callEnded) {
-      navigate("/LeftMeeting");
+      navigate(`/LeftMeeting/${roomId}`);
     }
   }, [error, callEnded]);
 

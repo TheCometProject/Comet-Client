@@ -24,7 +24,7 @@ const Dashboard = () => {
     const res = await fetch(`${API_URL}/api/v1/rooms/${roomId}`);
     const json = await res.json();
     if (json.message == "Room exists") {
-      navigate(`/setup/${roomId}`);
+      navigate(`/meeting/${roomId}`);
     } else {
       setErrorMessage("The space code you entered does not seem to exist!");
       setError(true);
