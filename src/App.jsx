@@ -4,7 +4,7 @@ import { useAuthContext } from "./hooks/useAuthContext";
 // pages
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
-import Error from "./pages/Error";
+import Error from "./pages/Error"; 
 import Contact from "./pages/Contact";
 import Landing from "./pages/Landing";
 import Dashboard from "./pages/Dashboard";
@@ -14,6 +14,8 @@ import CreateRoom from "./pages/CreateRoom";
 import Forgot from "./pages/Forget";
 import Reset from "./pages/Reset";
 import LeftMeeting from "./pages/LeftMeeting";
+import Verification from "./pages/Veri";
+import Done from "./pages/Done";
 
 // components
 function App() {
@@ -37,6 +39,8 @@ function App() {
             <Route path="/Error" element={<Error />} />
             <Route path="/Dashboard" element={<Dashboard />} />
             <Route path="/Forget" element={<Forgot />} />
+            <Route path="/Verification" element={<Verification />} />
+            <Route path="/Done" element={<Done />} />
             <Route path="/Reset" element={<Reset />} />
             <Route path="/terms-and-services" element={<TOS />} />
             <Route
