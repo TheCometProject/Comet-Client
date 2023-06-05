@@ -32,7 +32,7 @@ export default function ({ messageArr, setMessageArr }) {
 
   return (
     <div className="flex h-full overflow-y-auto">
-        <div className="w-full h-full mt-auto flex flex-col justify-end self-end border border-red-700">
+        <div className="w-full mt-auto flex flex-col justify-end self-end">
           {messageArr.map(({ sender, self, message, profilePic }, i) => {
             return (
               <div

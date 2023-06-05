@@ -78,7 +78,7 @@ export default function ({
           </div>
         </div>
       </div>
-      <div>
+      <div className="h-full pb-32">
         {/* CHAT/PARTICIPANTS HERE */}
         {chatDisplayed ? (
           <Chat messageArr={messageArr} setMessageArr={setMessageArr} />
