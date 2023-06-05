@@ -176,9 +176,6 @@
     "@babel/helper-validator-identifier" "^7.19.1"
     "to-fast-properties" "^2.0.0"
 
-"@esbuild/win32-x64@0.17.14":
-  "version" "0.17.14"
-
 "@jridgewell/gen-mapping@^0.1.0":
   "version" "0.1.1"
   dependencies:

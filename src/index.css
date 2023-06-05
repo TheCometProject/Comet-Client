@@ -101,8 +101,8 @@ img {
 
   #video-grid div video {
     @apply absolute h-full object-cover w-full bg-red-800;
-    -webkit-transform: scaleX(-1);
-    transform: scaleX(-1);
+    /* -webkit-transform: scaleX(-1);
+    transform: scaleX(-1); */
   }
 
 .animation-delay-100 {
