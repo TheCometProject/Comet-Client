@@ -16,6 +16,7 @@ export default function ({
   audioEnabled,
   toggleMic,
   setCallEnded,
+  shareScreen,
 }) {
   function handleFullScreen() {
     setFullScreen(() => !fullScreen);
@@ -58,7 +59,7 @@ export default function ({
             alt=""
           />
         </button>
-        <button className=" flex h-12 w-12 items-center justify-center rounded-full bg-blue-300">
+        <button onClick={() => shareScreen()} className=" flex h-12 w-12 items-center justify-center rounded-full bg-blue-300">
           <img className="w-4" src={shareScreenIcon} alt="" />
         </button>
         <button onClick={() => setCallEnded(true)} className=" flex h-12 w-16 items-center justify-center rounded-full bg-red-300">

@@ -14,6 +14,7 @@ export default function ({
   audioEnabled,
   toggleMic,
   setCallEnded,
+  shareScreen,
 
   sideMenuOpen,
   setSideMenuOpen,
@@ -62,6 +63,7 @@ export default function ({
         audioEnabled={audioEnabled}
         toggleMic={toggleMic}
         setCallEnded={setCallEnded}
+        shareScreen={shareScreen}
       />
     </div>
   );

@@ -26,13 +26,46 @@ const MeetingRoom = () => {
   const [settingUp, setSettingUp] = useState(true);
   const [callEnded, setCallEnded] = useState(false);
 
+  const [screenShared, setScreenShared] = useState(false);
+  const [screenStream, setScreenStream] = useState(null);
+
   const { roomId } = useParams();
   const [roomExists, setRoomExists] = useState(false);
   const [roomTitle, setRoomTitle] = useState("");
   const videoGrid = useRef();
-  const myVideo = document.createElement("video");
+  let myVideo = document.createElement("video");
   myVideo.muted = true;
-  let peers = {};
+  const [peers, setPeers] = useState({});
+  useEffect(() => {
+    if (screenShared) {
+      console.log(
+        "new peer connected AND screen shared -> gonna update stream again"
+      );
+      if (peerInstance) {
+        console.error("SHARING AGAIN");
+        screenStream.getVideoTracks().forEach((videoTrack) => {
+          Object.values(peers).map((peer) => {
+            peer.peerConnection.getSenders().forEach((sender) => {
+              try {
+                sender.replaceTrack(videoTrack);
+              } catch (err) {}
+            });
+          });
+        });
+
+        // change local stream back to the video stream
+        myVideo.srcObject = localMediaStream;
+      }
+    }
+  }, [peers]);
+  function addPeer(id, call) {
+    setPeers((prev) => {
+      let temp = { ...prev };
+      temp[id] = call;
+      return temp;
+    });
+  }
+
   let callStreams = [];
   const [permissionAllowed, setPermissionAllowed] = useState(false);
   const [localMediaStream, setLocalMediaStream] = useState(null);
@@ -49,6 +82,91 @@ const MeetingRoom = () => {
     },
   ]);
   const [errorMessage, setErrorMessage] = useState("");
+
+  function stopScreenSharing() {
+    // let videoTrack = localMediaStream.getVideoTracks()[0];
+    localMediaStream.getVideoTracks().forEach(function (videoTrack) {
+      console.log(videoTrack.kind);
+      if (peerInstance) {
+        console.error("going to stop screen share");
+        Object.values(peers).map((peer) => {
+          peer.peerConnection.getSenders().forEach((sender) => {
+            try {
+              sender.replaceTrack(videoTrack);
+            } catch (err) {}
+          });
+        });
+      }
+      if (screenStream)
+        screenStream.getTracks().forEach(function (track) {
+          track.stop();
+        });
+    });
+    setScreenShared(false);
+
+    let videoToDelete = document.getElementById(currentPeerId);
+    videoToDelete.parentElement.removeChild(videoToDelete);
+    myVideo = document.createElement("video");
+    myVideo.addEventListener("loadedmetadata", () => {
+      myVideo.play();
+    });
+    myVideo.srcObject = localMediaStream;
+    const div = document.createElement("div");
+    div.setAttribute("id", currentPeerId);
+    div.append(myVideo);
+    videoGrid.current.append(div);
+  }
+
+  function shareScreen() {
+    if (screenShared) {
+      stopScreenSharing();
+    } else {
+      navigator.mediaDevices
+        .getDisplayMedia({ video: true, audio: true })
+        .then((stream) => {
+          setScreenStream(stream);
+          // change local video stream to the screen stream
+          let videoToDelete = document.getElementById(currentPeerId);
+          videoToDelete.parentElement.removeChild(videoToDelete);
+          myVideo = document.createElement("video");
+          myVideo.addEventListener("loadedmetadata", () => {
+            myVideo.play();
+          });
+          myVideo.srcObject = stream;
+          const div = document.createElement("div");
+          div.setAttribute("id", currentPeerId);
+          div.append(myVideo);
+          videoGrid.current.append(div);
+
+          let videoTrack = stream.getVideoTracks()[0];
+          videoTrack.onended = () => {
+            console.error("screenshare ended");
+            stopScreenSharing();
+          };
+          stream.getVideoTracks().forEach(function (videoTrack) {
+            videoTrack.onended = () => {
+              stopScreenSharing();
+            };
+
+            if (peerInstance) {
+              console.error("going to start screen share");
+              Object.values(peers).map((peer) => {
+                peer.peerConnection.getSenders().forEach((sender) => {
+                  try {
+                    sender.replaceTrack(videoTrack);
+                  } catch (err) {}
+                });
+              });
+
+              setScreenShared(true);
+            }
+          });
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    }
+  }
 
   function addParticipant(userId, name, profilePic) {
     setParticipantArr((prev) => {
@@ -207,7 +325,8 @@ const MeetingRoom = () => {
       });
 
       myPeer.on("call", (call) => {
-        peers[call.peer] = call;
+        // peers[call.peer] = call;
+        addPeer(call.peer, call);
         console.log("going to answer call from: ", call.peer);
         call.answer(localMediaStream);
         const video = document.createElement("video");
@@ -230,8 +349,6 @@ const MeetingRoom = () => {
         call.on("close", () => {
           video.remove();
         });
-
-        peers[call.peer] = call;
       });
 
       socket.on("user-connected", (user) => {
@@ -243,7 +360,7 @@ const MeetingRoom = () => {
       socket.on("user-disconnected", (userId) => {
         console.warn("user disconnected from this room with userId:", userId);
         setParticipantArr(participantArr.filter((user) => user != userId));
-        if (peers[userId]) peers[userId].close();
+        // if (peers[userId]) peers[userId].close();
         // TODO: also destroy the user from peers object?
         let videoToDelete = document.getElementById(userId);
         videoToDelete.parentElement.removeChild(videoToDelete);
@@ -290,7 +407,8 @@ const MeetingRoom = () => {
           video.remove();
         });
 
-        peers[userId] = call;
+        // peers[userId] = call;
+        addPeer(userId, call);
       }
 
       function addVideoStream(userId, video, stream) {
@@ -324,7 +442,6 @@ const MeetingRoom = () => {
   };
 
   const toggleVideo = () => {
-    // TODO: (optional) sometimes toggle doesn't work when connection is lost to socket server idk why
     if (localMediaStream)
       localMediaStream.getVideoTracks()[0].enabled =
         !localMediaStream.getVideoTracks()[0].enabled;
@@ -374,6 +491,7 @@ const MeetingRoom = () => {
               audioEnabled={audioEnabled}
               toggleMic={toggleMic}
               setCallEnded={setCallEnded}
+              shareScreen={shareScreen}
               sideMenuOpen={sideMenuOpen}
               setSideMenuOpen={setSideMenuOpen}
               participantArr={participantArr}
