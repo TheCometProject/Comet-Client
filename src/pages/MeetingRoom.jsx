@@ -306,6 +306,9 @@ const MeetingRoom = () => {
         });
         const div = document.createElement("div");
         div.setAttribute("id", userId);
+        div.addEventListener("click", ()=>{
+          div.classList.toggle("enlarged");
+        })
         div.append(video);
         videoGrid.current.append(div);
       }
