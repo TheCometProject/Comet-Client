@@ -1,15 +1,18 @@
 import React from "react";
+import { useAuthContext } from "../hooks/useAuthContext";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import heroimg from "../Assets/Images/image 3.png";
 import img1 from "../Assets/Logo.png";
-import prfl from "../Assets/profilsvg.svg";
+// import prfl from "../Assets/profilsvg.svg";
 import camera from "../Assets/Icons/Button camera.svg";
 import keyboard from "../Assets/Icons/Keyboard.svg";
 import { API_URL } from "../constants";
 import ErrorPage from "../components/Error";
 
 const Dashboard = () => {
+  const {user }= useAuthContext();
+  console.log(user.profilePic);
   const [roomId, setRoomId] = useState("");
   const navigate = useNavigate();
 
@@ -37,7 +40,7 @@ const Dashboard = () => {
     <div className="h-full w-full bg-slate-50">
       <div
         id="navbar"
-        className="fixed left-0 top-0 z-10 flex w-full items-center justify-between px-8 pb-2 pt-4  md:px-20"
+        className="fixed left-0 top-0 z-10 flex w-full items-center justify-between px-8 pb-2 pt-4  md:px-20 bg-slate-50"
       >
         <div className="">
           <Link to="/">
@@ -47,9 +50,9 @@ const Dashboard = () => {
         <div className="-mr-2 mt-4 flex justify-end">
           <Link to="/profile">
           <img
-            src={prfl}
+            src={user.profilePic}
             alt="Profile Picture"
-            className="-mt-2 mr-4 h-10 w-10 rounded-full"
+            className="-mt-2 mr-4 h-10 w-10 rounded-full border-2 border-blue-700"
           />
           </Link>
         </div>
