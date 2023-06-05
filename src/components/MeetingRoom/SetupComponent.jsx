@@ -16,7 +16,6 @@ export default function ({
 }) {
   const myVideo = useRef();
   const myVideo2 = useRef();
-  myVideo.muted = true;
   useEffect(() => {
     if (localMediaStream && myVideo2) {
       myVideo.current.srcObject = localMediaStream;
@@ -38,7 +37,7 @@ export default function ({
           <video
             className="aspect-[16/9] h-full w-full object-cover"
             ref={myVideo}
-            src=""
+            muted={true}
           ></video>
         </div>
         <div className="mx-auto flex flex-col items-center justify-between gap-4 lg:py-4 lg:pb-8">
@@ -53,7 +52,7 @@ export default function ({
             <video
               className="aspect-[16/9] h-full w-full object-cover"
               ref={myVideo2}
-              src=""
+              muted={true}
             ></video>
           </div>
           <div className="mx-auto flex h-fit w-fit gap-4">
